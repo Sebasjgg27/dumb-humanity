@@ -48,5 +48,15 @@ The schema lives in `src/content.config.ts`.
 
 ## Deploy
 
-Push to `main` and the Actions workflow builds and deploys to Pages. (The repo must
-have **Settings → Pages → Build and deployment: GitHub Actions** selected.)
+Currently deployed from the `gh-pages` branch:
+
+```bash
+npm run build
+git worktree add /tmp/ghpages -b gh-pages
+cd /tmp/ghpages && git rm -rf . -q && cp -r ../dist/* . && git add -A && git commit -m "Deploy" && git push origin gh-pages
+git worktree remove /tmp/ghpages --force
+```
+
+Alternatively, `.github/workflows/deploy.yml` automates this on every push to `main`
+(requires the `workflow` OAuth scope on your GitHub token, and
+**Settings → Pages → Build and deployment: GitHub Actions**).
