@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TechTree from '../../components/TechTree.astro';
+import { getCollection } from 'astro:content';
+
+const tech = await getCollection('tech');
+---
+
+<BaseLayout
+  title="Technology Tree"
+  description="The interactive technology tree for rebuilding civilization — survival, community, and the industrial seed."
+>
+  <header class="mb-8">
+    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-700 mb-2">Interactive map</p>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold">Technology Tree</h1>
+    <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">
+      Every card is a technology with a guide. Cards are colored by their stage on the
+      ladder; <span class="font-semibold text-rose-700">Core</span> marks the critical
+      path that unlocks whole branches. Click any card for the full how-to guide.
+      Tick off achievements as you go — your progress is saved on this device.
+    </p>
+  </header>
+
+  <TechTree nodes={tech} />
+
+  <section class="mt-12 print-block">
+    <h2 class="font-serif text-xl font-bold mb-3">The rules of the tree</h2>
+    <ul class="space-y-2 text-ink-soft text-[15px] leading-relaxed">
+      <li><strong class="text-ink">You can't skip the ladder.</strong> A steam engine without iron smelting is a rumor. Each node's prerequisites are listed on its guide.</li>
+      <li><strong class="text-ink">Scavenge before you build.</strong> The modern world left a warehouse of salvaged parts. Always check the salvage list before manufacturing from scratch.</li>
+      <li><strong class="text-ink">Teach everything.</strong> A technology that only one person knows is a technology one accident away from being lost.</li>
+      <li><strong class="text-ink">Print the guides.</strong> Paper survives. Power grids don't. The printable packs are in the header.</li>
+    </ul>
+  </section>
+</BaseLayout>

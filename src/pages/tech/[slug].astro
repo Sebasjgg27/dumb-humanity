@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { LEVEL_BY_ID, SAFETY_META, techSlug } from '../../data/levels';
+
+export async function getStaticPaths() {
+  const tech = await getCollection('tech');
+  return tech.map((t) => ({ params: { slug: techSlug(t.id) }, props: { tech: t } }));
+}
+
+const { tech } = Astro.props;
+const { Content } = await render(tech);
+const lvl = LEVEL_BY_ID[tech.data.level as keyof typeof LEVEL_BY_ID];
+const safety = SAFETY_META[tech.data.safety];
+
+const allTech = await getCollection('tech');
+const bySlug = new Map(allTech.map((t) => [techSlug(t.id), t]));
+const refId = (r: unknown) => (r as { id?: string; slug?: string }).id ?? (r as string);
+const prereqs = tech.data.prerequisites.map((r) => bySlug.get(refId(r))).filter(Boolean);
+const unlocks = tech.data.unlocks.map((r) => bySlug.get(refId(r))).filter(Boolean);
+---
+
+<BaseLayout title={tech.data.title} description={`${tech.data.title} — ${tech.data.category}, level ${tech.data.level}`}>
+  <a href="/dumb-humanity/tech/" class="text-sm text-amber-800 hover:underline font-medium no-print">← Technology tree</a>
+
+  <header class="mt-4 mb-8">
+    <div class="flex flex-wrap items-center gap-2 mb-3">
+      <span class="text-xs font-bold px-2 py-1 rounded" style={`background: ${lvl.color}1a; color: ${lvl.color}`}>
+        Level {tech.data.level}
+      </span>
+      <span class="text-xs font-semibold px-2 py-1 rounded bg-stone-100 text-stone-700">{tech.data.category}</span>
+      <span class="text-xs font-semibold px-2 py-1 rounded" style={`background: ${safety.color}1a; color: ${safety.color}`}>
+        Risk: {safety.label}
+      </span>
+      {tech.data.critical && <span class="text-xs font-bold px-2 py-1 rounded bg-rose-100 text-rose-700">Core technology</span>}
+    </div>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold">{tech.data.title}</h1>
+  </header>
+
+  <div class="grid lg:grid-cols-[1fr_280px] gap-8">
+    <article class="prose-tech print-break">
+      <Content />
+      <div class="mt-8 rounded-lg border border-line bg-white p-4">
+        <h2 class="font-serif font-bold text-lg mb-2">Validation checklist</h2>
+        <p class="text-sm text-ink-soft">
+          Every guide ends with the same question: <em>can your community actually do this?</em>
+          Print this page and work the checklist as a group before moving up the ladder.
+        </p>
+      </div>
+    </article>
+
+    <aside class="space-y-4">
+      <div class="rounded-lg border border-line bg-white p-4">
+        <h2 class="font-semibold text-sm uppercase tracking-wider text-ink-soft mb-3">Facts</h2>
+        <dl class="space-y-2.5 text-sm">
+          <div class="flex justify-between gap-2"><dt class="text-ink-soft">Materials</dt><dd class="font-medium text-right">{tech.data.materials.join(', ') || '—'}</dd></div>
+          <div class="flex justify-between gap-2"><dt class="text-ink-soft">Energy</dt><dd class="font-medium">{tech.data.energy}</dd></div>
+          <div class="flex justify-between gap-2"><dt class="text-ink-soft">Time estimate</dt><dd class="font-medium text-right">{tech.data.time_estimate}</dd></div>
+          <div class="flex justify-between gap-2"><dt class="text-ink-soft">People</dt><dd class="font-medium">{tech.data.people}</dd></div>
+          {tech.data.dr_stone_ref && <div class="flex justify-between gap-2"><dt class="text-ink-soft">Dr. Stone</dt><dd class="font-medium text-right italic">{tech.data.dr_stone_ref}</dd></div>}
+        </dl>
+      </div>
+
+      {tech.data.salvage.length > 0 && (
+        <div class="rounded-lg border border-amber-800/30 bg-amber-50 p-4">
+          <h2 class="font-semibold text-sm uppercase tracking-wider text-amber-900 mb-2">Scavenge first</h2>
+          <p class="text-sm text-amber-900/80 mb-2">Look for these in the ruins before building from scratch:</p>
+          <ul class="list-disc pl-5 space-y-1 text-sm text-amber-900/90">
+            {tech.data.salvage.map((s) => <li>{s}</li>)}
+          </ul>
+        </div>
+      )}
+
+      {prereqs.length > 0 && (
+        <div class="rounded-lg border border-line bg-white p-4">
+          <h2 class="font-semibold text-sm uppercase tracking-wider text-ink-soft mb-2">Requires first</h2>
+          <ul class="space-y-1.5">
+            {prereqs.map((p) => (
+              <li>
+                <a href={`/dumb-humanity/tech/${p!.id}/`} class="text-sm text-amber-800 hover:underline font-medium">
+                  → {p!.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {unlocks.length > 0 && (
+        <div class="rounded-lg border border-line bg-white p-4">
+          <h2 class="font-semibold text-sm uppercase tracking-wider text-ink-soft mb-2">Unlocks next</h2>
+          <ul class="space-y-1.5">
+            {unlocks.map((u) => (
+              <li>
+                <a href={`/dumb-humanity/tech/${u!.id}/`} class="text-sm text-ink-soft hover:text-amber-800 hover:underline">
+                  {u!.data.title} →
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <button
+        class="w-full text-sm px-3 py-2 rounded-md bg-stone-100 hover:bg-stone-200 font-medium no-print"
+        onclick="window.print()"
+      >
+        Print this guide
+      </button>
+    </aside>
+  </div>
+</BaseLayout>
