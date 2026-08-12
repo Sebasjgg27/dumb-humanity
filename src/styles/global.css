@@ -1,17 +1,57 @@
 @import "tailwindcss";
 
-@theme {
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+@custom-variant dark (&:where(.dark, .dark *));
 
-  --color-paper: #faf7f0;
-  --color-ink: #1c1917;
-  --color-ink-soft: #57534e;
-  --color-rule: #d6d0c4;
-  --color-accent: #b45309;
-  --color-accent-2: #7c3aed;
-  --color-line: #e7e0d4;
+@theme {
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: "IBM Plex Serif", ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Light palette */
+  --color-bg: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-ink: #1b2027;
+  --color-ink-soft: #5b6470;
+  --color-ink-faint: #8b93a0;
+  --color-line: #e4e7eb;
+  --color-line-strong: #cbd2da;
+
+  /* Deep blue — navigation & primary */
+  --color-navy: #16324f;
+  --color-navy-light: #1e4166;
+  --color-navy-ink: #e8eef5;
+  --color-blue: #1d4ed8;
+  --color-blue-soft: #eaf0fd;
+
+  /* Status */
+  --color-ok: #2f9e44;
+  --color-ok-soft: #ebfbee;
+  --color-warn: #e8590c;
+  --color-warn-soft: #fff4e6;
+  --color-danger: #e03131;
+  --color-danger-soft: #ffe3e3;
+}
+
+/* Dark palette */
+.dark {
+  --color-bg: #0f1419;
+  --color-surface: #161c23;
+  --color-ink: #e7eaee;
+  --color-ink-soft: #a0a9b4;
+  --color-ink-faint: #6d7681;
+  --color-line: #26303a;
+  --color-line-strong: #37424e;
+  --color-navy: #10283f;
+  --color-navy-light: #173757;
+  --color-navy-ink: #dfe8f2;
+  --color-blue: #5b8cf0;
+  --color-blue-soft: #17243c;
+  --color-ok: #4cc26b;
+  --color-ok-soft: #12301c;
+  --color-warn: #f08c46;
+  --color-warn-soft: #3a2410;
+  --color-danger: #f06565;
+  --color-danger-soft: #3a1414;
 }
 
 html {
@@ -19,93 +59,138 @@ html {
 }
 
 body {
-  @apply bg-paper text-ink font-sans antialiased;
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+}
+
+/* Subtle blueprint grid texture for hero surfaces */
+.blueprint-grid {
+  background-image:
+    linear-gradient(to right, rgba(29, 78, 216, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(29, 78, 216, 0.07) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.dark .blueprint-grid {
+  background-image:
+    linear-gradient(to right, rgba(91, 140, 240, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(91, 140, 240, 0.08) 1px, transparent 1px);
+}
+.blueprint-grid-fine {
+  background-image:
+    linear-gradient(to right, rgba(29, 78, 216, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(29, 78, 216, 0.05) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+.dark .blueprint-grid-fine {
+  background-image:
+    linear-gradient(to right, rgba(91, 140, 240, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(91, 140, 240, 0.06) 1px, transparent 1px);
+}
+
+/* Technical label */
+.tech-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .prose-tech {
-  max-width: 72ch;
+  max-width: 74ch;
 }
-
 .prose-tech h1 {
-  @apply text-3xl font-bold tracking-tight mt-8 mb-4;
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 2rem 0 1rem;
 }
-
 .prose-tech h2 {
-  @apply text-xl font-bold mt-10 mb-3 border-b border-rule pb-2;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 2.2rem 0 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--color-line);
 }
-
 .prose-tech h3 {
-  @apply text-lg font-semibold mt-6 mb-2;
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.5rem;
 }
-
 .prose-tech p {
-  @apply leading-relaxed my-3 text-[15px];
+  margin: 0.85rem 0;
+  line-height: 1.7;
 }
-
 .prose-tech ul,
 .prose-tech ol {
-  @apply my-3 pl-6 space-y-1.5;
+  margin: 0.85rem 0;
+  padding-left: 1.4rem;
 }
-
-.prose-tech ul {
-  @apply list-disc;
-}
-
-.prose-tech ol {
-  @apply list-decimal;
-}
-
-.prose-tech li {
-  @apply leading-relaxed;
-}
-
+.prose-tech ul { list-style: disc; }
+.prose-tech ol { list-style: decimal; }
+.prose-tech li { margin: 0.35rem 0; line-height: 1.65; }
+.prose-tech li::marker { color: var(--color-ink-faint); }
 .prose-tech blockquote {
-  @apply border-l-4 border-amber-700/40 pl-4 italic text-ink-soft my-4;
+  border-left: 3px solid var(--color-blue);
+  padding-left: 1rem;
+  margin: 1.2rem 0;
+  color: var(--color-ink-soft);
+  font-style: italic;
 }
-
 .prose-tech a {
-  @apply text-amber-800 underline underline-offset-2 hover:text-amber-600;
+  color: var(--color-blue);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
-
 .prose-tech table {
-  @apply w-full text-sm my-4 border-collapse;
+  width: 100%;
+  font-size: 0.9rem;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  border: 1px solid var(--color-line);
 }
-
 .prose-tech th {
-  @apply text-left font-semibold border-b-2 border-rule px-3 py-2 bg-amber-900/5;
+  text-align: left;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 2px solid var(--color-line-strong);
+  background: var(--color-blue-soft);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
 }
-
 .prose-tech td {
-  @apply border-b border-line px-3 py-2 align-top;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--color-line);
+  vertical-align: top;
 }
-
-.prose-tech strong {
-  @apply font-semibold;
-}
-
-.prose-tech hr {
-  @apply my-8 border-rule;
-}
-
+.prose-tech strong { font-weight: 600; }
+.prose-tech hr { margin: 2rem 0; border-color: var(--color-line); }
 .prose-tech code {
-  @apply font-mono text-[0.85em] bg-stone-100 px-1.5 py-0.5 rounded;
+  font-family: var(--font-mono);
+  font-size: 0.84em;
+  background: var(--color-blue-soft);
+  color: var(--color-ink);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+}
+.prose-tech input[type="checkbox"] {
+  accent-color: var(--color-ok);
+  margin-right: 0.4rem;
 }
 
-.prose-tech input[type="checkbox"] {
-  @apply accent-amber-700 mr-2;
-}
+/* Scrollbar subtlety */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--color-line-strong); border-radius: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
 
 @media print {
-  .no-print {
-    display: none !important;
-  }
-  body {
-    background: white;
-  }
-  .print-break {
-    break-before: page;
-  }
-  .prose-tech h2 {
-    break-after: avoid;
-  }
+  .no-print { display: none !important; }
+  body { background: #fff; color: #000; }
+  .print-break { break-before: page; }
+  .prose-tech h1, .prose-tech h2 { break-after: avoid; }
+  .prose-tech { max-width: 100%; }
+  a { color: #000 !important; text-decoration: underline !important; }
 }

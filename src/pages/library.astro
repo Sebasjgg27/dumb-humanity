@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NodeCard from '../components/NodeCard.astro';
+import { getCollection } from 'astro:content';
+import { techSlug } from '../data/levels';
+import { STAGES, stageFor } from '../data/stages';
+
+const tech = await getCollection('tech');
+const summary = (n: (typeof tech)[number]) => n.body.slice(0, 130).replace(/#/g, '').replace(/\s+/g, ' ').trim();
+const stageParam = Astro.url.searchParams.get('stage') ?? '';
+const activeStage = STAGES.find((s) => s.id === stageParam) ?? null;
+
+const cards = tech
+  .map((n) => ({
+    slug: techSlug(n.id),
+    title: n.data.title,
+    level: n.data.level,
+    category: n.data.category,
+    safety: n.data.safety,
+    critical: n.data.critical,
+    summary: summary(n),
+    stage: stageFor(n.id).id,
+  }))
+  .sort((a, b) => a.level.localeCompare(b.level) || a.title.localeCompare(b.title));
+---
+
+<BaseLayout title="Library" description="The complete index of recovery knowledge.">
+  <header class="mb-8">
+    <p class="tech-label text-blue mb-2">Complete index</p>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">Library</h1>
+    <p class="text-ink-soft mt-3 max-w-2xl">
+      Every knowledge article in the archive, filterable by stage and searchable by text.
+      {activeStage && <span> Currently filtered to stage <strong class="text-ink">{activeStage.name}</strong>.</span>}
+    </p>
+  </header>
+
+  <div class="flex flex-col sm:flex-row gap-3 mb-6 no-print">
+    <div class="relative flex-1">
+      <svg viewBox="0 0 24 24" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-ink-faint" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="7" />
+        <path d="m21 21-4.3-4.3" stroke-linecap="round" />
+      </svg>
+      <input
+        id="lib-search"
+        type="search"
+        placeholder="Search articles…"
+        class="w-full pl-9 pr-3 py-2 rounded-lg border border-line-strong bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-blue/40"
+      />
+    </div>
+    <select
+      id="lib-stage"
+      class="px-3 py-2 rounded-lg border border-line-strong bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-blue/40"
+    >
+      <option value="">All stages</option>
+      {STAGES.map((s) => <option value={s.id} selected={s.id === activeStage?.id}>{s.name}</option>)}
+    </select>
+  </div>
+
+  <p id="lib-count" class="text-xs text-ink-faint mb-4 font-mono">{cards.length} articles</p>
+
+  <div id="lib-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3" data-cards={JSON.stringify(cards)}>
+    {
+      cards.map((c) => (
+        <NodeCard
+          slug={c.slug}
+          title={c.title}
+          level={c.level}
+          category={c.category}
+          safety={c.safety}
+          critical={c.critical}
+          summary={c.summary}
+        />
+      ))
+    }
+  </div>
+
+  <script>
+    (() => {
+      const grid = document.getElementById('lib-grid') as HTMLElement | null;
+      if (!grid) return;
+      const cards: { slug: string; title: string; level: string; category: string; safety: string; critical: boolean; summary: string; stage: string }[] =
+        JSON.parse(grid.dataset.cards || '[]');
+      const stageEl = document.getElementById('lib-stage') as HTMLSelectElement | null;
+      const searchEl = document.getElementById('lib-search') as HTMLInputElement | null;
+      const countEl = document.getElementById('lib-count');
+
+      function apply() {
+        if (!grid) return;
+        const q = (searchEl?.value || '').toLowerCase().trim();
+        const stage = stageEl?.value || '';
+        const visible = cards.filter((c) => {
+          const stageOk = !stage || c.stage === stage;
+          const textOk = !q || (c.title + ' ' + c.category + ' ' + c.summary).toLowerCase().includes(q);
+          return stageOk && textOk;
+        });
+        grid.querySelectorAll<HTMLElement>('a[href^="/dumb-humanity/tech/"]').forEach((a) => {
+          const slug = a.getAttribute('href')!.split('/').filter(Boolean).pop()!;
+          a.classList.toggle('hidden', !visible.some((c) => c.slug === slug));
+        });
+        if (countEl) countEl.textContent = `${visible.length} articles`;
+      }
+
+      stageEl?.addEventListener('change', apply);
+      searchEl?.addEventListener('input', apply);
+    })();
+  </script>
+</BaseLayout>

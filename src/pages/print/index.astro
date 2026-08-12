@@ -5,7 +5,7 @@ import { LEVELS } from '../../data/levels';
 
 <BaseLayout title="Print Packs" description="Printable guides for the Rebuild Ladder." sidebar={false}>
   <header class="mb-10 print-break">
-    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-700 mb-2">Paper survives</p>
+    <p class="tech-label text-blue mb-2">Paper survives</p>
     <h1 class="font-serif text-3xl md:text-4xl font-bold">Print Packs</h1>
     <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">
       Power grids fail. Screens die. Paper is permanent. These packs are curated
@@ -15,39 +15,39 @@ import { LEVELS } from '../../data/levels';
   </header>
 
   <div class="space-y-5">
-    <div class="rounded-xl border border-line bg-white p-6 print-break">
+    <div class="rounded-lg border border-line bg-surface p-6 print-break">
       <div class="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h2 class="font-serif text-xl font-bold">The Starter Kit</h2>
           <p class="text-sm text-ink-soft mt-1">Everything in A0 — water, fire, shelter, first aid. The first 48 hours of a reboot.</p>
         </div>
-        <a href="/dumb-humanity/ladder/A0/" class="px-4 py-2 rounded-lg bg-amber-800 text-white font-semibold hover:bg-amber-700 text-sm">Open all A0 guides</a>
+        <a href="/dumb-humanity/ladder/A0/" class="px-4 py-2 rounded-lg bg-navy text-white font-semibold hover:bg-navy-light text-sm">Open all A0 guides</a>
       </div>
-      <p class="text-xs text-ink-soft/70 mt-3">Print each guide page via your browser's print dialog. Use the "Print this guide" button on each page.</p>
+      <p class="text-xs text-ink-faint mt-3">Print each guide page via your browser's print dialog. Use the "Print this guide" button on each page.</p>
     </div>
 
-    <div class="rounded-xl border border-line bg-white p-6 print-break">
+    <div class="rounded-lg border border-line bg-surface p-6 print-break">
       <div class="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h2 class="font-serif text-xl font-bold">The Community Manual</h2>
           <p class="text-sm text-ink-soft mt-1">A1 — agriculture, preservation, soap, sanitation. The first year of a settlement.</p>
         </div>
-        <a href="/dumb-humanity/ladder/A1/" class="px-4 py-2 rounded-lg bg-amber-800 text-white font-semibold hover:bg-amber-700 text-sm">Open all A1 guides</a>
+        <a href="/dumb-humanity/ladder/A1/" class="px-4 py-2 rounded-lg bg-navy text-white font-semibold hover:bg-navy-light text-sm">Open all A1 guides</a>
       </div>
     </div>
 
-    <div class="rounded-xl border border-line bg-white p-6 print-break">
+    <div class="rounded-lg border border-line bg-surface p-6 print-break">
       <div class="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h2 class="font-serif text-xl font-bold">The Bootstrapper's Pack</h2>
           <p class="text-sm text-ink-soft mt-1">A2 — charcoal, iron, sulfuric acid, steam, electricity. The hardest and most valuable stage. Print every guide.</p>
         </div>
-        <a href="/dumb-humanity/ladder/A2/" class="px-4 py-2 rounded-lg bg-amber-800 text-white font-semibold hover:bg-amber-700 text-sm">Open all A2 guides</a>
+        <a href="/dumb-humanity/ladder/A2/" class="px-4 py-2 rounded-lg bg-navy text-white font-semibold hover:bg-navy-light text-sm">Open all A2 guides</a>
       </div>
     </div>
   </div>
 
-  <section class="mt-12 rounded-xl border border-amber-800/30 bg-amber-50 p-6">
+  <section class="mt-12 rounded-lg border border-warn/30 bg-warn-soft p-6">
     <h2 class="font-serif text-xl font-bold mb-3">Printing tips</h2>
     <ul class="space-y-2 text-[15px] text-ink-soft leading-relaxed">
       <li><strong>Paper quality:</strong> acid-free bond paper lasts decades; ordinary copier paper lasts years.</li>
@@ -61,7 +61,7 @@ import { LEVELS } from '../../data/levels';
   <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-12">
     {
       LEVELS.map((l) => (
-        <a href={`/dumb-humanity/ladder/${l.id}/`} class="rounded-lg border border-line bg-white p-4 hover:border-amber-700/40 transition-colors">
+        <a href={`/dumb-humanity/ladder/${l.id}/`} class="rounded-lg border border-line bg-surface p-4 hover:border-blue/40 transition-colors">
           <span class="text-xs font-bold" style={`color: ${l.color}`}>{l.id}</span>
           <p class="font-serif font-bold mt-1">{l.name}</p>
           <p class="text-xs text-ink-soft mt-1">{l.timeframe}</p>

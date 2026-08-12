@@ -1,35 +1,101 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import TechTree from '../../components/TechTree.astro';
+import NodeCard from '../../components/NodeCard.astro';
 import { getCollection } from 'astro:content';
+import { techSlug } from '../../data/levels';
+import { LEVELS } from '../../data/levels';
 
 const tech = await getCollection('tech');
+const summary = (n: (typeof tech)[number]) => n.body.slice(0, 130).replace(/#/g, '').replace(/\s+/g, ' ').trim();
 ---
 
-<BaseLayout
-  title="Technology Tree"
-  description="The interactive technology tree for rebuilding civilization — survival, community, and the industrial seed."
->
+<BaseLayout title="Technology Tree" description="The interactive technology tree for rebuilding civilization.">
   <header class="mb-8">
-    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-700 mb-2">Interactive map</p>
-    <h1 class="font-serif text-3xl md:text-4xl font-bold">Technology Tree</h1>
-    <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">
-      Every card is a technology with a guide. Cards are colored by their stage on the
-      ladder; <span class="font-semibold text-rose-700">Core</span> marks the critical
-      path that unlocks whole branches. Click any card for the full how-to guide.
-      Tick off achievements as you go — your progress is saved on this device.
+    <p class="tech-label text-blue mb-2">Interactive dependency graph</p>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">Technology Tree</h1>
+    <p class="text-ink-soft mt-3 max-w-3xl leading-relaxed">
+      Every node is a technology with a full guide. Arrows point from prerequisites to
+      what they unlock. Nodes are colored by your progress — click a node to open its
+      guide, and use the checkmark on each article to mark it mastered.
+      <span class="font-medium text-warn">Orange</span> marks the critical path;
+      <span class="font-medium text-danger">dashed red</span> marks a guide whose
+      prerequisite is not yet in the library.
     </p>
   </header>
 
-  <TechTree nodes={tech} />
+  <div class="flex items-center gap-3 mb-6 no-print">
+    <button data-view="graph" class="text-sm font-semibold px-3 py-1.5 rounded-lg bg-navy text-white">Graph view</button>
+    <button data-view="list" class="text-sm font-medium px-3 py-1.5 rounded-lg border border-line-strong bg-surface hover:border-blue">List view</button>
+  </div>
 
-  <section class="mt-12 print-block">
-    <h2 class="font-serif text-xl font-bold mb-3">The rules of the tree</h2>
+  <section data-pane="graph">
+    <TechTree nodes={tech} />
+  </section>
+
+  <section data-pane="list" class="hidden">
+    <div class="space-y-8">
+      {
+        LEVELS.map((l) => {
+          const items = tech.filter((t) => t.data.level === l.id).sort((a, b) => a.data.order - b.data.order);
+          if (items.length === 0) return null;
+          return (
+            <div>
+              <div class="flex items-center gap-2 mb-3">
+                <span class="tech-label px-2 py-0.5 rounded" style={`background: ${l.color}1a; color: ${l.color}`}>{l.id}</span>
+                <h2 class="font-semibold">{l.name}</h2>
+                <span class="text-xs text-ink-faint">{items.length} articles</span>
+              </div>
+              <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {items.map((n) => (
+                  <NodeCard
+                    slug={techSlug(n.id)}
+                    title={n.data.title}
+                    level={n.data.level}
+                    category={n.data.category}
+                    safety={n.data.safety}
+                    critical={n.data.critical}
+                    summary={summary(n)}
+                  />
+                ))}
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+  </section>
+
+  <section class="mt-12 border-t border-line pt-8 print-block">
+    <h2 class="font-serif text-xl font-bold mb-3">Rules of the tree</h2>
     <ul class="space-y-2 text-ink-soft text-[15px] leading-relaxed">
-      <li><strong class="text-ink">You can't skip the ladder.</strong> A steam engine without iron smelting is a rumor. Each node's prerequisites are listed on its guide.</li>
-      <li><strong class="text-ink">Scavenge before you build.</strong> The modern world left a warehouse of salvaged parts. Always check the salvage list before manufacturing from scratch.</li>
-      <li><strong class="text-ink">Teach everything.</strong> A technology that only one person knows is a technology one accident away from being lost.</li>
-      <li><strong class="text-ink">Print the guides.</strong> Paper survives. Power grids don't. The printable packs are in the header.</li>
+      <li><strong class="text-ink">You can't skip the ladder.</strong> Each guide lists its prerequisites. A steam engine without iron is a rumor.</li>
+      <li><strong class="text-ink">Scavenge before you build.</strong> Every guide lists what the ruins already provide.</li>
+      <li><strong class="text-ink">Teach everything.</strong> A technology only one person knows is one accident from being lost.</li>
+      <li><strong class="text-ink">Print the guides.</strong> Paper survives. Grids don't. See the <a href="/dumb-humanity/print/" class="text-blue underline underline-offset-2">print packs</a>.</li>
     </ul>
   </section>
+
+  <script>
+    (() => {
+      const graphBtn = document.querySelector('[data-view="graph"]') as HTMLButtonElement | null;
+      const listBtn = document.querySelector('[data-view="list"]') as HTMLButtonElement | null;
+      const graph = document.querySelector('[data-pane="graph"]') as HTMLElement | null;
+      const list = document.querySelector('[data-pane="list"]') as HTMLElement | null;
+      if (!graphBtn || !listBtn) return;
+      const setView = (v: 'graph' | 'list') => {
+        const g = v === 'graph';
+        graph?.classList.toggle('hidden', !g);
+        list?.classList.toggle('hidden', g);
+        graphBtn.className = g
+          ? 'text-sm font-semibold px-3 py-1.5 rounded-lg bg-navy text-white'
+          : 'text-sm font-medium px-3 py-1.5 rounded-lg border border-line-strong bg-surface hover:border-blue';
+        listBtn.className = g
+          ? 'text-sm font-medium px-3 py-1.5 rounded-lg border border-line-strong bg-surface hover:border-blue'
+          : 'text-sm font-semibold px-3 py-1.5 rounded-lg bg-navy text-white';
+      };
+      graphBtn.addEventListener('click', () => setView('graph'));
+      listBtn.addEventListener('click', () => setView('list'));
+    })();
+  </script>
 </BaseLayout>

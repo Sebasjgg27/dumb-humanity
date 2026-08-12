@@ -1,14 +1,45 @@
 ---
-const year = new Date().getFullYear();
+import pkg from '../../package.json';
 ---
 
-<footer class="border-t border-rule py-6 mt-12 no-print">
-  <div class="max-w-5xl mx-auto px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-ink-soft">
-    <p>
-      <span class="font-serif font-semibold text-ink">Rebirth Manual</span> — the ladder from survival to industry.
-    </p>
-    <p class="text-xs">
-      © {year} · Print it. Copy it. Teach it. Knowledge is the only resource that can't be scavenged.
-    </p>
+<footer class="no-print border-t border-line bg-surface">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="sm:col-span-2">
+      <p class="tech-label text-blue mb-3">Mission</p>
+      <p class="text-sm text-ink-soft leading-relaxed max-w-md">
+        The Civilizational Recovery Project preserves humanity's operational knowledge —
+        the instructions for making everything again — in an offline-first, print-ready
+        archive. It is not a website. It is a backup of civilization.
+      </p>
+    </div>
+
+    <div>
+      <p class="tech-label text-blue mb-3">Knowledge sections</p>
+      <ul class="space-y-2 text-sm">
+        <li><a href="/dumb-humanity/survival/" class="text-ink-soft hover:text-blue">Survival</a></li>
+        <li><a href="/dumb-humanity/science/" class="text-ink-soft hover:text-blue">Science</a></li>
+        <li><a href="/dumb-humanity/engineering/" class="text-ink-soft hover:text-blue">Engineering</a></li>
+        <li><a href="/dumb-humanity/industry/" class="text-ink-soft hover:text-blue">Industry</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="tech-label text-blue mb-3">Backup downloads</p>
+      <ul class="space-y-2 text-sm">
+        <li><a href="/dumb-humanity/downloads/" class="text-ink-soft hover:text-blue">Offline library</a></li>
+        <li><a href="/dumb-humanity/print/" class="text-ink-soft hover:text-blue">Printable edition</a></li>
+        <li><a href="/dumb-humanity/library/" class="text-ink-soft hover:text-blue">Full library index</a></li>
+        <li><a href="https://github.com/Sebasjgg27/dumb-humanity/archive/refs/heads/main.zip" class="text-ink-soft hover:text-blue">Source ZIP</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-line">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-ink-faint">
+      <p>
+        Civilizational Recovery Project · v{pkg.version} · Last updated {new Date().toISOString().slice(0, 10)}
+      </p>
+      <p>Open source · Free to copy, print, and redistribute · Knowledge is the only resource that can't be scavenged.</p>
+    </div>
   </div>
 </footer>

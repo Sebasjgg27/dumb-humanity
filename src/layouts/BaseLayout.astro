@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import LadderNav from '../components/LadderNav.astro';
+import Sidebar from '../components/Sidebar.astro';
 
 interface Props {
   title: string;
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const { title, description, sidebar = true } = Astro.props;
-const siteTitle = 'Rebirth Manual';
+const siteTitle = 'Civilizational Recovery Project';
 const fullTitle = title === siteTitle ? title : `${title} · ${siteTitle}`;
 ---
 
@@ -22,24 +22,83 @@ const fullTitle = title === siteTitle ? title : `${title} · ${siteTitle}`;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <title>{fullTitle}</title>
-    <meta name="description" content={description ?? 'The practical manual for restarting human civilization, from fire to industry.'} />
-    <meta name="color-scheme" content="light" />
+    <meta name="description" content={description ?? 'The complete knowledge required to rebuild civilization from the ground up.'} />
+    <meta name="color-scheme" content="light dark" />
     <link rel="icon" href="/dumb-humanity/favicon.svg" type="image/svg+xml" />
   </head>
   <body class="min-h-screen flex flex-col">
     <Header />
+
+    {
+      sidebar && (
+        <div class="sidebar-backdrop no-print" aria-hidden="true"></div>
+      )
+    }
+
     <div class="flex-1 flex">
       {
         sidebar && (
-          <aside class="no-print hidden lg:block w-60 shrink-0 border-r border-rule py-6 px-4 sticky top-14 self-start max-h-[calc(100vh-3.5rem)] overflow-y-auto">
-            <LadderNav />
+          <aside
+            class="sidebar-container shrink-0 bg-surface border-r border-line no-print"
+            aria-label="Knowledge tree"
+          >
+            <div class="px-3 py-5 sticky top-14 max-h-[calc(100vh-3.5rem)] overflow-y-auto">
+              <Sidebar />
+            </div>
           </aside>
         )
       }
-      <main class="flex-1 min-w-0 px-4 sm:px-8 py-8 max-w-5xl mx-auto w-full">
+
+      <main class="flex-1 min-w-0 px-4 sm:px-6 lg:px-8 py-6 lg:py-8 max-w-7xl mx-auto w-full">
         <slot />
       </main>
     </div>
+
     <Footer />
   </body>
 </html>
+
+<style>
+  @media (max-width: 1023px) {
+    .sidebar-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 280px;
+      z-index: 60;
+      transform: translateX(-100%);
+      transition: transform 0.2s ease;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+    }
+    body.sidebar-open .sidebar-container {
+      transform: translateX(0);
+    }
+    .sidebar-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 15, 20, 0.5);
+      z-index: 55;
+      display: none;
+    }
+    body.sidebar-open .sidebar-backdrop {
+      display: block;
+    }
+  }
+  @media (min-width: 1024px) {
+    .sidebar-container {
+      width: 272px;
+      margin-left: 0;
+      transition: margin-left 0.2s ease;
+    }
+    body.sidebar-open .sidebar-container {
+      margin-left: -272px;
+    }
+    body.sidebar-open main {
+      margin-left: -272px;
+    }
+    main {
+      transition: margin-left 0.2s ease;
+    }
+  }
+</style>

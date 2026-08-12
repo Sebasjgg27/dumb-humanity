@@ -1,7 +1,6 @@
 ---
 import { LEVELS, techSlug } from '../data/levels';
 import type { CollectionEntry } from 'astro:content';
-import NodeCard from './NodeCard.astro';
 
 interface Props {
   nodes: CollectionEntry<'tech'>[];
@@ -9,180 +8,286 @@ interface Props {
 
 const { nodes } = Astro.props;
 
-const nodesJson = nodes
-  .sort((a, b) => a.data.level.localeCompare(b.data.level) || a.data.order - b.data.order)
-  .map((n) => {
-    const refId = (r: unknown) => (r as { id?: string }).id ?? (r as string);
-    return {
+const refId = (r: unknown) => (r as { id?: string }).id ?? (r as string);
+
+const COL_W = 220;
+const NODE_W = 172;
+const NODE_H = 30;
+const ROW_H = 34;
+const PAD_TOP = 24;
+const PAD_LEFT = 16;
+
+interface LayoutNode {
+  slug: string;
+  title: string;
+  level: string;
+  col: number;
+  row: number;
+  x: number;
+  y: number;
+  critical: boolean;
+  prereqs: string[];
+  missing: boolean;
+}
+
+const levelIndex = Object.fromEntries(LEVELS.map((l, i) => [l.id, i]));
+const nodeMap = new Map<string, LayoutNode>();
+
+const byLevel = new Map<string, CollectionEntry<'tech'>[]>();
+for (const n of nodes) {
+  if (!byLevel.has(n.data.level)) byLevel.set(n.data.level, []);
+  byLevel.get(n.data.level)!.push(n);
+}
+
+for (const level of LEVELS) {
+  const list = (byLevel.get(level.id) ?? []).sort((a, b) => a.data.order - b.data.order);
+  list.forEach((n, i) => {
+    nodeMap.set(techSlug(n.id), {
       slug: techSlug(n.id),
       title: n.data.title,
       level: n.data.level,
-      category: n.data.category,
-      safety: n.data.safety,
+      col: levelIndex[n.data.level],
+      row: i,
+      x: PAD_LEFT + levelIndex[n.data.level] * COL_W,
+      y: PAD_TOP + i * ROW_H,
       critical: n.data.critical,
-      summary: n.body.slice(0, 160).replace(/#/g, '').replace(/\s+/g, ' ').trim(),
-      prerequisites: n.data.prerequisites.map(refId),
-    };
+      prereqs: n.data.prerequisites.map(refId),
+      missing: n.data.prerequisites.some((p) => !nodeMap.has(refId(p))),
+    });
   });
+}
+
+const layout = [...nodeMap.values()];
+const maxRows = Math.max(...LEVELS.map((l) => (byLevel.get(l.id) ?? []).length));
+const width = LEVELS.length * COL_W + PAD_LEFT * 2;
+const height = maxRows * ROW_H + PAD_TOP + 20;
+
+interface Edge { d: string; cls: string; src: string; dst: string }
+const edges: Edge[] = [];
+for (const node of layout) {
+  for (const pre of node.prereqs) {
+    const src = nodeMap.get(pre);
+    if (!src) continue;
+    const x1 = src.x + NODE_W;
+    const y1 = src.y + NODE_H / 2;
+    const x2 = node.x;
+    const y2 = node.y + NODE_H / 2;
+    const mx = (x1 + x2) / 2;
+    edges.push({
+      d: `M ${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}`,
+      cls: 'edge',
+      src: pre,
+      dst: node.slug,
+    });
+  }
+}
+
+const nodesJson = JSON.stringify(layout);
+const levelColors: Record<string, string> = {
+  A0: '#2f9e44',
+  A1: '#1d4ed8',
+  A2: '#7c3aed',
+  A3: '#e8590c',
+  A4: '#0ca678',
+  A5: '#5f3dc4',
+};
 ---
 
-<div
-  id="tech-tree"
-  class:list={['no-print']}
-  data-nodes={JSON.stringify(nodesJson)}
-  data-levels={JSON.stringify(LEVELS.map((l) => l.id))}
->
-  <div class="flex flex-wrap items-center gap-3 mb-5">
-    <label class="text-sm font-medium text-ink-soft">Show levels:</label>
-    <div class="flex flex-wrap gap-1.5" data-level-toggles>
-      {
-        LEVELS.map((l) => (
-          <button
-            type="button"
-            data-level={l.id}
-            class="text-xs font-semibold px-2.5 py-1 rounded-full border transition-colors"
-            style={`border-color: ${l.color}; color: ${l.color}`}
-          >
-            {l.id}
-          </button>
-        ))
-      }
+<div class="tech-tree no-print" data-nodes={nodesJson}>
+  <div class="flex flex-wrap items-center gap-4 mb-4">
+    <div class="flex flex-wrap gap-3 text-[12px]">
+      <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-ok"></span> Mastered</span>
+      <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-blue"></span> Available</span>
+      <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-line-strong"></span> Locked</span>
+      <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-warn"></span> Critical path</span>
+      <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-danger"></span> Missing prerequisite</span>
     </div>
     <div class="flex-1" />
-    <div class="flex gap-2">
-      <button type="button" data-action="all" class="text-xs px-2.5 py-1 rounded-md bg-stone-100 hover:bg-stone-200 font-medium">All</button>
-      <button type="button" data-action="done" class="text-xs px-2.5 py-1 rounded-md bg-stone-100 hover:bg-stone-200 font-medium">Hide done</button>
-      <button type="button" data-action="reset" class="text-xs px-2.5 py-1 rounded-md bg-red-50 text-red-700 hover:bg-red-100 font-medium">Reset progress</button>
-    </div>
+    <button data-reset class="text-xs font-medium px-2.5 py-1 rounded-md border border-line bg-surface hover:border-danger hover:text-danger">
+      Reset progress
+    </button>
   </div>
 
-  <div id="tree-grid" class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-    {
-      nodesJson.map((n) => (
-        <NodeCard
-          slug={n.slug}
-          title={n.title}
-          level={n.level}
-          category={n.category}
-          safety={n.safety}
-          critical={n.critical}
-          summary={n.summary}
+  <div class="overflow-x-auto rounded-lg border border-line bg-surface blueprint-grid-fine">
+    <svg
+      width={width}
+      height={height}
+      viewBox={`0 0 ${width} ${height}`}
+      class="min-w-full"
+      role="img"
+      aria-label="Interactive technology dependency graph"
+    >
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--color-line-strong)" />
+        </marker>
+      </defs>
+
+      {
+        LEVELS.map((l, i) => (
+          <g>
+            <line
+              x1={PAD_LEFT + i * COL_W + NODE_W / 2}
+              y1={PAD_TOP - 16}
+              x2={PAD_LEFT + i * COL_W + NODE_W / 2}
+              y2={PAD_TOP - 8}
+              stroke={levelColors[l.id]}
+              stroke-width="2"
+            />
+            <text
+              x={PAD_LEFT + i * COL_W + NODE_W / 2}
+              y={PAD_TOP - 22}
+              text-anchor="middle"
+              class="tech-label"
+              fill={levelColors[l.id]}
+            >
+              {l.id}
+            </text>
+          </g>
+        ))
+      }
+
+      {edges.map((e) => (
+        <path
+          d={e.d}
+          class={e.cls}
+          data-from={e.src}
+          data-to={e.dst}
+          fill="none"
+          stroke="var(--color-line-strong)"
+          stroke-width="1.5"
+          marker-end="url(#arrow)"
         />
-      ))
-    }
+      ))}
+
+      {
+        layout.map((n) => {
+          const levelColor = levelColors[n.level] ?? '#888';
+          return (
+            <g
+              class="tech-node"
+              data-slug={n.slug}
+              data-level={n.level}
+              data-critical={n.critical ? '1' : '0'}
+              data-missing={n.missing ? '1' : '0'}
+              data-prereqs={JSON.stringify(n.prereqs)}
+              transform={`translate(${n.x}, ${n.y})`}
+              role="link"
+              tabindex="0"
+            >
+              <rect
+                width={NODE_W}
+                height={NODE_H}
+                rx="8"
+                fill="var(--color-surface)"
+                stroke="var(--color-line-strong)"
+                stroke-width="1.5"
+              />
+              <line
+                x1="0"
+                y1="0"
+                x2="0"
+                y2={NODE_H}
+                stroke={levelColor}
+                stroke-width="4"
+                rx="8"
+              />
+              {n.critical && (
+                <circle cx={NODE_W - 8} cy="8" r="4" fill="var(--color-warn)" />
+              )}
+              {n.missing && (
+                <circle cx={NODE_W - 8} cy="22" r="4" fill="var(--color-danger)" />
+              )}
+              <text
+                x="10"
+                y={NODE_H / 2 + 4}
+                class="tech-node-title"
+                fill="var(--color-ink)"
+              >
+                {n.title.length > 26 ? n.title.slice(0, 25) + '…' : n.title}
+              </text>
+            </g>
+          );
+        })
+      }
+    </svg>
   </div>
 </div>
 
-<style is:global>
-  .tree-hidden {
-    display: none !important;
+<style>
+  .tech-node { cursor: pointer; }
+  .tech-node:focus-visible { outline: 2px solid var(--color-blue); outline-offset: 2px; border-radius: 8px; }
+  .tech-node rect { transition: stroke 0.15s ease, fill 0.15s ease; }
+  .tech-node-title {
+    font-size: 11px;
+    font-weight: 500;
+    font-family: var(--font-sans);
+    pointer-events: none;
   }
-  .tree-done .tree-done-tag {
-    display: inline-flex !important;
-  }
+  .tech-node.state-mastered rect { stroke: var(--color-ok); stroke-width: 2; fill: var(--color-ok-soft); }
+  .tech-node.state-mastered .tech-node-title { fill: var(--color-ok); font-weight: 600; }
+  .tech-node.state-available rect { stroke: var(--color-blue); }
+  .tech-node.state-locked rect { opacity: 0.55; }
+  .tech-node.state-missing rect { stroke: var(--color-danger); stroke-dasharray: 4 3; }
+  .tech-node.state-critical rect { stroke: var(--color-warn); stroke-width: 2.5; }
+  .edge.hl { stroke: var(--color-warn) !important; stroke-width: 2.5 !important; }
 </style>
 
 <script>
-(() => {
-  const root = document.getElementById('tech-tree');
-  const grid = document.getElementById('tree-grid');
-  if (!root || !grid) return;
+  (() => {
+    const root = document.querySelector('.tech-tree');
+    if (!root) return;
+    const KEY = 'crp-mastered';
+    let mastered = new Set<string>();
+    try { mastered = new Set(JSON.parse(localStorage.getItem(KEY) || '[]')); } catch { /* ignore */ }
 
-  const nodes: { slug: string; level: string; prerequisites: string[] }[] = JSON.parse(
-    root.dataset.nodes || '[]'
-  );
-  const levelSet = new Set<string>(JSON.parse(root.dataset.levels || '[]'));
-  const cards = new Map<string, HTMLElement>();
-  grid.querySelectorAll<HTMLAnchorElement>('a[href^="/dumb-humanity/tech/"]').forEach((card) => {
-    const slug = card.getAttribute('href')!.split('/').filter(Boolean).pop()!;
-    cards.set(slug, card);
-  });
+    const nodes = Array.from(root.querySelectorAll<SVGGElement>('.tech-node'));
 
-  const STORAGE_KEY = 'rebirth-tech-progress';
-  const done = new Set<string>(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
-
-  let activeLevels = new Set<string>(levelSet);
-  let hideDone = false;
-
-  function save() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify([...done]));
-  }
-
-  function apply() {
-    for (const [slug, card] of cards) {
-      const node = nodes.find((n) => n.slug === slug);
-      const levelOk = node ? activeLevels.has(node.level) : true;
-      const doneHidden = hideDone && done.has(slug);
-      card.classList.toggle('tree-hidden', !levelOk || doneHidden);
-      card.style.opacity = done.has(slug) ? '0.55' : '1';
+    function stateFor(el: SVGGElement): 'mastered' | 'available' | 'missing' | 'critical' | 'locked' {
+      if (el.dataset.missing === '1') return 'missing';
+      const prereqs: string[] = JSON.parse(el.dataset.prereqs || '[]');
+      const allDone = prereqs.every((p) => mastered.has(p));
+      if (allDone && mastered.has(el.dataset.slug || '')) return 'mastered';
+      if (allDone) return el.dataset.critical === '1' ? 'critical' : 'available';
+      return 'locked';
     }
-  }
 
-  // Mark done nodes visually with a checkmark overlay
-  function updateDoneTags() {
-    for (const slug of done) {
-      const card = cards.get(slug);
-      if (!card) continue;
-      let tag = card.querySelector('.tree-done-tag');
-      if (!tag) {
-        tag = document.createElement('span');
-        tag.className =
-          'tree-done-tag hidden absolute top-2 right-2 text-[10px] font-bold bg-green-100 text-green-800 rounded px-1.5 py-0.5';
-        tag.textContent = '✓ done';
-        card.classList.add('relative');
-        card.appendChild(tag);
-      }
+    function apply() {
+      nodes.forEach((el) => {
+        el.classList.remove('state-mastered', 'state-available', 'state-critical', 'state-missing', 'state-locked');
+        el.classList.add('state-' + stateFor(el));
+      });
     }
-  }
-  updateDoneTags();
-  apply();
 
-  root.querySelectorAll('[data-level]').forEach((btn) => {
-    const level = (btn as HTMLElement).dataset.level!;
-    btn.addEventListener('click', () => {
-      if (activeLevels.has(level)) {
-        activeLevels.delete(level);
-      } else {
-        activeLevels.add(level);
-      }
-      const active = activeLevels.has(level);
-      (btn as HTMLElement).style.background = active ? levelColor(level) : 'transparent';
-      (btn as HTMLElement).style.color = active ? '#fff' : levelColor(level);
-      apply();
+    const edges = Array.from(root.querySelectorAll<SVGPathElement>('.edge'));
+    function highlight(el: SVGGElement | null) {
+      const slug = el?.dataset.slug;
+      edges.forEach((e) => {
+        const isTouch = e.dataset.from === slug || e.dataset.to === slug;
+        e.classList.toggle('hl', !!isTouch);
+      });
+    }
+
+    nodes.forEach((el) => {
+      const open = () => {
+        window.location.href = `/dumb-humanity/tech/${el.dataset.slug}/`;
+      };
+      el.addEventListener('click', open);
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+      });
+      el.addEventListener('mouseenter', () => highlight(el));
+      el.addEventListener('mouseleave', () => highlight(null));
     });
-    (btn as HTMLElement).style.background = levelColor(level);
-    (btn as HTMLElement).style.color = '#fff';
-  });
 
-  function levelColor(level: string): string {
-    const map: Record<string, string> = {
-      A0: '#e11d48',
-      A1: '#ea580c',
-      A2: '#ca8a04',
-      A3: '#16a34a',
-      A4: '#2563eb',
-      A5: '#7c3aed',
-    };
-    return map[level] || '#000';
-  }
+    root.querySelector('[data-reset]')?.addEventListener('click', () => {
+      if (confirm('Reset all mastery progress on this device?')) {
+        localStorage.removeItem(KEY);
+        mastered = new Set();
+        apply();
+      }
+    });
 
-  root.querySelector('[data-action="all"]')!.addEventListener('click', () => {
-    activeLevels = new Set<string>(levelSet);
-    hideDone = false;
     apply();
-  });
-
-  root.querySelector('[data-action="done"]')!.addEventListener('click', () => {
-    hideDone = !hideDone;
-    apply();
-  });
-
-  root.querySelector('[data-action="reset"]')!.addEventListener('click', () => {
-    if (confirm('Reset all progress tracking on this device?')) {
-      done.clear();
-      save();
-      window.location.reload();
-    }
-  });
-})();
+  })();
 </script>

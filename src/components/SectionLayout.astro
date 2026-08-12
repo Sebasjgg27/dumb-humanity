@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NodeCard from '../components/NodeCard.astro';
+import { getCollection } from 'astro:content';
+import { techSlug } from '../data/levels';
+import { SECTIONS, type Section } from '../data/sections';
+
+interface Props {
+  section: Section;
+}
+
+const { section } = Astro.props;
+const tech = await getCollection('tech');
+const summary = (n: (typeof tech)[number]) => n.body.slice(0, 130).replace(/#/g, '').replace(/\s+/g, ' ').trim();
+
+const bySlugMap = new Map(tech.map((t) => [techSlug(t.id), t]));
+const matched = new Map<string, (typeof tech)[number]>();
+for (const t of tech) {
+  if (section.categories.includes(t.data.category)) matched.set(t.id, t);
+}
+for (const s of section.slugs) {
+  const t = bySlugMap.get(s);
+  if (t) matched.set(t.id, t);
+}
+const articles = [...matched.values()].sort(
+  (a, b) => a.data.level.localeCompare(b.data.level) || a.data.order - b.data.order
+);
+const next = SECTIONS.find((s) => s.priority === section.priority + 1) ?? SECTIONS.find((s) => s.priority > section.priority);
+---
+
+<BaseLayout title={section.title} description={section.description}>
+  <nav class="text-xs text-ink-faint no-print mb-4 flex items-center gap-1.5" aria-label="Breadcrumb">
+    <a href="/dumb-humanity/" class="hover:text-blue">Home</a>
+    <span>/</span>
+    <span class="text-ink-soft">{section.title}</span>
+  </nav>
+
+  <header class="mb-8 border-b border-line pb-6">
+    <p class="tech-label text-blue mb-2">{section.subtitle}</p>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{section.title}</h1>
+    <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{section.description}</p>
+    <p class="text-xs text-ink-faint mt-3 font-mono">{articles.length} articles · levels A0–A2</p>
+  </header>
+
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+    {
+      articles.map((n) => (
+        <NodeCard
+          slug={techSlug(n.id)}
+          title={n.data.title}
+          level={n.data.level}
+          category={n.data.category}
+          safety={n.data.safety}
+          critical={n.data.critical}
+          summary={summary(n)}
+        />
+      ))
+    }
+  </div>
+
+  {next && (
+    <div class="mt-12 border-t border-line pt-6 no-print">
+      <p class="tech-label text-ink-faint mb-2">Continue the ladder</p>
+      <a href={`/dumb-humanity/${next.id}/`} class="inline-flex items-center gap-2 text-sm font-semibold text-blue hover:underline">
+        {next.title}
+        <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  )}
+</BaseLayout>

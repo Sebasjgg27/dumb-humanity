@@ -1,77 +1,129 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import { LEVELS, techSlug } from '../data/levels';
+import { techSlug } from '../data/levels';
+import { STAGES } from '../data/stages';
 import NodeCard from '../components/NodeCard.astro';
 
 const tech = await getCollection('tech');
-const byLevel = (level: string) =>
-  tech.filter((t) => t.data.level === level).sort((a, b) => a.data.order - b.data.order);
-const a0 = byLevel('A0');
+const summary = (n: (typeof tech)[number]) => n.body.slice(0, 130).replace(/#/g, '').replace(/\s+/g, ' ').trim();
+const bySlug = (s: string) => tech.find((t) => techSlug(t.id) === s);
+
 const featured = ['water', 'fire', 'charcoal', 'iron_smelting', 'sulfuric_acid', 'steam_engine']
-  .map((slug) => tech.find((t) => techSlug(t.id) === slug))
+  .map((s) => bySlug(s))
   .filter(Boolean);
-const summary = (n: (typeof tech)[number]) => n.body.slice(0, 140).replace(/#/g, '').replace(/\s+/g, ' ').trim();
+
+const stats = [
+  { value: tech.length, label: 'Knowledge articles' },
+  { value: 'A0 → A5', label: 'Recovery stages' },
+  { value: '100%', label: 'Offline ready' },
+  { value: '0', label: 'External dependencies' },
+];
 ---
 
-<BaseLayout title="Rebirth Manual" sidebar={false}>
-  <section class="text-center py-12 md:py-16">
-    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-700 mb-3">
-      A practical manual for restarting civilization
-    </p>
-    <h1 class="font-serif text-4xl md:text-6xl font-bold tracking-tight">
-      What do we need<br class="hidden md:block" />
-      to build <span class="text-amber-700">everything</span> again?
-    </h1>
-    <p class="text-lg text-ink-soft max-w-2xl mx-auto mt-5 leading-relaxed">
-      From a campfire to a steam engine to a radio — a step-by-step technology tree
-      for rebooting human civilization, in the spirit of <em>Dr. Stone</em> and the
-      real science of knowledge recovery.
-    </p>
-    <div class="flex flex-wrap items-center justify-center gap-3 mt-8">
-      <a href="/dumb-humanity/ladder/" class="px-5 py-2.5 rounded-lg bg-amber-800 text-white font-semibold hover:bg-amber-700 transition-colors">
-        Explore the Ladder
-      </a>
-      <a href="/dumb-humanity/tech/" class="px-5 py-2.5 rounded-lg border border-rule bg-white font-semibold hover:border-amber-700/50 transition-colors">
-        Open the Tech Tree
-      </a>
+<BaseLayout title="Civilizational Recovery Project" sidebar={false}>
+  <section class="blueprint-grid border-b border-line -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 bg-surface">
+    <div class="max-w-4xl mx-auto text-center py-16 md:py-24">
+      <p class="tech-label text-blue mb-4">Humanity's operational backup · Offline-first · Print-ready</p>
+      <h1 class="font-serif text-4xl md:text-6xl font-bold tracking-tight leading-[1.05]">
+        Civilizational<br />
+        Recovery Project
+      </h1>
+      <p class="text-lg md:text-xl text-ink-soft mt-6 max-w-2xl mx-auto leading-relaxed">
+        The complete knowledge required to rebuild civilization from the ground up —
+        a structured, validated, reproducible path from a campfire to a space program.
+      </p>
+
+      <div class="flex flex-wrap items-center justify-center gap-3 mt-9">
+        <a href="/dumb-humanity/survival/" class="px-5 py-2.5 rounded-lg bg-navy text-white font-semibold hover:bg-navy-light transition-colors shadow-sm">
+          Start Learning
+        </a>
+        <a href="/dumb-humanity/library/" class="px-5 py-2.5 rounded-lg border border-line-strong bg-surface font-semibold hover:border-blue hover:text-blue transition-colors">
+          Browse Library
+        </a>
+        <a href="/dumb-humanity/downloads/" class="px-5 py-2.5 rounded-lg border border-line-strong bg-surface font-semibold hover:border-blue hover:text-blue transition-colors">
+          Download Entire Manual
+        </a>
+        <a href="/dumb-humanity/downloads/" class="px-5 py-2.5 rounded-lg border border-line-strong bg-surface font-semibold hover:border-blue hover:text-blue transition-colors">
+          Offline Version
+        </a>
+        <a href="/dumb-humanity/print/" class="px-5 py-2.5 rounded-lg border border-line-strong bg-surface font-semibold hover:border-blue hover:text-blue transition-colors">
+          Print Manual
+        </a>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-14">
+        {
+          stats.map((s) => (
+            <div>
+              <p class="font-mono text-2xl font-semibold text-blue">{s.value}</p>
+              <p class="text-xs text-ink-faint mt-1">{s.label}</p>
+            </div>
+          ))
+        }
+      </div>
     </div>
   </section>
 
-  <section class="mt-6">
-    <h2 class="font-serif text-2xl font-bold mb-1">The six stages</h2>
-    <p class="text-ink-soft mb-6">Every stage answers one question. Climb them in order — each unlocks the next.</p>
-    <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+  <section class="py-12 md:py-16">
+    <header class="mb-8">
+      <p class="tech-label text-blue mb-2">The reconstruction path</p>
+      <h2 class="font-serif text-2xl md:text-3xl font-bold tracking-tight">
+        Ten stages. Each unlocks the next.
+      </h2>
+      <p class="text-ink-soft mt-2 max-w-2xl">
+        Progress is strictly ordered — every stage contains the knowledge required to
+        reach the one after it. You cannot skip rungs.
+      </p>
+    </header>
+
+    <ol class="relative grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+      <li aria-hidden="true" class="hidden xl:block absolute left-1/6 right-1/6 top-6 h-px bg-line-strong"></li>
       {
-        LEVELS.map((l) => (
-          <a
-            href={`/dumb-humanity/ladder/${l.id}/`}
-            class="group rounded-xl border border-line bg-white p-5 hover:border-amber-700/40 hover:shadow-sm transition-all"
-          >
-            <div class="flex items-center gap-2 mb-2">
-              <span class="w-3 h-3 rounded-full" style={`background: ${l.color}`}></span>
-              <span class="text-xs font-bold" style={`color: ${l.color}`}>{l.id}</span>
+        STAGES.map((s) => (
+          <li class="relative">
+            <div class="flex items-center gap-4">
+              <span class="shrink-0 w-12 h-12 rounded-lg bg-navy text-white flex items-center justify-center font-mono font-semibold shadow-sm">
+                {String(s.index + 1).padStart(2, '0')}
+              </span>
+              <div>
+                <h3 class="font-semibold text-lg leading-tight">
+                  <a href={`/dumb-humanity/library/?stage=${s.id}`} class="hover:text-blue">
+                    {s.name}
+                  </a>
+                </h3>
+                <p class="text-xs text-ink-faint font-mono">Level {s.aLevel} · {s.question}</p>
+              </div>
             </div>
-            <h3 class="font-serif font-bold text-lg group-hover:text-amber-800">{l.name}</h3>
-            <p class="text-sm text-ink-soft mt-1">{l.question}</p>
-            <p class="text-xs mt-3 text-ink-soft/70">{l.description}</p>
-          </a>
+            <p class="text-sm text-ink-soft mt-3 leading-relaxed max-w-xs">{s.description}</p>
+            <a
+              href={`/dumb-humanity/library/?stage=${s.id}`}
+              class="inline-flex items-center gap-1 text-[13px] font-medium text-blue hover:underline mt-2"
+            >
+              View stage knowledge
+              <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </li>
         ))
       }
-    </div>
+    </ol>
   </section>
 
-  <section class="mt-12">
-    <div class="flex items-end justify-between mb-5">
+  <section class="py-10 md:py-14 border-t border-line">
+    <header class="flex items-end justify-between mb-6 flex-wrap gap-3">
       <div>
-        <h2 class="font-serif text-2xl font-bold">Start here: Survival Baseline</h2>
-        <p class="text-ink-soft">The first eleven technologies — the floor under everything.</p>
+        <p class="tech-label text-blue mb-2">Core knowledge</p>
+        <h2 class="font-serif text-2xl font-bold tracking-tight">Deep dives — the critical path</h2>
       </div>
-      <a href="/dumb-humanity/ladder/A0/" class="text-sm font-semibold text-amber-800 hover:underline shrink-0">View all A0 →</a>
-    </div>
+      <a href="/dumb-humanity/tech/" class="text-sm font-medium text-blue hover:underline">
+        Interactive technology tree →
+      </a>
+    </header>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
       {
-        a0.map((n) => (
+        featured.map((n) => n && (
           <NodeCard
             slug={techSlug(n.id)}
             title={n.data.title}
@@ -86,24 +138,39 @@ const summary = (n: (typeof tech)[number]) => n.body.slice(0, 140).replace(/#/g,
     </div>
   </section>
 
-  <section class="mt-12 print-break">
-    <div class="rounded-xl border border-amber-800/30 bg-amber-50 p-6">
-      <h2 class="font-serif text-xl font-bold mb-3">Key deep dives</h2>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {
-          featured.map((n) => n && (
-            <NodeCard
-              slug={techSlug(n.id)}
-              title={n.data.title}
-              level={n.data.level}
-              category={n.data.category}
-              safety={n.data.safety}
-              critical={n.data.critical}
-              summary={summary(n)}
-            />
-          ))
-        }
-      </div>
+  <section class="py-10 border-t border-line">
+    <div class="max-w-3xl">
+      <p class="tech-label text-blue mb-2">Design principles</p>
+      <h2 class="font-serif text-2xl font-bold tracking-tight mb-6">Built for permanence</h2>
+      <ul class="space-y-4">
+        <li class="flex gap-3">
+          <span class="shrink-0 mt-0.5 w-5 h-5 rounded-full bg-ok-soft text-ok flex items-center justify-center">
+            <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <div>
+            <p class="font-semibold">Offline-first</p>
+            <p class="text-sm text-ink-soft">Every article is static HTML. Download the ZIP and the entire library works without power, network, or servers.</p>
+          </div>
+        </li>
+        <li class="flex gap-3">
+          <span class="shrink-0 mt-0.5 w-5 h-5 rounded-full bg-ok-soft text-ok flex items-center justify-center">
+            <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <div>
+            <p class="font-semibold">Print is permanent</p>
+            <p class="text-sm text-ink-soft">Power grids fail. Screens die. Paper outlives both. Every guide is print-optimized with printable chapter packs.</p>
+          </div>
+        </li>
+        <li class="flex gap-3">
+          <span class="shrink-0 mt-0.5 w-5 h-5 rounded-full bg-ok-soft text-ok flex items-center justify-center">
+            <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <div>
+            <p class="font-semibold">Validated & reproducible</p>
+            <p class="text-sm text-ink-soft">Every procedure lists materials, tools, steps, and the science behind it — reproducible with progressively available technology.</p>
+          </div>
+        </li>
+      </ul>
     </div>
   </section>
 </BaseLayout>

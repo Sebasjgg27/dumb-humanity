@@ -26,7 +26,7 @@ const unresolved = nodes.filter((n) => {
 ---
 
 <BaseLayout title={`${info.id} — ${info.name}`} description={info.description}>
-  <a href="/dumb-humanity/ladder/" class="text-sm text-amber-800 hover:underline font-medium no-print">← The Ladder</a>
+  <a href="/dumb-humanity/ladder/" class="text-sm text-blue hover:underline font-medium no-print">← The Ladder</a>
 
   <header class="mt-4 mb-8 print-break">
     <div class="flex items-center gap-3">
@@ -38,14 +38,14 @@ const unresolved = nodes.filter((n) => {
         <h1 class="font-serif text-2xl md:text-3xl font-bold">{info.name}</h1>
       </div>
     </div>
-    <p class="text-amber-800 font-semibold mt-2">{info.question}</p>
+    <p class="text-warn font-semibold mt-2">{info.question}</p>
     <p class="text-ink-soft mt-2 max-w-3xl leading-relaxed">{info.description}</p>
     <p class="text-xs text-ink-soft/70 mt-2 italic">Dr. Stone parallel: {info.dr_stone}</p>
   </header>
 
   {
     unresolved.length > 0 && (
-      <p class="text-xs text-amber-800 bg-amber-50 border border-amber-800/20 rounded-md px-3 py-2 mb-4">
+      <p class="text-xs text-warn bg-warn-soft border border-warn/30 rounded-md px-3 py-2 mb-4">
         Note: {unresolved.map((n) => n.data.title).join(', ')} reference technologies outside this tree.
       </p>
     )
@@ -67,17 +67,17 @@ const unresolved = nodes.filter((n) => {
     }
   </div>
 
-  <div class="flex items-center justify-between mt-10 pt-6 border-t border-rule no-print">
+  <div class="flex items-center justify-between mt-10 pt-6 border-t border-line no-print">
     {
       prevLevel ? (
-        <a href={`/dumb-humanity/ladder/${prevLevel.id}/`} class="text-sm font-semibold text-amber-800 hover:underline">
+        <a href={`/dumb-humanity/ladder/${prevLevel.id}/`} class="text-sm font-semibold text-blue hover:underline">
           ← {prevLevel.id}: {prevLevel.name}
         </a>
       ) : <span />
     }
     {
       nextLevel && (
-        <a href={`/dumb-humanity/ladder/${nextLevel.id}/`} class="text-sm font-semibold text-amber-800 hover:underline">
+        <a href={`/dumb-humanity/ladder/${nextLevel.id}/`} class="text-sm font-semibold text-blue hover:underline">
           {nextLevel.id}: {nextLevel.name} →
         </a>
       )
