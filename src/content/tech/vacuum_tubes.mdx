@@ -1,0 +1,79 @@
+---
+title: "Vacuum Tubes"
+level: A3
+category: "Electronics"
+prerequisites: ["electricity_generator", "glassblowing", "lenses"]
+unlocks: ["radio"]
+materials: ["glass tube/bulb", "filament (carbon or tungsten)", "metal electrodes", "vacuum pump", "sealing torches"]
+energy: "electricity"
+time_estimate: "months"
+people: 2
+safety: "HIGH"
+salvage: ["vacuum tubes", "CRT monitors", "radio tubes", "old televisions"]
+dr_stone_ref: "The diode and triode — the vacuum era of electronics"
+critical: false
+order: 9
+---
+
+# Vacuum Tubes
+
+In a vacuum, a hot wire emits electrons, and those electrons can be steered. That
+behavior gives you two miracles: **rectification** (turn AC into DC) and
+**amplification** (let a whisper control a roar). Vacuum tubes are the door between
+"electricity" and "electronics" — the first radios, telephones, and computers all ran
+on them.
+
+## The physics, simply
+
+Heat a metal filament until it glows: it throws off electrons. In air they'd instantly
+burn and be blocked; **in a vacuum** they fly freely toward a positively charged plate.
+What happens next depends on how many electrodes you add:
+
+- **Diode (2 electrodes)** — filament + plate. Current flows one way only:
+  **rectification**. Turns the generator's AC into usable DC.
+- **Triode (3 electrodes)** — add a wire grid between filament and plate. A small
+  voltage on the grid controls a large current to the plate:
+  **amplification**. This is the invention that made electronics possible.
+
+## Making a tube (the honest challenge)
+
+1. **Blow the glass** envelope — a bulb or cylinder with the electrodes sealed
+   through the base (see [glassblowing](/dumb-humanity/tech/glassblowing)).
+2. **Assemble the internals**: a filament (carbon or tungsten wire), the plate, and
+   for a triode the grid — supported on mica or glass spacers.
+3. **Evacuate** — a vacuum pump draws the air out through a side tube. The quality of
+   the vacuum decides the tube's life; poor vacuum = short, unreliable tube.
+4. **Seal** the exhaust tube with a torch.
+
+Each step is a craft; expect weeks of rejects before a working tube. That is normal —
+the first tube builders had exactly the same failure rate.
+
+## What you can build with them
+
+- **Rectifier tubes** — turn AC generator output into DC for
+  [electroplating](/dumb-humanity/tech/electroplating) and steady circuits.
+- **Amplifier tubes** — take the faint signal from a
+  [radio](/dumb-humanity/tech/radio) receiver and drive earphones or speakers; extend
+  telephone lines with repeater amplifiers.
+- **Oscillator tubes** — clean continuous-wave transmission replacing the crude spark
+  gap; this is when radio becomes *real*.
+
+## Working safely with tubes
+
+- Tubes run hot (the filament is white-hot) and operate at **dangerous voltages**.
+  Guard terminals; keep metal away; work one hand in pocket.
+- Glass tubes break into sharp pieces; hot glass burns.
+- Salvaged tubes are fine — just test them (they may be dead or gassy).
+
+## The road ahead
+
+Diode → triode → multi-electrode tubes → radio telephony → and eventually the
+transistor that replaces all of this. That is the A4 gate. For A3, the triode is
+enough to change everything.
+
+## Validation checklist
+
+- [ ] Can you evacuate a glass envelope to a usable vacuum?
+- [ ] Can you build a diode that rectifies AC to DC?
+- [ ] Can you build a triode that amplifies a signal?
+- [ ] Do you have a safe test bench for high-voltage work?

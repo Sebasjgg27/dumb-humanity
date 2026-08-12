@@ -1,0 +1,91 @@
+---
+title: "Radio (Wireless Telegraphy)"
+level: A3
+category: "Communications"
+prerequisites: ["batteries", "electricity_generator"]
+unlocks: []
+materials: ["generator or battery", "spark transmitter", "antenna", "coherer or crystal detector", "earphones", "wire"]
+energy: "electricity"
+time_estimate: "weeks to months"
+people: 3
+safety: "HIGH"
+salvage: ["radios", "antennas", "copper wire", "galena crystals", "telephone parts", "insulators"]
+dr_stone_ref: "The radio that bridged the islands"
+critical: true
+order: 8
+---
+
+# Radio (Wireless Telegraphy)
+
+Radio is the technology that ends the isolation of distance: messages travel at the
+speed of light, over mountains and oceans, with no wire and no road. For a recovering
+civilization it is **coordination infrastructure** — warnings, schedules, distress
+calls, and news that turn a scatter of towns into a connected society.
+
+## How it works (the bare bones)
+
+An oscillating electric current in a wire radiates **electromagnetic waves** that travel
+through air. A distant wire picks up a tiny echo of that wave, and a detector turns it
+back into a signal you can hear. The first practical radios were crude but worked.
+
+## The transmitter: the spark gap
+
+The simplest transmitter is a **spark**:
+
+1. Build up high voltage (from a generator — a transformer or induction coil helps).
+2. Discharge it across a gap — the spark radiates a burst of radio noise.
+3. Key it on and off (a telegraph key) to send **Morse code**: short and long bursts.
+
+A spark transmitter is brute force — it sprays signal across the whole spectrum and
+interferes with everything nearby — but it works, and range with a good antenna is
+surprisingly large. It is the honest first step, exactly as history did it.
+
+## The antenna (half the battle)
+
+- Make it **long** (tens of meters if possible) and **high** (on a mast or tree).
+- A vertical wire with a "counterpoise" or ground connection performs best.
+- Range scales with antenna and power: a tall antenna on a hill is worth more than
+  more power.
+
+## The receiver: two honest options
+
+**The coherer (simplest):**
+- A small glass tube of loose metal filings between two electrodes.
+- A radio pulse makes the filings "cohere" and conduct; a relay clicks.
+- Tap the tube after each pulse to reset. Crude but classic.
+
+**The crystal detector (better):**
+- A **galena** (lead sulfide) crystal with a thin wire ("cat's whisker") resting on it
+  acts as a rectifier — it turns the radio wave into a pulsing current you can hear in
+  high-impedance earphones. No power needed for the detector itself.
+
+## The operating system: Morse code
+
+Radio telegraphy runs on Morse — memorized, not written:
+
+- Short ("dit") and long ("dah") — the entire alphabet, numbers, and procedural signs.
+- Standard distress: **SOS** (... --- ...).
+- Train operators, maintain log books, and standardize call signs.
+
+## Building the network
+
+1. **Relay stations** — repeat signals over mountains by receiving and re-keying.
+2. **Schedules** — agreed times to listen and send.
+3. **Priority rules** — distress first, then weather, then routine traffic.
+4. **Written records** — every message logged; radio is memory, not conversation.
+
+## Safety and honesty
+
+- High-voltage spark transmitters can kill. Build, insulate, and guard them properly.
+- Keep antenna wires clear of power lines and away from foot traffic (they can carry
+  dangerous induced currents).
+- A spark transmitter interferes with everyone on the band — use minimum power and
+  minimum time. Later, vacuum tubes (see [vacuum_tubes](/dumb-humanity/tech/vacuum_tubes))
+  will make clean, tuned, powerful transmitters — the real radio.
+
+## Validation checklist
+
+- [ ] Can you build a working spark transmitter and keyed Morse?
+- [ ] Can you receive reliably with a coherer or crystal set?
+- [ ] Do your operators know Morse and distress procedures?
+- [ ] Can you relay a message between two towns?
