@@ -1,14 +1,23 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import NodeCard from '../components/NodeCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NodeCard from '../../components/NodeCard.astro';
 import { getCollection } from 'astro:content';
-import { techSlug } from '../data/levels';
-import { STAGES, stageFor } from '../data/stages';
+import { techSlug } from '../../data/levels';
+import { getTranslatedStages, getTranslatedLevels } from '../../i18n/data';
+import { LOCALES, type Locale } from '../../i18n/locales';
+import { getDictionary, href as i18nHref } from '../../i18n/index';
 
+export async function getStaticPaths() {
+  return LOCALES.map((l) => ({ params: { locale: l.code } }));
+}
+
+const { locale } = Astro.params;
+const dict = getDictionary(locale);
+const stages = getTranslatedStages(locale);
 const tech = await getCollection('tech');
 const summary = (n: (typeof tech)[number]) => n.body.slice(0, 130).replace(/#/g, '').replace(/\s+/g, ' ').trim();
 const stageParam = Astro.url.searchParams.get('stage') ?? '';
-const activeStage = STAGES.find((s) => s.id === stageParam) ?? null;
+const activeStage = stages.find((s) => s.id === stageParam) ?? null;
 
 const cards = tech
   .map((n) => ({
@@ -19,18 +28,18 @@ const cards = tech
     safety: n.data.safety,
     critical: n.data.critical,
     summary: summary(n),
-    stage: stageFor(n.id).id,
+    stage: (n.data as any)._stageId ?? 'survival',
   }))
   .sort((a, b) => a.level.localeCompare(b.level) || a.title.localeCompare(b.title));
 ---
 
-<BaseLayout title="Library" description="The complete index of recovery knowledge.">
+<BaseLayout title={dict.library.title} description={dict.library.subtitle} locale={locale}>
   <header class="mb-8">
-    <p class="tech-label text-blue mb-2">Complete index</p>
-    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">Library</h1>
+    <p class="tech-label text-blue mb-2">{dict.library.tagline}</p>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{dict.library.title}</h1>
     <p class="text-ink-soft mt-3 max-w-2xl">
-      Every knowledge article in the archive, filterable by stage and searchable by text.
-      {activeStage && <span> Currently filtered to stage <strong class="text-ink">{activeStage.name}</strong>.</span>}
+      {dict.library.subtitle}
+      {activeStage && <span> {dict.library.filteredTo} <strong class="text-ink">{activeStage.name}</strong>.</span>}
     </p>
   </header>
 
@@ -43,7 +52,7 @@ const cards = tech
       <input
         id="lib-search"
         type="search"
-        placeholder="Search articles…"
+        placeholder={dict.library.searchPlaceholder}
         class="w-full pl-9 pr-3 py-2 rounded-lg border border-line-strong bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-blue/40"
       />
     </div>
@@ -51,17 +60,17 @@ const cards = tech
       id="lib-stage"
       class="px-3 py-2 rounded-lg border border-line-strong bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-blue/40"
     >
-      <option value="">All stages</option>
-      {STAGES.map((s) => <option value={s.id} selected={s.id === activeStage?.id}>{s.name}</option>)}
+      <option value="">{dict.library.allStages}</option>
+      {stages.map((s) => <option value={s.id} selected={s.id === activeStage?.id}>{s.name}</option>)}
     </select>
   </div>
 
-  <p id="lib-count" class="text-xs text-ink-faint mb-4 font-mono">{cards.length} articles</p>
+  <p id="lib-count" class="text-xs text-ink-faint mb-4 font-mono">{cards.length} {dict.common.articles}</p>
 
   <div id="lib-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3" data-cards={JSON.stringify(cards)}>
     {
       cards.map((c) => (
-        <NodeCard
+        <NodeCard locale={locale}
           slug={c.slug}
           title={c.title}
           level={c.level}
@@ -93,7 +102,7 @@ const cards = tech
           const textOk = !q || (c.title + ' ' + c.category + ' ' + c.summary).toLowerCase().includes(q);
           return stageOk && textOk;
         });
-        grid.querySelectorAll<HTMLElement>('a[href^="/dumb-humanity/tech/"]').forEach((a) => {
+        grid.querySelectorAll<HTMLElement>('a[href*="/tech/"]').forEach((a) => {
           const slug = a.getAttribute('href')!.split('/').filter(Boolean).pop()!;
           a.classList.toggle('hidden', !visible.some((c) => c.slug === slug));
         });

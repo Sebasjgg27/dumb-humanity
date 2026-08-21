@@ -1,0 +1,442 @@
+{
+  "site": {
+    "title": "مشروع التعافي الحضاري",
+    "shortTitle": "PC",
+    "description": "المعرفة الكاملة اللازمة لإعادة بناء الحضارة من الصفر."
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "survival": "البقاء",
+    "science": "العلوم",
+    "engineering": "الهندسة",
+    "medicine": "الطب",
+    "agriculture": "الزراعة",
+    "industry": "الصناعة",
+    "library": "المكتبة",
+    "downloads": "التحميلات"
+  },
+  "aria": {
+    "toggleSidebar": "تبديل الشريط الجانبي",
+    "searchLibrary": "البحث في المكتبة",
+    "toggleDarkMode": "تبديل الوضع الداكن",
+    "primaryNav": "Primary",
+    "breadcrumb": "Breadcrumb",
+    "knowledgeTree": "Knowledge tree",
+    "rebuildLadder": "Rebuild ladder",
+    "techGraph": "Interactive technology dependency graph"
+  },
+  "footer": {
+    "mission": "المهمة",
+    "missionText": "The Civilizational Recovery Project preserves humanity's operational knowledge — the instructions for making everything again — in an offline-first, print-ready archive. It is not a website. It is a backup of civilization.",
+    "knowledgeSections": "أقسام المعرفة",
+    "downloads": "التحميلات",
+    "offlineLibrary": "المكتبة دون اتصال",
+    "printableEdition": "نسخة قابلة للطباعة",
+    "fullLibraryIndex": "الفهرس الكامل",
+    "sourceZIP": "الكود المصدري ZIP",
+    "openSource": "مفتوح المصدر · حر في النسخ والطباعة وإعادة التوزيع"
+  },
+  "home": {
+    "heroTagline": "نسخة احتياطية تشغيلية للبشرية · دون اتصال · جاهزة للطباعة",
+    "heroTitle1": "Civilizational",
+    "heroTitle2": "Recovery Project",
+    "heroSubtitle": "The complete knowledge required to rebuild civilization from the ground up — a structured, validated, reproducible path from a campfire to a space program.",
+    "startLearning": "ابدأ التعلم",
+    "browseLibrary": "تصفح المكتبة",
+    "downloadPrint": "تحميل / طباعة",
+    "statsArticles": "مقالات معرفية",
+    "statsStages": "مراحل التعافي",
+    "statsOffline": "جاهز للعمل دون اتصال",
+    "statsDeps": "صفر تبعيات خارجية",
+    "reconstructionPath": "The reconstruction path",
+    "tenStages": "Ten stages. Each unlocks the next.",
+    "tenStagesDesc": "Progress is strictly ordered — every stage contains the knowledge required to reach the one after it. You cannot skip rungs.",
+    "level": "المستوى",
+    "coreKnowledge": "المعرفة الأساسية",
+    "deepDives": "تعمق — المسار الحرج",
+    "interactiveTree": "شجرة تقنية تفاعلية →",
+    "designPrinciples": "مبادئ التصميم",
+    "builtForPermanence": "مصمم لل permanence",
+    "offlineFirst": "دون اتصال أولاً",
+    "offlineFirstDesc": "كل مقال هو HTML ثابت. حمّل ZIP وتعمل المكتبة بأكملها بدون كهرباء أو شبكة أو خوادم.",
+    "printIsPermanent": "الطباعة permanence",
+    "printIsPermanentDesc": "تتعطل شبكات الكهرباء. تموت الشاشات. الورق ي survive两者.",
+    "validatedReproducible": "Validated & reproducible",
+    "validatedReproducibleDesc": "Every procedure lists materials, tools, steps, and the science behind it — reproducible with progressively available technology."
+  },
+  "about": {
+    "title": "عن مشروع التعافي الحضاري",
+    "intro": "This is an open-source, offline-first knowledge base for restarting human civilization — built in the spirit of the anime *Dr. Stone* and grounded in the real science of knowledge recovery.",
+    "whyExists": "لماذا هذا موجود",
+    "whyExistsText": "If civilization collapsed, the single most valuable resource would be **knowledge**: not gold, not machines, but the instructions for making things from scratch. Modern survivors know how to *use* things but not how to *make* them. This site is an attempt to close that gap with a practical, ordered technology tree.",
+    "theSources": "المصادر",
+    "sourceDrStone": "Dr. Stone — the staged technology progression (stone → iron → electricity → radio), and the idea that knowledge is an adventure you can re-walk.",
+    "sourceInfoPreserver": "The InfoPreserver Project (Lifeboat Foundation) — the \"Rebuild Ladder\" capability levels A0–A5 that organize this site.",
+    "sourceKnowledge": "The Knowledge: How to Rebuild Our World from Scratch by Lewis Dartnell — the scientific method of civilization recovery.",
+    "sourceOSE": "Open Source Ecology / Global Village Construction Set — open blueprints for the 50 machines that bootstrap a modern settlement.",
+    "sourceSurvival": "Survival and bushcraft traditions — the low-tech fundamentals that keep people alive.",
+    "howToUse": "كيف تستخدمه",
+    "step1": "Start at A0 — water, fire, shelter. The floor is not optional.",
+    "step2": "Follow the survival priority — water, shelter, food, hygiene, then tools.",
+    "step3": "Follow prerequisites — every guide lists what you need before it.",
+    "step4": "Scavenge first — every guide lists what the ruins already provide.",
+    "step5": "Teach and print — copy the guides, pass them on, and print the critical pages. Paper outlives grids.",
+    "thePrinciples": "المبادئ",
+    "principleDigital": "Digital is temporary. Print is permanent.",
+    "principleRedundancy": "Redundancy saves knowledge — three people must know every critical skill.",
+    "principleCompounds": "Knowledge compounds — the ladder is faster at every step because the steps before it get easier.",
+    "contribute": "المساهمة",
+    "contributeText": "This is a work in progress, built incrementally. The content tree is open and structured to grow: every stage, every guide, every salvage list can be extended.",
+    "quote": "\"Humanity is science. That's all we are.\" — Senku Ishigami, Dr. Stone"
+  },
+  "downloads": {
+    "title": "التحميلات",
+    "tagline": "الرقمي مؤقت. الطباعة permanence.",
+    "subtitle": "This archive is designed to be moved, copied, and printed. Power grids fail. Screens die. Paper and files you own do not.",
+    "recommended": "موصى به",
+    "fullArchiveTitle": "تحميل الأرشيف الكامل",
+    "fullArchiveDesc": "The entire library as static files — every article, every guide, every diagram. Download once, open on any device with no network, no server, no electricity.",
+    "fullArchiveAction": "تحميل ZIP",
+    "printableTitle": "نسخة قابلة للطباعة",
+    "printableDesc": "Per-guide print buttons, clean print CSS, and stage-based chapter packs. Laser toner is more waterproof than inkjet. Paper outlives screens.",
+    "printableAction": "فتح حزم الطباعة",
+    "sourceTitle": "المستودع المصدري",
+    "sourceDesc": "The markdown source of every article, versioned on GitHub and freely redistributable. Fork it, translate it, improve it.",
+    "sourceAction": "عرض على GitHub",
+    "version": "الإصدار",
+    "lastUpdated": "آخر تحديث",
+    "articles": "مقالات",
+    "totalSize": "الحجم الإجمالي",
+    "fitsUSB": "يناسب أي USB",
+    "redundancyDoctrine": "مبدأ التكرار",
+    "rule1Strong": "Three copies, two media, one far away.",
+    "rule1Text": " Keep a digital copy, a printed copy, and a sealed backup stored separately.",
+    "rule2Strong": "Print masters, then copy.",
+    "rule2Text": " Keep one master set dry and sealed; make working copies.",
+    "rule3Strong": "Copy the ZIP to multiple devices",
+    "rule3Text": " — a phone, a laptop, a USB drive, an old e-reader. Devices fail; copies survive.",
+    "rule4Strong": "Teach it.",
+    "rule4Text": " The most durable format is a person who can explain the knowledge to the next generation."
+  },
+  "library": {
+    "title": "المكتبة",
+    "tagline": "الفهرس الكامل",
+    "subtitle": "Every knowledge article in the archive, filterable by stage and searchable by text.",
+    "filteredTo": "Currently filtered to stage",
+    "searchPlaceholder": "بحث في المقالات…",
+    "allStages": "جميع المراحل",
+    "articlesCount": "{count} articles"
+  },
+  "search": {
+    "title": "بحث",
+    "tagline": "اعثر عليه بسرعة",
+    "subtitle": "Search every guide by title, category, or keyword. Runs entirely in your browser — works offline.",
+    "searchPlaceholder": "بحث في المقالات والكلمات والفئات…",
+    "articlesCount": "{count} articles",
+    "articlesOf": "{visible} of {total} articles",
+    "noResults": "No articles match. Try a broader keyword, or start at the Library."
+  },
+  "techTree": {
+    "title": "الشجرة التقنية",
+    "tagline": "رسم بياني تفاعلي للتبعيات",
+    "subtitle": "Every node is a technology with a full guide. Arrows point from prerequisites to what they unlock. Nodes are colored by your progress — click a node to open its guide, and use the checkmark on each article to mark it mastered.",
+    "criticalPath": "Orange",
+    "criticalPathText": " marks the critical path;",
+    "missingReq": "dashed red",
+    "missingReqText": " marks a guide whose prerequisite is not yet in the library.",
+    "graphView": "عرض الرسم",
+    "listView": "عرض القائمة",
+    "rules": "قواعد الشجرة",
+    "rule1": "You can't skip the ladder.",
+    "rule1Desc": " Each guide lists its prerequisites. A steam engine without iron is a rumor.",
+    "rule2": "Scavenge before you build.",
+    "rule2Desc": " Every guide lists what the ruins already provide.",
+    "rule3": "Teach everything.",
+    "rule3Desc": " A technology only one person knows is one accident from being lost.",
+    "rule4": "Print the guides.",
+    "rule4Desc": " Paper survives. Grids don't. See the ",
+    "rule4Link": "print packs",
+    "legendMastered": "Mastered",
+    "legendAvailable": "Available",
+    "legendLocked": "Locked",
+    "legendCritical": "Critical path",
+    "legendMissing": "Missing prerequisite",
+    "resetProgress": "إعادة تعيين التقدم",
+    "resetConfirm": "إعادة تعيين كل تقدم الإتقان على هذا الجهاز؟"
+  },
+  "techArticle": {
+    "home": "الرئيسية",
+    "library": "المكتبة",
+    "level": "المستوى",
+    "risk": "المخاطر",
+    "coreTechnology": "التقنية الأساسية",
+    "difficulty": "الصعوبة",
+    "levelRequired": "المستوى المطلوب",
+    "studyTime": "وقت الدراسة",
+    "stage": "المرحلة",
+    "requiredKnowledge": "المعرفة المطلوبة",
+    "noPrerequisites": "بدون شروط مسبقة — هذه تقنية أساسية.",
+    "knowledgeValidation": "التحقق من المعرفة",
+    "allChecksPass": "جميع الفحوصات ناجحة.",
+    "specifications": "المواصفات",
+    "materials": "المواد",
+    "energy": "الطاقة",
+    "people": "الأفراد",
+    "reference": "المرجع",
+    "scavengeBeforeBuilding": "اجمع قبل البناء",
+    "unlocksNext": "يفتح التالية",
+    "dependencies": "التبعيات",
+    "noDependencies": "بدون تبعيات.",
+    "markAsMastered": "تحديد كمتقن",
+    "masteredUndo": "متقن — انقر للتراجع",
+    "printThisGuide": "طباعة هذا الدليل",
+    "exportOptions": "خيارات التصدير",
+    "relatedArticles": "مقالات ذات صلة",
+    "prereqComplete": "Prerequisites Complete",
+    "scientificVerified": "Scientific Accuracy Verified",
+    "illustrationsIncluded": "Illustrations Included",
+    "printReady": "Print Ready",
+    "offlineReady": "Offline Ready",
+    "pathValid": "Reconstruction Path Valid"
+  },
+  "ladder": {
+    "title": "سلالم إعادة البناء",
+    "framework": "الإطار",
+    "subtitle": "Inspired by the InfoPreserver project's capability ladder and Dr. Stone's staged tech progression. Each level answers one question. You cannot skip rungs — but every rung mastered makes the next one faster.",
+    "drStoneParallel": "对应的石纪元",
+    "backToLadder": "← السلالم",
+    "noteUnresolved": "Note: {titles} reference technologies outside this tree."
+  },
+  "print": {
+    "title": "حزم الطباعة",
+    "tagline": "الورق survives",
+    "subtitle": "تتعطل شبكات الكهرباء. تموت الشاشات. الورق permanence.",
+    "starterKit": "طقم البداية",
+    "starterKitDesc": "Everything in A0 — water, fire, shelter, first aid. The first 48 hours of a reboot.",
+    "starterKitAction": "فتح جميع أدلة A0",
+    "starterKitTip": "Print each guide page via your browser's print dialog. Use the \"Print this guide\" button on each page.",
+    "communityManual": "الدليل المجتمعي",
+    "communityManualDesc": "A1 — agriculture, preservation, soap, sanitation. The first year of a settlement.",
+    "communityManualAction": "فتح جميع أدلة A1",
+    "bootstrappersPack": "حزمة المبتكرين",
+    "bootstrappersPackDesc": "A2 — charcoal, iron, sulfuric acid, steam, electricity. The hardest and most valuable stage. Print every guide.",
+    "bootstrappersPackAction": "فتح جميع أدلة A2",
+    "printingTips": "نصائح الطباعة",
+    "tip1Strong": "Paper quality:",
+    "tip1Text": " acid-free bond paper lasts decades; ordinary copier paper lasts years.",
+    "tip2Strong": "Ink:",
+    "tip2Text": " laser printer toner is far more waterproof than inkjet.",
+    "tip3Strong": "Lamination:",
+    "tip3Text": " for the pages you'll use outdoors — water, fire, first aid.",
+    "tip4Strong": "Reproduction:",
+    "tip4Text": " a photocopier is itself a technology worth preserving. Print masters, then copy.",
+    "tip5Strong": "Distribution:",
+    "tip5Text": " keep one master set sealed and dry; make working copies."
+  },
+  "levels": {
+    "A0": {
+      "name": "خط الأساس للبقاء",
+      "timeframe": "أيام – أسابيع",
+      "question": "هل يمكن للبشر البقاء على قيد الحياة؟",
+      "description": "الماء والنار والمأوى والإسعافات الأولية وأول الأدوات اليدوية.",
+      "drStone": "ثلاثة أشهر الأولى لـ Senku: أدوات حجرية، حبل، مثقاب قوس، نار."
+    },
+    "A1": {
+      "name": "مجتمع مستقر",
+      "timeframe": "أشهر – سنوات",
+      "question": "هل يمكن للناس العيش هنا بشكل مستدام؟",
+      "description": "الزراعة وحفظ الطعام والمأوى الدائم والصرف الصحي والصابون.",
+      "drStone": "قرية إيشيغامي: الزراعة والخزف والنسيج وطريقة حياة مستقرة."
+    },
+    "A2": {
+      "name": "البذرة الصناعية",
+      "timeframe": "سنوات – عقود",
+      "question": "هل يمكننا بدء الصناعة؟",
+      "description": "نقطة التسارع غير الخطية. الفحم والحديد والكيمياء والمخرطة والبخار والكهرباء.",
+      "drStone": "مملكة العلوم: الفرن العالي وحمض الكبريتيك والمولدات والراديو."
+    },
+    "A3": {
+      "name": "استعادة البنية التحتية",
+      "timeframe": "عقود",
+      "question": "هل يمكن للأنظمة التوسع ما وراء بلدة واحدة؟",
+      "description": "شبكات المياه الإقليمية والشبكات الكهربائية وسكك الحديد.",
+      "drStone": "البرسيس، GPS، السدود الكهرومائية."
+    },
+    "A4": {
+      "name": "الصناعة والعلوم المتقدمة",
+      "timeframe": "أجيال",
+      "question": "الدقة والتحسين والبحث",
+      "description": "إلكترونيات الترانزستور والمتكاملات والكيمياء الحديثة.",
+      "drStone": "طريق السيليكون والأنابيب المفرغة."
+    },
+    "A5": {
+      "name": "الحدود والقفزات",
+      "timeframe": "آفاق بعيدة",
+      "question": "أنظمة عالية التبعية للمستقبل",
+      "description": "الطيران الفضائي والأقمار الصناعية والتكنولوجيا الحيوية المتقدمة.",
+      "drStone": "المهمة القمرية، التواصل مع Why-Man."
+    }
+  },
+  "stages": {
+    "survival": {
+      "name": "البقاء",
+      "question": "هل يمكننا البقاء على قيد الحياة؟",
+      "description": "الماء والنار والمأوى وأول الأدوات اليدوية."
+    },
+    "settlement": {
+      "name": "الاستيطان",
+      "question": "هل يمكننا العيش هنا إلى الأبد؟",
+      "description": "مأوى دائم وصرف صحي ونظافة ومجتمع."
+    },
+    "agriculture": {
+      "name": "الزراعة",
+      "question": "هل يمكننا إطعام أنفسنا بشكل موثوق؟",
+      "description": "الزراعة وحفظ البذور والحفظ وتربية الحيوانات."
+    },
+    "craftsmanship": {
+      "name": "الحِرَف",
+      "question": "هل يمكننا صنع الأشياء بشكل جيد؟",
+      "description": "الفخار والمنسوجات والزجاج والورق."
+    },
+    "metallurgy": {
+      "name": "علم المعادن",
+      "question": "هل يمكننا استخراج وتشكيل المعادن؟",
+      "description": "الفحم والحديد والفولاذ والنحاس."
+    },
+    "engineering": {
+      "name": "الهندسة",
+      "question": "هل يمكننا بناء الآلات؟",
+      "description": "القياس والمخرطة وطاقة الماء والمحرك البخاري."
+    },
+    "electricity": {
+      "name": "الكهرباء",
+      "question": "هل يمكننا ترويض الإلكترون؟",
+      "description": "المولدات والبطاريات وشجرة الاتصالات."
+    },
+    "industry": {
+      "name": "الصناعة",
+      "question": "هل يمكن للأنظمة التوسع ما وراء بلدة؟",
+      "description": "الكيمياء على نطاق واسع والنقل والبنية التحتية الإقليمية."
+    },
+    "digital": {
+      "name": "التكنولوجيا الرقمية",
+      "question": "هل يمكننا الحساب مرة أخرى؟",
+      "description": "الإلكترونيات والحوسبة وعودة البحث."
+    },
+    "space": {
+      "name": "عصر الفضاء",
+      "question": "هل يمكننا مغادرة المهد؟",
+      "description": "الطيران الفضائي والصواريخ والأنظمة عالية التبعية."
+    }
+  },
+  "sections": {
+    "survival": {
+      "title": "البقاء",
+      "subtitle": "الأولوية 1 — إبقاء الناس أحياء",
+      "description": "الماء والنار والمأوى والطعام والنظافة والإسعافات الأولية."
+    },
+    "settlement": {
+      "title": "الاستيطان",
+      "subtitle": "الأولوية 2 — العيش هنا إلى الأبد",
+      "description": "مأوى دائم وصرف صحي وهيكل اجتماعي."
+    },
+    "agriculture": {
+      "title": "الزراعة",
+      "subtitle": "الأولوية 2 — إطعام الناس بشكل موثوق",
+      "description": "الزراعة وحفظ البذور والحفاظ على الطعام وتربية الحيوانات."
+    },
+    "medicine": {
+      "title": "الطب",
+      "subtitle": "الأولوية 1 — العدوى تقتل أكثر من الإصابة",
+      "description": "علاج الجروح والنظافة والمعرفة بالأعشاب."
+    },
+    "science": {
+      "title": "العلوم",
+      "subtitle": "الأولوية 4 — الطريقة وراء إعادة البناء",
+      "description": "المنهج العلمي المادي: القياس والكيمياء والتجارب القابلة للتكرار."
+    },
+    "engineering": {
+      "title": "الهندسة",
+      "subtitle": "الأولوية 3 — الآلات والطاقة",
+      "description": "الميكانيكا والمواد وعلم المعادن والآلات."
+    },
+    "industry": {
+      "title": "الصناعة",
+      "subtitle": "الأولوية 5 — التوسع ما وراء بلدة",
+      "description": "التصنيع والكيمياء والنقل والاتصالات على نطاق إقليمي."
+    }
+  },
+  "sidebar": {
+    "knowledgeTree": "شجرة المعرفة",
+    "groups": {
+      "survival": {
+        "label": "البقاء",
+        "subsections": {
+          "s-water": "الماء",
+          "s-shelter": "المأوى",
+          "s-fire": "النار",
+          "s-food": "الطعام",
+          "s-med": "الطب",
+          "s-tools": "الأدوات والمواد"
+        }
+      },
+      "science": {
+        "label": "العلوم",
+        "subsections": {
+          "c-chem": "الكيمياء",
+          "c-measure": "القياس"
+        }
+      },
+      "engineering": {
+        "label": "الهندسة",
+        "subsections": {
+          "e-met": "علم المعادن",
+          "e-mach": "الآلات",
+          "e-power": "الطاقة",
+          "e-comms": "الاتصالات"
+        }
+      },
+      "community": {
+        "label": "المجتمع",
+        "subsections": {
+          "g-gov": "الحوكمة"
+        }
+      }
+    }
+  },
+  "categories": {
+    "Survival": "البقاء",
+    "Shelter": "المأوى",
+    "Food & Water": "الطعام والماء",
+    "Community": "المجتمع",
+    "Power": "الطاقة",
+    "Metallurgy": "علم المعادن",
+    "Chemistry": "الكيمياء",
+    "Machine Tools": "Machine Tools",
+    "Communications": "الاتصالات",
+    "Transport": "النقل",
+    "Metrology": "علم القياس",
+    "Infrastructure": "البنية التحتية",
+    "Electronics": "الإلكترونيات",
+    "Computing": "الحوسبة",
+    "Frontier": "الحدود"
+  },
+  "safety": {
+    "LOW": "مخاطر منخفضة",
+    "MODERATE": "مخاطر متوسطة",
+    "HIGH": "مخاطر عالية",
+    "EXTREME": "مخاطر شديدة"
+  },
+  "common": {
+    "home": "الرئيسية",
+    "articles": "مقالات",
+    "articleCount": "{count} articles",
+    "level": "المستوى",
+    "core": "أساسي",
+    "mastered": "متقن",
+    "available": "متاح",
+    "locked": "مقفل",
+    "criticalPath": "المسار الحرج",
+    "missingPrerequisite": "شرط مسبق مفقود"
+  }
+}

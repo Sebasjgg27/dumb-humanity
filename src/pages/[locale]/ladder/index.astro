@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getTranslatedLevels } from '../../../i18n/data';
+import { LOCALES, type Locale } from '../../../i18n/locales';
+import { getDictionary, href as i18nHref } from '../../../i18n/index';
+
+export async function getStaticPaths() {
+  return LOCALES.map((l) => ({ params: { locale: l.code } }));
+}
+
+const { locale } = Astro.params;
+const dict = getDictionary(locale);
+const levels = getTranslatedLevels(locale);
+---
+
+<BaseLayout title={dict.ladder.title} description={dict.ladder.subtitle} locale={locale}>
+  <header class="mb-10">
+    <p class="tech-label text-blue mb-2">{dict.ladder.framework}</p>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold">{dict.ladder.title}</h1>
+    <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.ladder.subtitle}</p>
+  </header>
+
+  <div class="space-y-5">
+    {
+      levels.map((l, i) => (
+        <a
+          href={i18nHref(locale, `/ladder/${l.id}/`)}
+          class="block rounded-lg border border-line bg-surface p-6 hover:border-blue/40 hover:shadow-sm transition-all print-break"
+        >
+          <div class="flex items-center gap-4">
+            <div class="shrink-0 flex flex-col items-center">
+              <span class="w-12 h-12 rounded-lg flex items-center justify-center font-serif font-bold text-white text-lg" style={`background: ${l.color}`}>
+                {l.id}
+              </span>
+            </div>
+            <div class="min-w-0">
+              <p class="text-xs text-ink-soft font-medium">{l.timeframe}</p>
+              <h2 class="font-serif text-xl font-bold">{l.name}</h2>
+              <p class="text-warn font-semibold text-sm mt-0.5">{l.question}</p>
+            </div>
+            <div class="flex-1" />
+            <span class="hidden sm:block text-sm text-ink-soft">{i + 1} of {levels.length}</span>
+          </div>
+          <p class="text-ink-soft text-[15px] leading-relaxed mt-4 max-w-3xl">{l.description}</p>
+          <p class="text-xs text-ink-faint mt-3 italic">{dict.ladder.drStoneParallel}: {l.dr_stone}</p>
+        </a>
+      ))
+    }
+  </div>
+</BaseLayout>

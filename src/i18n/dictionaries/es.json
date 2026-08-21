@@ -1,0 +1,442 @@
+{
+  "site": {
+    "title": "Proyecto de Recuperación Civilizacional",
+    "shortTitle": "PRC",
+    "description": "El conocimiento completo necesario para reconstruir la civilización desde cero."
+  },
+  "nav": {
+    "home": "Inicio",
+    "survival": "Supervivencia",
+    "science": "Ciencia",
+    "engineering": "Ingeniería",
+    "medicine": "Medicina",
+    "agriculture": "Agricultura",
+    "industry": "Industria",
+    "library": "Biblioteca",
+    "downloads": "Descargas"
+  },
+  "aria": {
+    "toggleSidebar": "Alternar barra lateral",
+    "searchLibrary": "Buscar en la biblioteca",
+    "toggleDarkMode": "Alternar modo oscuro",
+    "primaryNav": "Principal",
+    "breadcrumb": "Migas de pan",
+    "knowledgeTree": "Árbol de conocimiento",
+    "rebuildLadder": "Escalera de reconstrucción",
+    "techGraph": "Grafo interactivo de dependencias tecnológicas"
+  },
+  "footer": {
+    "mission": "Misión",
+    "missionText": "El Proyecto de Recuperación Civilizacional preserva el conocimiento operativo de la humanidad — las instrucciones para hacerlo todo de nuevo — en un archivo offline-first, listo para imprimir. No es un sitio web. Es una copia de seguridad de la civilización.",
+    "knowledgeSections": "Secciones de conocimiento",
+    "downloads": "Descargas",
+    "offlineLibrary": "Biblioteca offline",
+    "printableEdition": "Edición imprimible",
+    "fullLibraryIndex": "Índice completo",
+    "sourceZIP": "Código fuente ZIP",
+    "openSource": "Código abierto · Libre para copiar, imprimir y redistribuir"
+  },
+  "home": {
+    "heroTagline": "Copia operativa de la humanidad · Offline-first · Listo para imprimir",
+    "heroTitle1": "Proyecto de Recuperación",
+    "heroTitle2": "Civilizacional",
+    "heroSubtitle": "El conocimiento completo necesario para reconstruir la civilización desde cero — un camino estructurado, validado y reproducible desde una fogata hasta un programa espacial.",
+    "startLearning": "Empezar a Aprender",
+    "browseLibrary": "Explorar Biblioteca",
+    "downloadPrint": "Descargar / Imprimir",
+    "statsArticles": "Artículos de conocimiento",
+    "statsStages": "Etapas de recuperación",
+    "statsOffline": "Listo para offline",
+    "statsDeps": "Dependencias externas",
+    "reconstructionPath": "El camino de reconstrucción",
+    "tenStages": "Diez etapas. Cada una desbloquea la siguiente.",
+    "tenStagesDesc": "El progreso es estrictamente ordenado — cada etapa contiene el conocimiento necesario para alcanzar la siguiente. No se pueden saltar peldaños.",
+    "level": "Nivel",
+    "coreKnowledge": "Conocimiento básico",
+    "deepDives": "Profundizaciones — la ruta crítica",
+    "interactiveTree": "Árbol tecnológico interactivo →",
+    "designPrinciples": "Principios de diseño",
+    "builtForPermanence": "Construido para la permanencia",
+    "offlineFirst": "Offline-first",
+    "offlineFirstDesc": "Cada artículo es HTML estático. Descarga el ZIP y toda la biblioteca funciona sin electricidad, red ni servidores.",
+    "printIsPermanent": "La impresión es permanente",
+    "printIsPermanentDesc": "Las redes eléctricas fallan. Las pantallas mueren. El papel sobrevive a ambas.",
+    "validatedReproducible": "Validado y reproducible",
+    "validatedReproducibleDesc": "Cada procedimiento enumera materiales, herramientas, pasos y la ciencia detrás — reproducible con tecnología disponible progresivamente."
+  },
+  "about": {
+    "title": "Sobre el Proyecto de Recuperación Civilizacional",
+    "intro": "Esta es una base de conocimiento de código abierto y offline-first para reiniciar la civilización humana — construida en el espíritu del anime Dr. Stone y basada en la ciencia real de la recuperación del conocimiento.",
+    "whyExists": "Por qué existe",
+    "whyExistsText": "Si la civilización colapsara, el recurso más valioso sería el conocimiento: no el oro, no las máquinas, sino las instrucciones para hacer cosas desde cero. Los sobrevivientes modernos saben usar cosas pero no hacer cosas. Este sitio es un intento de cerrar esa brecha con un árbol tecnológico práctico y ordenado.",
+    "theSources": "Las fuentes",
+    "sourceDrStone": "Dr. Stone — la progresión tecnológica escalonada (piedra → hierro → electricidad → radio), y la idea de que el conocimiento es una aventura que se puede recorrer de nuevo.",
+    "sourceInfoPreserver": "El Proyecto InfoPreserver (Lifeboat Foundation) — los niveles de capacidad de la Escalera de Reconstrucción A0–A5 que organizan este sitio.",
+    "sourceKnowledge": "The Knowledge: How to Rebuild Our World from Scratch de Lewis Dartnell — el método científico de recuperación de la civilización.",
+    "sourceOSE": "Open Source Ecology / Global Village Construction Set — planos abiertos de las 50 máquinas que inician un asentamiento moderno.",
+    "sourceSurvival": "Tradiciones de supervivencia y bushcraft — los fundamentos de baja tecnología que mantienen a la gente viva.",
+    "howToUse": "Cómo usarlo",
+    "step1": "Empieza en A0 — agua, fuego, refugio. El mínimo no es opcional.",
+    "step2": "Sigue la prioridad de supervivencia — agua, refugio, comida, higiene, luego herramientas.",
+    "step3": "Sigue los prerrequisitos — cada guía enumera lo que necesitas antes.",
+    "step4": "Saques primero — cada guía enumera lo que los escombros ya proporcionan.",
+    "step5": "Enseña e imprime — copia las guías, pásalas e imprime las páginas críticas. El papel sobrevive a las redes.",
+    "thePrinciples": "Los principios",
+    "principleDigital": "Lo digital es temporal. La impresión es permanente.",
+    "principleRedundancy": "La redundancia salva el conocimiento — tres personas deben saber cada habilidad crítica.",
+    "principleCompounds": "El conocimiento se acumula — la escalera es más rápida en cada peldaño porque los anteriores se vuelven más fáciles.",
+    "contribute": "Contribuir",
+    "contributeText": "Este es un trabajo en progreso, construido incrementalmente. El árbol de contenido está abierto y estructurado para crecer.",
+    "quote": "\"La humanidad es ciencia. Eso es todo lo que somos.\" — Senku Ishigami, Dr. Stone"
+  },
+  "downloads": {
+    "title": "Descargas",
+    "tagline": "Lo digital es temporal. La impresión es permanente.",
+    "subtitle": "Este archivo está diseñado para ser movido, copiado e impreso. Las redes eléctricas fallan. Las pantallas mueren. El papel y los archivos que posees no.",
+    "recommended": "Recomendado",
+    "fullArchiveTitle": "Descargar Archivo Completo",
+    "fullArchiveDesc": "Toda la biblioteca como archivos estáticos — cada artículo, cada guía, cada diagrama. Descarga una vez, abre en cualquier dispositivo sin red, sin servidor, sin electricidad.",
+    "fullArchiveAction": "Descargar ZIP",
+    "printableTitle": "Edición Imprimible",
+    "printableDesc": "Botones de impresión por guía, CSS limpio para impresión y paquetes de capítulos por etapa.",
+    "printableAction": "Abrir paquetes de impresión",
+    "sourceTitle": "Repositorio Fuente",
+    "sourceDesc": "El código fuente markdown de cada artículo, versionado en GitHub y libremente redistribuible.",
+    "sourceAction": "Ver en GitHub",
+    "version": "Versión",
+    "lastUpdated": "Última actualización",
+    "articles": "Artículos",
+    "totalSize": "Tamaño total",
+    "fitsUSB": "Cabe en cualquier USB",
+    "redundancyDoctrine": "Doctrina de redundancia",
+    "rule1Strong": "Tres copias, dos medios, una lejos.",
+    "rule1Text": " Mantén una copia digital, una copia impresa y una copia de seguridad sellada almacenada por separado.",
+    "rule2Strong": "Imprime maestros, luego copia.",
+    "rule2Text": " Mantén un juego maestro seco y sellado; haz copias de trabajo.",
+    "rule3Strong": "Copia el ZIP en múltiples dispositivos",
+    "rule3Text": " — un teléfono, una laptop, una memoria USB, un e-reader viejo. Los dispositivos fallan; las copias sobreviven.",
+    "rule4Strong": "Enséñalo.",
+    "rule4Text": " El formato más duradero es una persona que puede explicar el conocimiento a la siguiente generación."
+  },
+  "library": {
+    "title": "Biblioteca",
+    "tagline": "Índice completo",
+    "subtitle": "Cada artículo de conocimiento en el archivo, filtrable por etapa y buscable por texto.",
+    "filteredTo": "Actualmente filtrado por etapa",
+    "searchPlaceholder": "Buscar artículos…",
+    "allStages": "Todas las etapas",
+    "articlesCount": "{count} artículos"
+  },
+  "search": {
+    "title": "Buscar",
+    "tagline": "Encuéntralo rápido",
+    "subtitle": "Busca cada guía por título, categoría o palabra clave. Funciona completamente en tu navegador — funciona offline.",
+    "searchPlaceholder": "Buscar artículos, palabras clave, categorías…",
+    "articlesCount": "{count} artículos",
+    "articlesOf": "{visible} de {total} artículos",
+    "noResults": "Ningún artículo coincide. Prueba con una palabra clave más amplia, o empieza en la Biblioteca."
+  },
+  "techTree": {
+    "title": "Árbol Tecnológico",
+    "tagline": "Grafo interactivo de dependencias",
+    "subtitle": "Cada nodo es una tecnología con una guía completa. Las flechas apuntan de los prerrequisitos a lo que desbloquean.",
+    "criticalPath": "Naranja",
+    "criticalPathText": " marca la ruta crítica;",
+    "missingReq": "rojo punteado",
+    "missingReqText": " marca una guía cuyo prerrequisito aún no está en la biblioteca.",
+    "graphView": "Vista de grafo",
+    "listView": "Vista de lista",
+    "rules": "Reglas del árbol",
+    "rule1": "No puedes saltar la escalera.",
+    "rule1Desc": " Cada guía enumera sus prerrequisitos. Un motor de vapor sin hierro es un rumor.",
+    "rule2": "Saques antes de construir.",
+    "rule2Desc": " Cada guía enumera lo que los escombros ya proporcionan.",
+    "rule3": "Enseña todo.",
+    "rule3Desc": " Una tecnología que solo una persona conoce está a un accidente de perderse.",
+    "rule4": "Imprime las guías.",
+    "rule4Desc": " El papel sobrevive. Las redes no. Mira los ",
+    "rule4Link": "paquetes de impresión",
+    "legendMastered": "Dominado",
+    "legendAvailable": "Disponible",
+    "legendLocked": "Bloqueado",
+    "legendCritical": "Ruta crítica",
+    "legendMissing": "Prerrequisito faltante",
+    "resetProgress": "Reiniciar progreso",
+    "resetConfirm": "¿Reiniciar todo el progreso de dominio en este dispositivo?"
+  },
+  "techArticle": {
+    "home": "Inicio",
+    "library": "Biblioteca",
+    "level": "Nivel",
+    "risk": "Riesgo",
+    "coreTechnology": "Tecnología básica",
+    "difficulty": "Dificultad",
+    "levelRequired": "Nivel requerido",
+    "studyTime": "Tiempo de estudio",
+    "stage": "Etapa",
+    "requiredKnowledge": "Conocimiento requerido",
+    "noPrerequisites": "Sin prerrequisitos — esta es una tecnología fundamental.",
+    "knowledgeValidation": "Validación de conocimiento",
+    "allChecksPass": "Todas las verificaciones pasan.",
+    "specifications": "Especificaciones",
+    "materials": "Materiales",
+    "energy": "Energía",
+    "people": "Personas",
+    "reference": "Referencia",
+    "scavengeBeforeBuilding": "Saques antes de construir",
+    "unlocksNext": "Desbloquea siguiente",
+    "dependencies": "Dependencias",
+    "noDependencies": "Sin dependencias.",
+    "markAsMastered": "Marcar como dominado",
+    "masteredUndo": "Dominado — clic para deshacer",
+    "printThisGuide": "Imprimir esta guía",
+    "exportOptions": "Opciones de exportación",
+    "relatedArticles": "Artículos relacionados",
+    "prereqComplete": "Prerrequisitos completos",
+    "scientificVerified": "Precisión científica verificada",
+    "illustrationsIncluded": "Ilustraciones incluidas",
+    "printReady": "Listo para imprimir",
+    "offlineReady": "Listo para offline",
+    "pathValid": "Ruta de reconstrucción válida"
+  },
+  "ladder": {
+    "title": "La Escalera de Reconstrucción",
+    "framework": "El marco",
+    "subtitle": "Inspirada en la escalera de capacidad del proyecto InfoPreserver y la progresión tecnológica escalonada de Dr. Stone.",
+    "drStoneParallel": "Paralelo con Dr. Stone",
+    "backToLadder": "← La Escalera",
+    "noteUnresolved": "Nota: {titles} referencian tecnologías fuera de este árbol."
+  },
+  "print": {
+    "title": "Paquetes de Impresión",
+    "tagline": "El papel sobrevive",
+    "subtitle": "Las redes eléctricas fallan. Las pantallas mueren. El papel es permanente.",
+    "starterKit": "El Kit de Supervivencia",
+    "starterKitDesc": "Todo en A0 — agua, fuego, refugio, primeros auxilios. Las primeras 48 horas de un reinicio.",
+    "starterKitAction": "Abrir todas las guías A0",
+    "starterKitTip": "Imprime cada página de guía desde el diálogo de impresión de tu navegador.",
+    "communityManual": "El Manual Comunitario",
+    "communityManualDesc": "A1 — agricultura, conservación, jabón, saneamiento. El primer año de un asentamiento.",
+    "communityManualAction": "Abrir todas las guías A1",
+    "bootstrappersPack": "El Paquete del Pionero",
+    "bootstrappersPackDesc": "A2 — carbón, hierro, ácido sulfúrico, vapor, electricidad. La etapa más difícil y valiosa.",
+    "bootstrappersPackAction": "Abrir todas las guías A2",
+    "printingTips": "Consejos de impresión",
+    "tip1Strong": "Calidad del papel:",
+    "tip1Text": " el papel de algodón sin ácido dura décadas; el papel de copiar común dura años.",
+    "tip2Strong": "Tinta:",
+    "tip2Text": " el tóner de láser es mucho más resistente al agua que la tinta.",
+    "tip3Strong": "Laminado:",
+    "tip3Text": " para las páginas que usarás al aire libre — agua, fuego, primeros auxilios.",
+    "tip4Strong": "Reproducción:",
+    "tip4Text": " una fotocopiadora es en sí una tecnología que vale la pena preservar.",
+    "tip5Strong": "Distribución:",
+    "tip5Text": " mantén un juego maestro sellado y seco; haz copias de trabajo."
+  },
+  "levels": {
+    "A0": {
+      "name": "Base de Supervivencia",
+      "timeframe": "Días – Semanas",
+      "question": "¿Pueden los humanos seguir vivos?",
+      "description": "Agua, fuego, refugio, primeros auxilios y las primeras herramientas hechas a mano. El suelo absoluto para mantener a un grupo vivo.",
+      "drStone": "Los primeros tres meses de Senku: herramientas de piedra, cuerda, taladro de arco, fuego."
+    },
+    "A1": {
+      "name": "Comunidad Estabilizada",
+      "timeframe": "Meses – Años",
+      "question": "¿Puede la gente vivir aquí de manera sostenible?",
+      "description": "Agricultura, conservación de alimentos, refugio permanente, saneamiento, jabón y las estructuras sociales que permiten que un pueblo persista.",
+      "drStone": "Aldea Ishigami: agricultura, cerámica, tejido, una forma de vida asentada."
+    },
+    "A2": {
+      "name": "Semilla Industrial",
+      "timeframe": "Años – Décadas",
+      "question": "¿Podemos iniciar la industria?",
+      "description": "El punto de aceleración no lineal. Carbón, hierro, químicos, el torno, vapor y electricidad desbloquean todo lo después. La etapa más difícil y valiosa.",
+      "drStone": "El Reino de la Ciencia: alto horno, ácido sulfúrico, generadores, radio."
+    },
+    "A3": {
+      "name": "Recuperación de Infraestructura",
+      "timeframe": "Décadas",
+      "question": "¿Pueden los sistemas escalar más allá de un pueblo?",
+      "description": "Acueductos regionales, redes eléctricas, redes ferroviarias y sistemas de salud pública que unen muchas comunidades.",
+      "drStone": "El Perseus, GPS, represas hidroeléctricas, carreteras pavimentadas."
+    },
+    "A4": {
+      "name": "Industria y Ciencia Avanzada",
+      "timeframe": "Generaciones",
+      "question": "Precisión, optimización, investigación",
+      "description": "Electrónica de transistores, circuitos integrados, química y farmacéutica modernas, y el retorno de la investigación científica como institución.",
+      "drStone": "La ruta del silicio, tubos de vacío, el computador parametrón."
+    },
+    "A5": {
+      "name": "Frontera y Saltos",
+      "timeframe": "Horizonte Lejano",
+      "question": "Sistemas de alta dependencia para sociedades futuras",
+      "description": "Aeroespacial, satélites y biotecnología avanzada. Solo vale la pena construir después de que la escalera inferior sea sólida.",
+      "drStone": "La misión lunar, contacto con Why-Man."
+    }
+  },
+  "stages": {
+    "survival": {
+      "name": "Supervivencia",
+      "question": "¿Podemos seguir vivos?",
+      "description": "Agua, fuego, refugio y las primeras herramientas hechas a mano."
+    },
+    "settlement": {
+      "name": "Asentamiento",
+      "question": "¿Podemos vivir aquí permanentemente?",
+      "description": "Refugio permanente, saneamiento, higiene y comunidad."
+    },
+    "agriculture": {
+      "name": "Agricultura",
+      "question": "¿Podemos alimentarnos de forma fiable?",
+      "description": "Agricultura, conservación de semillas, preservación y ganadería."
+    },
+    "craftsmanship": {
+      "name": "Artesanía",
+      "question": "¿Podemos hacer cosas bien?",
+      "description": "Cerámica, textiles, vidrio, papel y la mentalidad de precisión."
+    },
+    "metallurgy": {
+      "name": "Metalurgia",
+      "question": "¿Podemos extraer y dar forma al metal?",
+      "description": "Carbón, hierro, acero, cobre — los materiales de todo lo demás."
+    },
+    "engineering": {
+      "name": "Ingeniería",
+      "question": "¿Podemos construir máquinas?",
+      "description": "Medición, el torno, energía hidráulica y la máquina de vapor."
+    },
+    "electricity": {
+      "name": "Electricidad",
+      "question": "¿Podemos aprovechar el electrón?",
+      "description": "Generadores, baterías y el árbol de comunicaciones."
+    },
+    "industry": {
+      "name": "Industria",
+      "question": "¿Pueden los sistemas escalar más allá de un pueblo?",
+      "description": "Química a escala, transporte e infraestructura regional."
+    },
+    "digital": {
+      "name": "Tecnología Digital",
+      "question": "¿Podemos computar de nuevo?",
+      "description": "Electrónica, computación y el retorno de la investigación."
+    },
+    "space": {
+      "name": "Era Espacial",
+      "question": "¿Podemos dejar la cuna?",
+      "description": "Aeroespacial, cohetes y sistemas de alta dependencia."
+    }
+  },
+  "sections": {
+    "survival": {
+      "title": "Supervivencia",
+      "subtitle": "Prioridad 1 — mantener a la gente viva",
+      "description": "Agua, fuego, refugio, comida, higiene y primeros auxilios. El suelo absoluto de la escalera."
+    },
+    "settlement": {
+      "title": "Asentamiento",
+      "subtitle": "Prioridad 2 — vivir aquí permanentemente",
+      "description": "Refugio permanente, saneamiento y las estructuras sociales que permiten que un pueblo persista."
+    },
+    "agriculture": {
+      "title": "Agricultura",
+      "subtitle": "Prioridad 2 — alimentar a la gente de forma fiable",
+      "description": "Agricultura, conservación de semillas, preservación de alimentos y ganadería."
+    },
+    "medicine": {
+      "title": "Medicina",
+      "subtitle": "Prioridad 1 — la infección mata más que la lesión",
+      "description": "Cuidado de heridas, higiene, conocimiento herbal y los límites honestos de la medicina de baja tecnología."
+    },
+    "science": {
+      "title": "Ciencia",
+      "subtitle": "Prioridad 4 — el método detrás de la reconstrucción",
+      "description": "El método científico hecho físico: medición, química y los experimentos reproducibles."
+    },
+    "engineering": {
+      "title": "Ingeniería",
+      "subtitle": "Prioridad 3 — máquinas y energía",
+      "description": "Mecánica, materiales, metalurgia y las máquinas que multiplican el músculo humano."
+    },
+    "industry": {
+      "title": "Industria",
+      "subtitle": "Prioridad 5 — escalar más allá de un pueblo",
+      "description": "Fabricación, químicos, transporte y comunicación a escala regional."
+    }
+  },
+  "sidebar": {
+    "knowledgeTree": "Árbol de conocimiento",
+    "groups": {
+      "survival": {
+        "label": "Supervivencia",
+        "subsections": {
+          "s-water": "Agua",
+          "s-shelter": "Refugio",
+          "s-fire": "Fuego",
+          "s-food": "Comida",
+          "s-med": "Medicina",
+          "s-tools": "Herramientas y Materiales"
+        }
+      },
+      "science": {
+        "label": "Ciencia",
+        "subsections": {
+          "c-chem": "Química",
+          "c-measure": "Medición"
+        }
+      },
+      "engineering": {
+        "label": "Ingeniería",
+        "subsections": {
+          "e-met": "Metalurgia",
+          "e-mach": "Máquinas",
+          "e-power": "Energía",
+          "e-comms": "Comunicación"
+        }
+      },
+      "community": {
+        "label": "Comunidad",
+        "subsections": {
+          "g-gov": "Gobernanza"
+        }
+      }
+    }
+  },
+  "categories": {
+    "Survival": "Supervivencia",
+    "Shelter": "Refugio",
+    "Food & Water": "Comida y Agua",
+    "Community": "Comunidad",
+    "Power": "Energía",
+    "Metallurgy": "Metalurgia",
+    "Chemistry": "Química",
+    "Machine Tools": "Herramientas",
+    "Communications": "Comunicaciones",
+    "Transport": "Transporte",
+    "Metrology": "Metrología",
+    "Infrastructure": "Infraestructura",
+    "Electronics": "Electrónica",
+    "Computing": "Computación",
+    "Frontier": "Frontera"
+  },
+  "safety": {
+    "LOW": "Bajo riesgo",
+    "MODERATE": "Riesgo moderado",
+    "HIGH": "Alto riesgo",
+    "EXTREME": "Riesgo extremo"
+  },
+  "common": {
+    "home": "Inicio",
+    "articles": "artículos",
+    "articleCount": "{count} artículos",
+    "level": "Nivel",
+    "core": "Básico",
+    "mastered": "Dominado",
+    "available": "Disponible",
+    "locked": "Bloqueado",
+    "criticalPath": "Ruta crítica",
+    "missingPrerequisite": "Prerrequisito faltante"
+  }
+}

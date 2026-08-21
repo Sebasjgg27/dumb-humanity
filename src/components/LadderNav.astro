@@ -1,8 +1,17 @@
 ---
 import { LEVELS, type Level } from '../data/levels';
 import { getCollection } from 'astro:content';
+import type { Locale } from '../i18n/locales';
+import { getTranslatedLevels } from '../i18n/data';
+import { href as i18nHref } from '../i18n/index';
 
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
 const tech = await getCollection('tech');
+const levels = getTranslatedLevels(locale);
 
 function countFor(level: Level): number {
   return tech.filter((t) => t.data.level === level).length;
@@ -15,12 +24,12 @@ function countFor(level: Level): number {
   </p>
   <ul class="space-y-1">
     {
-      LEVELS.map((l) => {
-        const active = Astro.url.pathname === `/dumb-humanity/ladder/${l.id}/`;
+      levels.map((l) => {
+        const active = Astro.url.pathname.includes(`/ladder/${l.id}/`);
         return (
           <li>
             <a
-              href={`/dumb-humanity/ladder/${l.id}/`}
+              href={i18nHref(locale, `/ladder/${l.id}/`)}
               class:list={[
                 'flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors',
                 active ? 'bg-navy text-white' : 'text-ink-soft hover:bg-navy-light/10',

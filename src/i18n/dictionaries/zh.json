@@ -1,0 +1,442 @@
+{
+  "site": {
+    "title": "文明重建项目",
+    "shortTitle": "CRP",
+    "description": "从零开始重建文明所需的全部知识。"
+  },
+  "nav": {
+    "home": "首页",
+    "survival": "生存",
+    "science": "科学",
+    "engineering": "工程",
+    "medicine": "医学",
+    "agriculture": "农业",
+    "industry": "工业",
+    "library": "图书馆",
+    "downloads": "下载"
+  },
+  "aria": {
+    "toggleSidebar": "切换导航侧栏",
+    "searchLibrary": "搜索图书馆",
+    "toggleDarkMode": "切换暗色模式",
+    "primaryNav": "Primary",
+    "breadcrumb": "Breadcrumb",
+    "knowledgeTree": "Knowledge tree",
+    "rebuildLadder": "Rebuild ladder",
+    "techGraph": "Interactive technology dependency graph"
+  },
+  "footer": {
+    "mission": "使命",
+    "missionText": "The Civilizational Recovery Project preserves humanity's operational knowledge — the instructions for making everything again — in an offline-first, print-ready archive. It is not a website. It is a backup of civilization.",
+    "knowledgeSections": "知识板块",
+    "downloads": "下载",
+    "offlineLibrary": "离线图书馆",
+    "printableEdition": "可打印版本",
+    "fullLibraryIndex": "完整索引",
+    "sourceZIP": "源代码 ZIP",
+    "openSource": "开源 · 可自由复制、打印和再分发"
+  },
+  "home": {
+    "heroTagline": "人类的离线备份 · 离线优先 · 可打印",
+    "heroTitle1": "Civilizational",
+    "heroTitle2": "Recovery Project",
+    "heroSubtitle": "The complete knowledge required to rebuild civilization from the ground up — a structured, validated, reproducible path from a campfire to a space program.",
+    "startLearning": "开始学习",
+    "browseLibrary": "浏览图书馆",
+    "downloadPrint": "下载 / 打印",
+    "statsArticles": "知识文章",
+    "statsStages": "恢复阶段",
+    "statsOffline": "离线可用",
+    "statsDeps": "无外部依赖",
+    "reconstructionPath": "The reconstruction path",
+    "tenStages": "Ten stages. Each unlocks the next.",
+    "tenStagesDesc": "Progress is strictly ordered — every stage contains the knowledge required to reach the one after it. You cannot skip rungs.",
+    "level": "等级",
+    "coreKnowledge": "核心知识",
+    "deepDives": "深入研究 — 关键路径",
+    "interactiveTree": "交互式技术树 →",
+    "designPrinciples": "设计原则",
+    "builtForPermanence": "为永久而建",
+    "offlineFirst": "离线优先",
+    "offlineFirstDesc": "每篇文章都是静态HTML。下载ZIP即可在无电力、网络或服务器的环境下使用整个图书馆。",
+    "printIsPermanent": "打印即永久",
+    "printIsPermanentDesc": "电网会故障。屏幕会损坏。纸张比两者都持久。",
+    "validatedReproducible": "已验证且可复现",
+    "validatedReproducibleDesc": "每个流程都列出材料、工具、步骤和背后的科学。"
+  },
+  "about": {
+    "title": "关于文明重建项目",
+    "intro": "这是一个开源的离线知识库，用于重启人类文明——以动画《石纪元》的精神构建，基于知识恢复的真实科学。",
+    "whyExists": "为什么需要它",
+    "whyExistsText": "如果文明崩溃，最有价值的资源将是知识。",
+    "theSources": "信息来源",
+    "sourceDrStone": "Dr. Stone — the staged technology progression (stone → iron → electricity → radio), and the idea that knowledge is an adventure you can re-walk.",
+    "sourceInfoPreserver": "The InfoPreserver Project (Lifeboat Foundation) — the \"Rebuild Ladder\" capability levels A0–A5 that organize this site.",
+    "sourceKnowledge": "The Knowledge: How to Rebuild Our World from Scratch by Lewis Dartnell — the scientific method of civilization recovery.",
+    "sourceOSE": "Open Source Ecology / Global Village Construction Set — open blueprints for the 50 machines that bootstrap a modern settlement.",
+    "sourceSurvival": "Survival and bushcraft traditions — the low-tech fundamentals that keep people alive.",
+    "howToUse": "如何使用",
+    "step1": "Start at A0 — water, fire, shelter. The floor is not optional.",
+    "step2": "Follow the survival priority — water, shelter, food, hygiene, then tools.",
+    "step3": "Follow prerequisites — every guide lists what you need before it.",
+    "step4": "Scavenge first — every guide lists what the ruins already provide.",
+    "step5": "Teach and print — copy the guides, pass them on, and print the critical pages. Paper outlives grids.",
+    "thePrinciples": "原则",
+    "principleDigital": "Digital is temporary. Print is permanent.",
+    "principleRedundancy": "Redundancy saves knowledge — three people must know every critical skill.",
+    "principleCompounds": "Knowledge compounds — the ladder is faster at every step because the steps before it get easier.",
+    "contribute": "贡献",
+    "contributeText": "这是一个持续构建中的项目。",
+    "quote": "\"Humanity is science. That's all we are.\" — Senku Ishigami, Dr. Stone"
+  },
+  "downloads": {
+    "title": "下载",
+    "tagline": "数字是暂时的。打印是永久的。",
+    "subtitle": "This archive is designed to be moved, copied, and printed. Power grids fail. Screens die. Paper and files you own do not.",
+    "recommended": "推荐",
+    "fullArchiveTitle": "下载完整档案",
+    "fullArchiveDesc": "The entire library as static files — every article, every guide, every diagram. Download once, open on any device with no network, no server, no electricity.",
+    "fullArchiveAction": "下载 ZIP",
+    "printableTitle": "可打印版本",
+    "printableDesc": "Per-guide print buttons, clean print CSS, and stage-based chapter packs. Laser toner is more waterproof than inkjet. Paper outlives screens.",
+    "printableAction": "打开打印包",
+    "sourceTitle": "源代码仓库",
+    "sourceDesc": "The markdown source of every article, versioned on GitHub and freely redistributable. Fork it, translate it, improve it.",
+    "sourceAction": "在 GitHub 上查看",
+    "version": "版本",
+    "lastUpdated": "最后更新",
+    "articles": "文章",
+    "totalSize": "总大小",
+    "fitsUSB": "可装入任何 U 盘",
+    "redundancyDoctrine": "冗余原则",
+    "rule1Strong": "Three copies, two media, one far away.",
+    "rule1Text": " Keep a digital copy, a printed copy, and a sealed backup stored separately.",
+    "rule2Strong": "Print masters, then copy.",
+    "rule2Text": " Keep one master set dry and sealed; make working copies.",
+    "rule3Strong": "Copy the ZIP to multiple devices",
+    "rule3Text": " — a phone, a laptop, a USB drive, an old e-reader. Devices fail; copies survive.",
+    "rule4Strong": "Teach it.",
+    "rule4Text": " The most durable format is a person who can explain the knowledge to the next generation."
+  },
+  "library": {
+    "title": "图书馆",
+    "tagline": "完整索引",
+    "subtitle": "档案中每一篇知识文章，可按阶段筛选和文本搜索。",
+    "filteredTo": "Currently filtered to stage",
+    "searchPlaceholder": "搜索文章…",
+    "allStages": "所有阶段",
+    "articlesCount": "{count} articles"
+  },
+  "search": {
+    "title": "搜索",
+    "tagline": "快速查找",
+    "subtitle": "按标题、类别或关键词搜索每篇指南。完全在浏览器中运行——离线可用。",
+    "searchPlaceholder": "搜索文章、关键词、类别…",
+    "articlesCount": "{count} articles",
+    "articlesOf": "{visible} of {total} articles",
+    "noResults": "No articles match. Try a broader keyword, or start at the Library."
+  },
+  "techTree": {
+    "title": "技术树",
+    "tagline": "交互式依赖图",
+    "subtitle": "Every node is a technology with a full guide. Arrows point from prerequisites to what they unlock. Nodes are colored by your progress — click a node to open its guide, and use the checkmark on each article to mark it mastered.",
+    "criticalPath": "Orange",
+    "criticalPathText": " marks the critical path;",
+    "missingReq": "dashed red",
+    "missingReqText": " marks a guide whose prerequisite is not yet in the library.",
+    "graphView": "图形视图",
+    "listView": "列表视图",
+    "rules": "树的规则",
+    "rule1": "You can't skip the ladder.",
+    "rule1Desc": " Each guide lists its prerequisites. A steam engine without iron is a rumor.",
+    "rule2": "Scavenge before you build.",
+    "rule2Desc": " Every guide lists what the ruins already provide.",
+    "rule3": "Teach everything.",
+    "rule3Desc": " A technology only one person knows is one accident from being lost.",
+    "rule4": "Print the guides.",
+    "rule4Desc": " Paper survives. Grids don't. See the ",
+    "rule4Link": "print packs",
+    "legendMastered": "Mastered",
+    "legendAvailable": "Available",
+    "legendLocked": "Locked",
+    "legendCritical": "Critical path",
+    "legendMissing": "Missing prerequisite",
+    "resetProgress": "重置进度",
+    "resetConfirm": "重置此设备上的所有掌握进度？"
+  },
+  "techArticle": {
+    "home": "首页",
+    "library": "图书馆",
+    "level": "等级",
+    "risk": "风险",
+    "coreTechnology": "核心技术",
+    "difficulty": "难度",
+    "levelRequired": "所需等级",
+    "studyTime": "学习时间",
+    "stage": "阶段",
+    "requiredKnowledge": "所需知识",
+    "noPrerequisites": "无前置要求——这是一项基础技术。",
+    "knowledgeValidation": "知识验证",
+    "allChecksPass": "所有验证通过。",
+    "specifications": "规格",
+    "materials": "材料",
+    "energy": "能源",
+    "people": "人力",
+    "reference": "参考",
+    "scavengeBeforeBuilding": "建造前先搜集",
+    "unlocksNext": "解锁下一项",
+    "dependencies": "依赖项",
+    "noDependencies": "无依赖项。",
+    "markAsMastered": "标记为已掌握",
+    "masteredUndo": "已掌握 — 点击撤销",
+    "printThisGuide": "打印此指南",
+    "exportOptions": "导出选项",
+    "relatedArticles": "相关文章",
+    "prereqComplete": "Prerequisites Complete",
+    "scientificVerified": "Scientific Accuracy Verified",
+    "illustrationsIncluded": "Illustrations Included",
+    "printReady": "Print Ready",
+    "offlineReady": "Offline Ready",
+    "pathValid": "Reconstruction Path Valid"
+  },
+  "ladder": {
+    "title": "重建阶梯",
+    "framework": "框架",
+    "subtitle": "Inspired by the InfoPreserver project's capability ladder and Dr. Stone's staged tech progression. Each level answers one question. You cannot skip rungs — but every rung mastered makes the next one faster.",
+    "drStoneParallel": "石纪元对应",
+    "backToLadder": "← 阶梯",
+    "noteUnresolved": "Note: {titles} reference technologies outside this tree."
+  },
+  "print": {
+    "title": "打印包",
+    "tagline": "纸张永存",
+    "subtitle": "电网会故障。屏幕会损坏。纸张是永久的。",
+    "starterKit": "入门套件",
+    "starterKitDesc": "A0 的一切——水、火、庇护、急救。重启的最初48小时。",
+    "starterKitAction": "打开所有 A0 指南",
+    "starterKitTip": "Print each guide page via your browser's print dialog. Use the \"Print this guide\" button on each page.",
+    "communityManual": "社区手册",
+    "communityManualDesc": "A1——农业、保存、肥皂、卫生。定居点的第一年。",
+    "communityManualAction": "打开所有 A1 指南",
+    "bootstrappersPack": "启动者套件",
+    "bootstrappersPackDesc": "A2——木炭、铁、硫酸、蒸汽、电力。最困难和最有价值的阶段。",
+    "bootstrappersPackAction": "打开所有 A2 指南",
+    "printingTips": "打印提示",
+    "tip1Strong": "Paper quality:",
+    "tip1Text": " acid-free bond paper lasts decades; ordinary copier paper lasts years.",
+    "tip2Strong": "Ink:",
+    "tip2Text": " laser printer toner is far more waterproof than inkjet.",
+    "tip3Strong": "Lamination:",
+    "tip3Text": " for the pages you'll use outdoors — water, fire, first aid.",
+    "tip4Strong": "Reproduction:",
+    "tip4Text": " a photocopier is itself a technology worth preserving. Print masters, then copy.",
+    "tip5Strong": "Distribution:",
+    "tip5Text": " keep one master set sealed and dry; make working copies."
+  },
+  "levels": {
+    "A0": {
+      "name": "生存基线",
+      "timeframe": "天 – 周",
+      "question": "人类能否存活？",
+      "description": "水、火、庇护、急救和第一批手工工具。",
+      "drStone": "石科技的前三个月：石器、绳索、弓钻、火。"
+    },
+    "A1": {
+      "name": "稳定社区",
+      "timeframe": "月 – 年",
+      "question": "人们能否可持续地生活？",
+      "description": "农业、食物保存、永久庇护、卫生、肥皂。",
+      "drStone": "石神村：农耕、陶器、编织、定居生活。"
+    },
+    "A2": {
+      "name": "工业种子",
+      "timeframe": "年 – 十年",
+      "question": "我们能否启动工业？",
+      "description": "非线性加速点。木炭、铁、化学、车床、蒸汽和电力解锁一切。",
+      "drStone": "科学王国：高炉、硫酸、发电机、无线电。"
+    },
+    "A3": {
+      "name": "基础设施恢复",
+      "timeframe": "数十年",
+      "question": "系统能否超越一个城镇？",
+      "description": "区域供水、电网、铁路网络。",
+      "drStone": "珀尔修斯号、GPS、水电站大坝。"
+    },
+    "A4": {
+      "name": "先进工业与科学",
+      "timeframe": "数代人",
+      "question": "精确、优化、研究",
+      "description": "晶体管电子、集成电路、现代化学。",
+      "drStone": "硅之路、真空管、参变管计算机。"
+    },
+    "A5": {
+      "name": "前沿与跃迁",
+      "timeframe": "远期",
+      "question": "面向未来社会的高依赖系统",
+      "description": "航空航天、卫星和先进生物技术。",
+      "drStone": "月球任务、与Why-Man的接触。"
+    }
+  },
+  "stages": {
+    "survival": {
+      "name": "生存",
+      "question": "我们能存活吗？",
+      "description": "水、火、庇护和第一批手工工具。"
+    },
+    "settlement": {
+      "name": "定居",
+      "question": "我们能永久住在这里吗？",
+      "description": "永久庇护、卫生和社区。"
+    },
+    "agriculture": {
+      "name": "农业",
+      "question": "我们能可靠地养活自己吗？",
+      "description": "农业、种子保存、食物保存和畜牧。"
+    },
+    "craftsmanship": {
+      "name": "工艺",
+      "question": "我们能做出好东西吗？",
+      "description": "陶器、纺织、玻璃、纸张和精确思维。"
+    },
+    "metallurgy": {
+      "name": "冶金",
+      "question": "我们能提取和塑造金属吗？",
+      "description": "木炭、铁、钢、铜——一切的材料基础。"
+    },
+    "engineering": {
+      "name": "工程",
+      "question": "我们能制造机器吗？",
+      "description": "测量、车床、水力和蒸汽机。"
+    },
+    "electricity": {
+      "name": "电力",
+      "question": "我们能驾驭电子吗？",
+      "description": "发电机、电池和通信树。"
+    },
+    "industry": {
+      "name": "工业",
+      "question": "系统能否超越一个城镇？",
+      "description": "大规模化学、运输和区域基础设施。"
+    },
+    "digital": {
+      "name": "数字技术",
+      "question": "我们能再次计算吗？",
+      "description": "电子、计算和研究的回归。"
+    },
+    "space": {
+      "name": "太空时代",
+      "question": "我们能离开摇篮吗？",
+      "description": "航空航天、火箭和高依赖系统。"
+    }
+  },
+  "sections": {
+    "survival": {
+      "title": "生存",
+      "subtitle": "优先级1 — 保持人们活着",
+      "description": "水、火、庇护、食物、卫生和急救。阶梯的绝对底线。"
+    },
+    "settlement": {
+      "title": "定居",
+      "subtitle": "优先级2 — 永久居住",
+      "description": "永久庇护、卫生和让村庄跨越季节和世代的社会结构。"
+    },
+    "agriculture": {
+      "title": "农业",
+      "subtitle": "优先级2 — 可靠地养活人们",
+      "description": "农业、种子保存、食物保存和畜牧。"
+    },
+    "medicine": {
+      "title": "医学",
+      "subtitle": "优先级1 — 感染比伤害更致命",
+      "description": "伤口护理、卫生、草药知识。"
+    },
+    "science": {
+      "title": "科学",
+      "subtitle": "优先级4 — 重建背后的方法",
+      "description": "物质化的科学方法：测量、化学和可重复实验。"
+    },
+    "engineering": {
+      "title": "工程",
+      "subtitle": "优先级3 — 机器和能源",
+      "description": "机械、材料、冶金和倍增人力的机器。"
+    },
+    "industry": {
+      "title": "工业",
+      "subtitle": "优先级5 — 超越一个城镇的规模",
+      "description": "区域规模的制造、化学、运输和通信。"
+    }
+  },
+  "sidebar": {
+    "knowledgeTree": "知识树",
+    "groups": {
+      "survival": {
+        "label": "生存",
+        "subsections": {
+          "s-water": "水",
+          "s-shelter": "庇护",
+          "s-fire": "火",
+          "s-food": "食物",
+          "s-med": "医学",
+          "s-tools": "工具与材料"
+        }
+      },
+      "science": {
+        "label": "科学",
+        "subsections": {
+          "c-chem": "化学",
+          "c-measure": "测量"
+        }
+      },
+      "engineering": {
+        "label": "工程",
+        "subsections": {
+          "e-met": "冶金",
+          "e-mach": "机器",
+          "e-power": "能源",
+          "e-comms": "通信"
+        }
+      },
+      "community": {
+        "label": "社区",
+        "subsections": {
+          "g-gov": "治理"
+        }
+      }
+    }
+  },
+  "categories": {
+    "Survival": "生存",
+    "Shelter": "庇护",
+    "Food & Water": "食物与水",
+    "Community": "社区",
+    "Power": "能源",
+    "Metallurgy": "冶金",
+    "Chemistry": "化学",
+    "Machine Tools": "机床",
+    "Communications": "通信",
+    "Transport": "运输",
+    "Metrology": "计量",
+    "Infrastructure": "基础设施",
+    "Electronics": "电子",
+    "Computing": "计算",
+    "Frontier": "前沿"
+  },
+  "safety": {
+    "LOW": "低风险",
+    "MODERATE": "中等风险",
+    "HIGH": "高风险",
+    "EXTREME": "极高风险"
+  },
+  "common": {
+    "home": "首页",
+    "articles": "篇文章",
+    "articleCount": "{count} articles",
+    "level": "等级",
+    "core": "核心",
+    "mastered": "已掌握",
+    "available": "可用",
+    "locked": "已锁定",
+    "criticalPath": "关键路径",
+    "missingPrerequisite": "缺少前置"
+  }
+}

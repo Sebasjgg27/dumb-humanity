@@ -1,0 +1,175 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { techSlug } from '../../data/levels';
+import { getTranslatedStages } from '../../i18n/data';
+import { LOCALES, type Locale } from '../../i18n/locales';
+import { getDictionary, href as i18nHref } from '../../i18n/index';
+import NodeCard from '../../components/NodeCard.astro';
+
+export async function getStaticPaths() {
+  return LOCALES.map((l) => ({ params: { locale: l.code } }));
+}
+
+const { locale } = Astro.params;
+const dict = getDictionary(locale);
+const stages = getTranslatedStages(locale);
+
+const tech = await getCollection('tech');
+const summary = (n: (typeof tech)[number]) => n.body.slice(0, 130).replace(/#/g, '').replace(/\s+/g, ' ').trim();
+const bySlug = (s: string) => tech.find((t) => techSlug(t.id) === s);
+
+const featured = ['water', 'fire', 'charcoal', 'iron_smelting', 'sulfuric_acid', 'steam_engine']
+  .map((s) => bySlug(s))
+  .filter(Boolean);
+
+const stats = [
+  { value: tech.length, label: dict.home.statsArticles },
+  { value: 'A0 → A5', label: dict.home.statsStages },
+  { value: '100%', label: dict.home.statsOffline },
+  { value: '0', label: dict.home.statsDeps },
+];
+---
+
+<BaseLayout title={dict.site.title} description={dict.site.description} sidebar={false} locale={locale}>
+  <section class="blueprint-grid border-b border-line -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 bg-surface">
+    <div class="max-w-4xl mx-auto text-center py-16 md:py-24">
+      <p class="tech-label text-blue mb-4">{dict.home.heroTagline}</p>
+      <h1 class="font-serif text-4xl md:text-6xl font-bold tracking-tight leading-[1.05]">
+        {dict.home.heroTitle1}<br />
+        {dict.home.heroTitle2}
+      </h1>
+      <p class="text-lg md:text-xl text-ink-soft mt-6 max-w-2xl mx-auto leading-relaxed">
+        {dict.home.heroSubtitle}
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-9">
+        <a href={i18nHref(locale, '/survival/')} class="w-full sm:w-auto px-6 py-3 rounded-lg bg-navy text-white font-semibold hover:bg-navy-light transition-colors shadow-sm text-center">
+          {dict.home.startLearning}
+        </a>
+        <a href={i18nHref(locale, '/library/')} class="w-full sm:w-auto px-6 py-3 rounded-lg border border-line-strong bg-surface font-semibold hover:border-blue hover:text-blue transition-colors text-center">
+          {dict.home.browseLibrary}
+        </a>
+        <a href={i18nHref(locale, '/downloads/')} class="w-full sm:w-auto px-6 py-3 rounded-lg border border-line-strong bg-surface font-medium text-ink-soft hover:border-blue hover:text-blue transition-colors text-center">
+          {dict.home.downloadPrint}
+        </a>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-14">
+        {
+          stats.map((s) => (
+            <div>
+              <p class="font-mono text-2xl font-semibold text-blue">{s.value}</p>
+              <p class="text-xs text-ink-faint mt-1">{s.label}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="py-12 md:py-16">
+    <header class="mb-8">
+      <p class="tech-label text-blue mb-2">{dict.home.reconstructionPath}</p>
+      <h2 class="font-serif text-2xl md:text-3xl font-bold tracking-tight">
+        {dict.home.tenStages}
+      </h2>
+      <p class="text-ink-soft mt-2 max-w-2xl">
+        {dict.home.tenStagesDesc}
+      </p>
+    </header>
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        stages.map((s) => (
+          <a
+            href={i18nHref(locale, `/library/?stage=${s.id}`)}
+            class="group block rounded-lg border border-line bg-surface p-4 transition-all hover:border-blue/50 hover:shadow-sm"
+          >
+            <div class="flex items-start gap-3">
+              <span class="shrink-0 w-10 h-10 rounded-lg bg-navy text-white flex items-center justify-center font-mono text-sm font-semibold shadow-sm">
+                {String(s.index + 1).padStart(2, '0')}
+              </span>
+              <div class="min-w-0">
+                <h3 class="font-semibold leading-snug group-hover:text-blue">
+                  {s.name}
+                </h3>
+                <p class="text-xs text-ink-faint font-mono mt-0.5">{dict.home.level} {s.aLevel}</p>
+              </div>
+            </div>
+            <p class="text-sm text-ink-soft mt-3 leading-relaxed">{s.description}</p>
+            <span class="inline-flex items-center gap-1 text-[13px] font-medium text-blue mt-3 group-hover:underline">
+              {s.question}
+              <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="py-10 md:py-14 border-t border-line">
+    <header class="flex items-end justify-between mb-6 flex-wrap gap-3">
+      <div>
+        <p class="tech-label text-blue mb-2">{dict.home.coreKnowledge}</p>
+        <h2 class="font-serif text-2xl font-bold tracking-tight">{dict.home.deepDives}</h2>
+      </div>
+      <a href={i18nHref(locale, '/tech/')} class="text-sm font-medium text-blue hover:underline">
+        {dict.home.interactiveTree}
+      </a>
+    </header>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      {
+        featured.map((n) => n && (
+          <NodeCard locale={locale}
+            slug={techSlug(n.id)}
+            title={n.data.title}
+            level={n.data.level}
+            category={n.data.category}
+            safety={n.data.safety}
+            critical={n.data.critical}
+            summary={summary(n)}
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="py-10 border-t border-line">
+    <div class="max-w-3xl">
+      <p class="tech-label text-blue mb-2">{dict.home.designPrinciples}</p>
+      <h2 class="font-serif text-2xl font-bold tracking-tight mb-6">{dict.home.builtForPermanence}</h2>
+      <ul class="space-y-4">
+        <li class="flex gap-3">
+          <span class="shrink-0 mt-0.5 w-5 h-5 rounded-full bg-ok-soft text-ok flex items-center justify-center">
+            <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <div>
+            <p class="font-semibold">{dict.home.offlineFirst}</p>
+            <p class="text-sm text-ink-soft">{dict.home.offlineFirstDesc}</p>
+          </div>
+        </li>
+        <li class="flex gap-3">
+          <span class="shrink-0 mt-0.5 w-5 h-5 rounded-full bg-ok-soft text-ok flex items-center justify-center">
+            <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <div>
+            <p class="font-semibold">{dict.home.printIsPermanent}</p>
+            <p class="text-sm text-ink-soft">{dict.home.printIsPermanentDesc}</p>
+          </div>
+        </li>
+        <li class="flex gap-3">
+          <span class="shrink-0 mt-0.5 w-5 h-5 rounded-full bg-ok-soft text-ok flex items-center justify-center">
+            <svg viewBox="0 0 24 24" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <div>
+            <p class="font-semibold">{dict.home.validatedReproducible}</p>
+            <p class="text-sm text-ink-soft">{dict.home.validatedReproducibleDesc}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

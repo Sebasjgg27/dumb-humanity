@@ -1,7 +1,17 @@
 ---
-import { SIDEBAR } from '../data/sidebar';
 import { getCollection } from 'astro:content';
 import { techSlug } from '../data/levels';
+import { getTranslatedSidebar } from '../i18n/data';
+import { href as i18nHref } from '../i18n/index';
+import type { Locale } from '../i18n/locales';
+
+interface Props {
+  locale: Locale;
+  dict: any;
+}
+
+const { locale, dict } = Astro.props;
+const SIDEBAR = getTranslatedSidebar(locale);
 
 const tech = await getCollection('tech');
 const bySlug = new Map(tech.map((t) => [techSlug(t.id), t]));
@@ -25,28 +35,26 @@ const icons = {
 ---
 
 <div class="sidebar-root">
-  <nav aria-label="Knowledge tree" class="text-[13.5px]">
-    <p class="tech-label text-ink-faint px-2 pb-2">Knowledge tree</p>
+  <nav aria-label={dict.aria.knowledgeTree} class="text-[13px]">
+    <p class="tech-label text-ink-faint px-2 pb-3">{dict.sidebar.knowledgeTree}</p>
 
     {
       SIDEBAR.map((g) => {
         const count = g.subsections.reduce((acc, s) => acc + s.slugs.length, 0);
         return (
-          <details class="group" open={g.id === 'survival'}>
-            <summary
-              class="flex items-center gap-2 px-2 py-2 rounded-md cursor-pointer list-none select-none hover:bg-blue-soft text-ink font-semibold"
-            >
-              <svg viewBox="0 0 24 24" class="w-[15px] h-[15px] text-blue shrink-0" fill="none" stroke="currentColor" stroke-width="1.8">
+          <details class="sidebar-group" open={g.id === 'survival'}>
+            <summary class="sidebar-group-toggle">
+              <svg viewBox="0 0 24 24" class="w-4 h-4 text-blue shrink-0" fill="none" stroke="currentColor" stroke-width="1.8">
                 <path set:html={icons[g.icon]} />
               </svg>
-              <span class="flex-1">{g.label}</span>
-              <span class="text-[11px] text-ink-faint font-normal">{count}</span>
-              <svg viewBox="0 0 24 24" class="w-3.5 h-3.5 text-ink-faint transition-transform group-open:rotate-90" fill="none" stroke="currentColor" stroke-width="2">
+              <span class="flex-1 font-semibold">{g.label}</span>
+              <span class="text-[11px] text-ink-faint font-normal tabular-nums">{count}</span>
+              <svg viewBox="0 0 24 24" class="w-3.5 h-3.5 text-ink-faint transition-transform duration-200 group-open:rotate-90" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="m9 6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </summary>
 
-            <div class="pl-4 ml-2 border-l border-line mt-1 space-y-1 pb-1">
+            <div class="sidebar-group-items">
               {
                 g.subsections.map((sub) => {
                   const items = sub.slugs
@@ -55,27 +63,23 @@ const icons = {
                     .map((t) => ({ id: t!.id, title: t!.data.title }));
                   if (items.length === 0) return null;
                   return (
-                    <details class="group/sub" open>
-                      <summary class="flex items-center gap-1.5 px-2 py-1 rounded cursor-pointer list-none select-none hover:bg-blue-soft text-ink-soft font-medium">
+                    <details class="sidebar-subgroup" open>
+                      <summary class="sidebar-subgroup-toggle">
                         <span class="flex-1">{sub.label}</span>
-                        <span class="text-[11px] text-ink-faint">{items.length}</span>
-                        <svg viewBox="0 0 24 24" class="w-3 h-3 text-ink-faint transition-transform group-open/sub:rotate-90" fill="none" stroke="currentColor" stroke-width="2">
-                          <path d="m9 6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
+                        <span class="text-[11px] text-ink-faint tabular-nums">{items.length}</span>
                       </summary>
-                      <ul class="mt-0.5 space-y-0.5">
+                      <ul class="sidebar-items">
                         {
                           items.map((it) => {
-                            const active = Astro.url.pathname === `/dumb-humanity/tech/${it.id}/`;
+                            const itemHref = i18nHref(locale, `/tech/${it.id}/`);
+                            const active = Astro.url.pathname === itemHref;
                             return (
                               <li>
                                 <a
-                                  href={`/dumb-humanity/tech/${it.id}/`}
+                                  href={itemHref}
                                   class:list={[
-                                    'block px-2 py-1 rounded-md border-l-2 transition-colors',
-                                    active
-                                      ? 'bg-blue-soft text-blue border-blue font-medium'
-                                      : 'border-transparent text-ink-soft hover:text-blue hover:bg-blue-soft/60',
+                                    'sidebar-link',
+                                    active ? 'sidebar-link-active' : '',
                                   ]}
                                 >
                                   {it.title}
@@ -100,5 +104,104 @@ const icons = {
 <style>
   .sidebar-root summary::-webkit-details-marker {
     display: none;
+  }
+  .sidebar-root summary::marker {
+    display: none;
+    content: '';
+  }
+
+  .sidebar-group {
+    margin-bottom: 0.25rem;
+  }
+
+  .sidebar-group-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.5rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    transition: background-color 0.15s;
+  }
+  .sidebar-group-toggle:hover {
+    background-color: var(--color-blue-soft);
+    color: var(--color-ink);
+  }
+  .sidebar-group-toggle::-webkit-details-marker {
+    display: none;
+  }
+  .sidebar-group-toggle::marker {
+    display: none;
+    content: '';
+  }
+
+  .sidebar-group-items {
+    padding-left: 0.75rem;
+    margin-left: 0.625rem;
+    border-left: 1px solid var(--color-line);
+    margin-top: 0.25rem;
+    padding-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .sidebar-subgroup-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    font-weight: 500;
+    color: var(--color-ink-soft);
+    transition: background-color 0.15s, color 0.15s;
+    font-size: 12.5px;
+  }
+  .sidebar-subgroup-toggle:hover {
+    background-color: var(--color-blue-soft);
+    color: var(--color-ink);
+  }
+  .sidebar-subgroup-toggle::-webkit-details-marker {
+    display: none;
+  }
+  .sidebar-subgroup-toggle::marker {
+    display: none;
+    content: '';
+  }
+
+  .sidebar-items {
+    margin-top: 0.125rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .sidebar-link {
+    display: block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, background-color 0.15s, border-color 0.15s;
+    color: var(--color-ink-soft);
+    font-size: 12.5px;
+    line-height: 1.4;
+  }
+  .sidebar-link:hover {
+    color: var(--color-blue);
+    background-color: rgba(234, 240, 253, 0.6);
+  }
+  :global(.dark) .sidebar-link:hover {
+    background-color: rgba(23, 36, 60, 0.6);
+  }
+  .sidebar-link-active {
+    background-color: var(--color-blue-soft);
+    color: var(--color-blue);
+    border-left-color: var(--color-blue);
+    font-weight: 500;
   }
 </style>

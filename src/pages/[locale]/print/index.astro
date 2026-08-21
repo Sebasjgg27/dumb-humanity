@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getTranslatedLevels } from '../../../i18n/data';
+import { LOCALES, type Locale } from '../../../i18n/locales';
+import { getDictionary, href as i18nHref } from '../../../i18n/index';
+
+export async function getStaticPaths() {
+  return LOCALES.map((l) => ({ params: { locale: l.code } }));
+}
+
+const { locale } = Astro.params;
+const dict = getDictionary(locale);
+const levels = getTranslatedLevels(locale);
+---
+
+<BaseLayout title={dict.print.title} description={dict.print.subtitle} sidebar={false} locale={locale}>
+  <header class="mb-10 print-break">
+    <p class="tech-label text-blue mb-2">{dict.print.tagline}</p>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold">{dict.print.title}</h1>
+    <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.print.subtitle}</p>
+  </header>
+
+  <div class="space-y-5">
+    <div class="rounded-lg border border-line bg-surface p-6 print-break">
+      <div class="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <h2 class="font-serif text-xl font-bold">{dict.print.starterKit}</h2>
+          <p class="text-sm text-ink-soft mt-1">{dict.print.starterKitDesc}</p>
+        </div>
+        <a href={i18nHref(locale, '/ladder/A0/')} class="px-4 py-2 rounded-lg bg-navy text-white font-semibold hover:bg-navy-light text-sm">{dict.print.starterKitAction}</a>
+      </div>
+      <p class="text-xs text-ink-faint mt-3">{dict.print.starterKitTip}</p>
+    </div>
+
+    <div class="rounded-lg border border-line bg-surface p-6 print-break">
+      <div class="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <h2 class="font-serif text-xl font-bold">{dict.print.communityManual}</h2>
+          <p class="text-sm text-ink-soft mt-1">{dict.print.communityManualDesc}</p>
+        </div>
+        <a href={i18nHref(locale, '/ladder/A1/')} class="px-4 py-2 rounded-lg bg-navy text-white font-semibold hover:bg-navy-light text-sm">{dict.print.communityManualAction}</a>
+      </div>
+    </div>
+
+    <div class="rounded-lg border border-line bg-surface p-6 print-break">
+      <div class="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <h2 class="font-serif text-xl font-bold">{dict.print.bootstrappersPack}</h2>
+          <p class="text-sm text-ink-soft mt-1">{dict.print.bootstrappersPackDesc}</p>
+        </div>
+        <a href={i18nHref(locale, '/ladder/A2/')} class="px-4 py-2 rounded-lg bg-navy text-white font-semibold hover:bg-navy-light text-sm">{dict.print.bootstrappersPackAction}</a>
+      </div>
+    </div>
+  </div>
+
+  <section class="mt-12 rounded-lg border border-warn/30 bg-warn-soft p-6">
+    <h2 class="font-serif text-xl font-bold mb-3">{dict.print.printingTips}</h2>
+    <ul class="space-y-2 text-[15px] text-ink-soft leading-relaxed">
+      <li><strong>{dict.print.tip1Strong}</strong>{dict.print.tip1Text}</li>
+      <li><strong>{dict.print.tip2Strong}</strong>{dict.print.tip2Text}</li>
+      <li><strong>{dict.print.tip3Strong}</strong>{dict.print.tip3Text}</li>
+      <li><strong>{dict.print.tip4Strong}</strong>{dict.print.tip4Text}</li>
+      <li><strong>{dict.print.tip5Strong}</strong>{dict.print.tip5Text}</li>
+    </ul>
+  </section>
+
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-12">
+    {
+      levels.map((l) => (
+        <a href={i18nHref(locale, `/ladder/${l.id}/`)} class="rounded-lg border border-line bg-surface p-4 hover:border-blue/40 transition-colors">
+          <span class="text-xs font-bold" style={`color: ${l.color}`}>{l.id}</span>
+          <p class="font-serif font-bold mt-1">{l.name}</p>
+          <p class="text-xs text-ink-soft mt-1">{l.timeframe}</p>
+        </a>
+      ))
+    }
+  </div>
+</BaseLayout>

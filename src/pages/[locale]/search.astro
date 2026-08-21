@@ -1,9 +1,17 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import NodeCard from '../components/NodeCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NodeCard from '../../components/NodeCard.astro';
 import { getCollection } from 'astro:content';
-import { techSlug } from '../data/levels';
+import { techSlug } from '../../data/levels';
+import { LOCALES, type Locale } from '../../i18n/locales';
+import { getDictionary } from '../../i18n/index';
 
+export async function getStaticPaths() {
+  return LOCALES.map((l) => ({ params: { locale: l.code } }));
+}
+
+const { locale } = Astro.params;
+const dict = getDictionary(locale);
 const tech = await getCollection('tech');
 const summary = (n: (typeof tech)[number]) => n.body.slice(0, 160).replace(/#/g, '').replace(/\s+/g, ' ').trim();
 
@@ -21,14 +29,11 @@ const cards = tech
   .sort((a, b) => a.level.localeCompare(b.level) || a.title.localeCompare(b.title));
 ---
 
-<BaseLayout title="Search" description="Search the recovery knowledge base.">
+<BaseLayout title={dict.search.title} description={dict.search.subtitle} locale={locale}>
   <header class="mb-8">
-    <p class="tech-label text-blue mb-2">Find it fast</p>
-    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">Search</h1>
-    <p class="text-ink-soft mt-3 max-w-2xl">
-      Search every guide by title, category, or keyword. Runs entirely in your browser —
-      works offline.
-    </p>
+    <p class="tech-label text-blue mb-2">{dict.search.tagline}</p>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{dict.search.title}</h1>
+    <p class="text-ink-soft mt-3 max-w-2xl">{dict.search.subtitle}</p>
   </header>
 
   <div class="relative mb-6 no-print">
@@ -40,17 +45,17 @@ const cards = tech
       id="search-input"
       type="search"
       autofocus
-      placeholder="Search articles, keywords, categories…"
+      placeholder={dict.search.searchPlaceholder}
       class="w-full pl-9 pr-4 py-2.5 rounded-lg border border-line-strong bg-surface text-sm focus:outline-none focus:ring-2 focus:ring-blue/40"
     />
   </div>
 
-  <p id="search-count" class="text-xs text-ink-faint mb-4 font-mono">{cards.length} articles</p>
+  <p id="search-count" class="text-xs text-ink-faint mb-4 font-mono">{cards.length} {dict.common.articles}</p>
 
   <div id="search-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3" data-cards={JSON.stringify(cards)}>
     {
       cards.map((c) => (
-        <NodeCard
+        <NodeCard locale={locale}
           slug={c.slug}
           title={c.title}
           level={c.level}
@@ -81,7 +86,7 @@ const cards = tech
         if (!grid) return;
         const tokens = tokenize(input?.value || '');
         const visible = cards.filter((c) => tokens.every((t) => c.text.includes(t)));
-        grid.querySelectorAll<HTMLElement>('a[href^="/dumb-humanity/tech/"]').forEach((a) => {
+        grid.querySelectorAll<HTMLElement>('a[href*="/tech/"]').forEach((a) => {
           const slug = a.getAttribute('href')!.split('/').filter(Boolean).pop()!;
           a.classList.toggle('hidden', !visible.some((c) => c.slug === slug));
         });

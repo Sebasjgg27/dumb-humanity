@@ -10,6 +10,13 @@ export default defineConfig({
   base: '/dumb-humanity',
   output: 'static',
   integrations: [mdx()],
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'es', 'fr', 'zh', 'ar', 'pt'],
+    routing: {
+      prefixDefaultLocale: true,
+    },
+  },
   vite: {
     // @ts-expect-error - vite version mismatch between tailwind plugin and astro's bundled vite
     plugins: [tailwindcss()],

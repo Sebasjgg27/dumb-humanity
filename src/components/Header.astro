@@ -1,51 +1,66 @@
 ---
+import type { Locale } from '../i18n/locales';
+import { LOCALE_MAP } from '../i18n/locales';
+import { href as i18nHref } from '../i18n/index';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+interface Props {
+  locale: Locale;
+  dict: any;
+}
+
+const { locale, dict } = Astro.props;
+const localePath = `/dumb-humanity/${locale}`;
 const nav = [
-  { href: '/dumb-humanity/', label: 'Home' },
-  { href: '/dumb-humanity/survival/', label: 'Survival' },
-  { href: '/dumb-humanity/science/', label: 'Science' },
-  { href: '/dumb-humanity/engineering/', label: 'Engineering' },
-  { href: '/dumb-humanity/medicine/', label: 'Medicine' },
-  { href: '/dumb-humanity/agriculture/', label: 'Agriculture' },
-  { href: '/dumb-humanity/industry/', label: 'Industry' },
-  { href: '/dumb-humanity/library/', label: 'Library' },
-  { href: '/dumb-humanity/downloads/', label: 'Downloads' },
+  { href: i18nHref(locale, '/'), label: dict.nav.home },
+  { href: i18nHref(locale, '/survival/'), label: dict.nav.survival },
+  { href: i18nHref(locale, '/science/'), label: dict.nav.science },
+  { href: i18nHref(locale, '/engineering/'), label: dict.nav.engineering },
+  { href: i18nHref(locale, '/medicine/'), label: dict.nav.medicine },
+  { href: i18nHref(locale, '/agriculture/'), label: dict.nav.agriculture },
+  { href: i18nHref(locale, '/industry/'), label: dict.nav.industry },
+  { href: i18nHref(locale, '/library/'), label: dict.nav.library },
+  { href: i18nHref(locale, '/downloads/'), label: dict.nav.downloads },
 ];
 ---
 
 <header class="no-print sticky top-0 z-50 bg-navy text-navy-ink border-b border-white/10 shadow-sm">
-  <div class="max-w-7xl mx-auto flex items-center gap-3 px-4 sm:px-6 h-14">
+  <div class="max-w-7xl mx-auto flex items-center gap-2 px-4 sm:px-6 h-14">
     <button
       type="button"
       id="sidebar-toggle"
-      class="p-2 -ml-2 rounded-md hover:bg-white/10 text-navy-ink"
-      aria-label="Toggle navigation sidebar"
-      title="Toggle navigation sidebar"
+      class="p-2 -ml-2 rounded-md hover:bg-white/10 text-navy-ink lg:hidden"
+      aria-label={dict.aria.toggleSidebar}
+      title={dict.aria.toggleSidebar}
     >
       <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" />
       </svg>
     </button>
 
-    <a href="/dumb-humanity/" class="flex items-center gap-2.5 min-w-0">
+    <a href={i18nHref(locale, '/')} class="flex items-center gap-2 min-w-0 shrink-0">
       <svg viewBox="0 0 24 24" class="w-6 h-6 shrink-0" aria-hidden="true">
         <path d="M12 3 L5 6.5 V13 C5 17 8 20 12 21 C16 20 19 17 19 13 V6.5 Z" fill="none" stroke="currentColor" stroke-width="1.6" />
         <path d="M12 7.5 V14" stroke="#7fb0ff" stroke-width="1.4" stroke-linecap="round" />
         <circle cx="12" cy="14.5" r="1.2" fill="#7fb0ff" />
       </svg>
-      <span class="font-semibold tracking-tight text-[15px] leading-tight">
-        Civilizational Recovery Project
+      <span class="font-semibold tracking-tight text-[15px] leading-tight hidden sm:inline">
+        {dict.site.title}
+      </span>
+      <span class="font-semibold tracking-tight text-[15px] leading-tight sm:hidden">
+        {dict.site.shortTitle}
       </span>
     </a>
 
-    <nav class="hidden xl:flex items-center gap-0.5 flex-1 justify-center" aria-label="Primary">
+    <nav class="hidden lg:flex items-center gap-0.5 flex-1 justify-center min-w-0" aria-label={dict.aria.primaryNav}>
       {
         nav.map((n) => {
-          const active = Astro.url.pathname === n.href;
+          const active = Astro.url.pathname === n.href || Astro.url.pathname === n.href + 'index.html';
           return (
             <a
               href={n.href}
               class:list={[
-                'px-2.5 py-1.5 rounded-md text-[13px] font-medium whitespace-nowrap transition-colors',
+                'px-2 py-1.5 rounded-md text-[13px] font-medium whitespace-nowrap transition-colors shrink-0',
                 active ? 'bg-white/15 text-white' : 'hover:bg-white/10 text-navy-ink/85',
               ]}
             >
@@ -56,12 +71,14 @@ const nav = [
       }
     </nav>
 
-    <div class="flex items-center gap-1 ml-auto">
+    <div class="flex items-center gap-1 ml-auto shrink-0">
+      <LanguageSwitcher locale={locale} />
+
       <a
-        href="/dumb-humanity/search/"
+        href={i18nHref(locale, '/search/')}
         class="p-2 rounded-md hover:bg-white/10 text-navy-ink"
-        aria-label="Search the library"
-        title="Search the library"
+        aria-label={dict.aria.searchLibrary}
+        title={dict.aria.searchLibrary}
       >
         <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="11" cy="11" r="7" />
@@ -72,8 +89,8 @@ const nav = [
         type="button"
         id="theme-toggle"
         class="p-2 rounded-md hover:bg-white/10 text-navy-ink"
-        aria-label="Toggle dark mode"
-        title="Toggle dark mode"
+        aria-label={dict.aria.toggleDarkMode}
+        title={dict.aria.toggleDarkMode}
       >
         <svg viewBox="0 0 24 24" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z" stroke-linecap="round" stroke-linejoin="round" />
@@ -86,11 +103,11 @@ const nav = [
     </div>
   </div>
 
-  <nav id="mobile-nav" class="xl:hidden border-t border-white/10 bg-navy/95 overflow-x-auto">
-    <div class="flex gap-1 px-4 py-1.5 min-w-max max-w-7xl mx-auto">
+  <nav id="mobile-nav" class="lg:hidden border-t border-white/10 bg-navy/95 overflow-x-auto">
+    <div class="flex gap-0.5 px-4 py-1.5 min-w-max max-w-7xl mx-auto">
       {
         nav.map((n) => (
-          <a href={n.href} class="px-3 py-1.5 rounded-md text-[13px] font-medium hover:bg-white/10 text-navy-ink/90 whitespace-nowrap">
+          <a href={n.href} class="px-2.5 py-1.5 rounded-md text-[12px] font-medium hover:bg-white/10 text-navy-ink/90 whitespace-nowrap">
             {n.label}
           </a>
         ))

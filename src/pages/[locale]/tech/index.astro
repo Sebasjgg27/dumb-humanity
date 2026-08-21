@@ -1,42 +1,48 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import TechTree from '../../components/TechTree.astro';
-import NodeCard from '../../components/NodeCard.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import TechTree from '../../../components/TechTree.astro';
+import NodeCard from '../../../components/NodeCard.astro';
 import { getCollection } from 'astro:content';
-import { techSlug } from '../../data/levels';
-import { LEVELS } from '../../data/levels';
+import { techSlug, LEVELS } from '../../../data/levels';
+import { getTranslatedLevels } from '../../../i18n/data';
+import { LOCALES, type Locale } from '../../../i18n/locales';
+import { getDictionary, href as i18nHref } from '../../../i18n/index';
 
+export async function getStaticPaths() {
+  return LOCALES.map((l) => ({ params: { locale: l.code } }));
+}
+
+const { locale } = Astro.params;
+const dict = getDictionary(locale);
+const levels = getTranslatedLevels(locale);
 const tech = await getCollection('tech');
 const summary = (n: (typeof tech)[number]) => n.body.slice(0, 130).replace(/#/g, '').replace(/\s+/g, ' ').trim();
 ---
 
-<BaseLayout title="Technology Tree" description="The interactive technology tree for rebuilding civilization.">
+<BaseLayout title={dict.techTree.title} description={dict.techTree.subtitle} locale={locale}>
   <header class="mb-8">
-    <p class="tech-label text-blue mb-2">Interactive dependency graph</p>
-    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">Technology Tree</h1>
+    <p class="tech-label text-blue mb-2">{dict.techTree.tagline}</p>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{dict.techTree.title}</h1>
     <p class="text-ink-soft mt-3 max-w-3xl leading-relaxed">
-      Every node is a technology with a full guide. Arrows point from prerequisites to
-      what they unlock. Nodes are colored by your progress — click a node to open its
-      guide, and use the checkmark on each article to mark it mastered.
-      <span class="font-medium text-warn">Orange</span> marks the critical path;
-      <span class="font-medium text-danger">dashed red</span> marks a guide whose
-      prerequisite is not yet in the library.
+      {dict.techTree.subtitle}
+      <span class="font-medium text-warn">{dict.techTree.criticalPath}</span>{dict.techTree.criticalPathText}
+      <span class="font-medium text-danger">{dict.techTree.missingReq}</span>{dict.techTree.missingReqText}
     </p>
   </header>
 
   <div class="flex items-center gap-3 mb-6 no-print">
-    <button data-view="graph" class="text-sm font-semibold px-3 py-1.5 rounded-lg bg-navy text-white">Graph view</button>
-    <button data-view="list" class="text-sm font-medium px-3 py-1.5 rounded-lg border border-line-strong bg-surface hover:border-blue">List view</button>
+    <button data-view="graph" class="text-sm font-semibold px-3 py-1.5 rounded-lg bg-navy text-white">{dict.techTree.graphView}</button>
+    <button data-view="list" class="text-sm font-medium px-3 py-1.5 rounded-lg border border-line-strong bg-surface hover:border-blue">{dict.techTree.listView}</button>
   </div>
 
   <section data-pane="graph">
-    <TechTree nodes={tech} />
+    <TechTree nodes={tech} locale={locale} />
   </section>
 
   <section data-pane="list" class="hidden">
     <div class="space-y-8">
       {
-        LEVELS.map((l) => {
+        levels.map((l) => {
           const items = tech.filter((t) => t.data.level === l.id).sort((a, b) => a.data.order - b.data.order);
           if (items.length === 0) return null;
           return (
@@ -44,11 +50,11 @@ const summary = (n: (typeof tech)[number]) => n.body.slice(0, 130).replace(/#/g,
               <div class="flex items-center gap-2 mb-3">
                 <span class="tech-label px-2 py-0.5 rounded" style={`background: ${l.color}1a; color: ${l.color}`}>{l.id}</span>
                 <h2 class="font-semibold">{l.name}</h2>
-                <span class="text-xs text-ink-faint">{items.length} articles</span>
+                <span class="text-xs text-ink-faint">{items.length} {dict.common.articles}</span>
               </div>
               <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {items.map((n) => (
-                  <NodeCard
+                  <NodeCard locale={locale}
                     slug={techSlug(n.id)}
                     title={n.data.title}
                     level={n.data.level}
@@ -67,12 +73,12 @@ const summary = (n: (typeof tech)[number]) => n.body.slice(0, 130).replace(/#/g,
   </section>
 
   <section class="mt-12 border-t border-line pt-8 print-block">
-    <h2 class="font-serif text-xl font-bold mb-3">Rules of the tree</h2>
+    <h2 class="font-serif text-xl font-bold mb-3">{dict.techTree.rules}</h2>
     <ul class="space-y-2 text-ink-soft text-[15px] leading-relaxed">
-      <li><strong class="text-ink">You can't skip the ladder.</strong> Each guide lists its prerequisites. A steam engine without iron is a rumor.</li>
-      <li><strong class="text-ink">Scavenge before you build.</strong> Every guide lists what the ruins already provide.</li>
-      <li><strong class="text-ink">Teach everything.</strong> A technology only one person knows is one accident from being lost.</li>
-      <li><strong class="text-ink">Print the guides.</strong> Paper survives. Grids don't. See the <a href="/dumb-humanity/print/" class="text-blue underline underline-offset-2">print packs</a>.</li>
+      <li><strong class="text-ink">{dict.techTree.rule1}</strong>{dict.techTree.rule1Desc}</li>
+      <li><strong class="text-ink">{dict.techTree.rule2}</strong>{dict.techTree.rule2Desc}</li>
+      <li><strong class="text-ink">{dict.techTree.rule3}</strong>{dict.techTree.rule3Desc}</li>
+      <li><strong class="text-ink">{dict.techTree.rule4}</strong>{dict.techTree.rule4Desc}<a href={i18nHref(locale, '/print/')} class="text-blue underline underline-offset-2">{dict.techTree.rule4Link}</a>.</li>
     </ul>
   </section>
 
