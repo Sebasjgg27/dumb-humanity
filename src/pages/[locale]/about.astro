@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { LOCALES, type Locale } from '../../i18n/locales';
+import { getDictionary } from '../../i18n/index';
+
+export async function getStaticPaths() {
+  return LOCALES.map((l) => ({ params: { locale: l.code } }));
+}
+
+const { locale } = Astro.params;
+const dict = getDictionary(locale);
+---
+
+<BaseLayout title={dict.about.title} locale={locale}>
+  <article class="prose-tech max-w-3xl">
+    <h1>{dict.about.title}</h1>
+    <p>{dict.about.intro}</p>
+
+    <h2>{dict.about.whyExists}</h2>
+    <p>{dict.about.whyExistsText}</p>
+
+    <h2>{dict.about.theSources}</h2>
+    <ul>
+      <li>{dict.about.sourceDrStone}</li>
+      <li>{dict.about.sourceInfoPreserver}</li>
+      <li>{dict.about.sourceKnowledge}</li>
+      <li>{dict.about.sourceOSE}</li>
+      <li>{dict.about.sourceSurvival}</li>
+    </ul>
+
+    <h2>{dict.about.howToUse}</h2>
+    <ol>
+      <li>{dict.about.step1}</li>
+      <li>{dict.about.step2}</li>
+      <li>{dict.about.step3}</li>
+      <li>{dict.about.step4}</li>
+      <li>{dict.about.step5}</li>
+    </ol>
+
+    <h2>{dict.about.thePrinciples}</h2>
+    <ul>
+      <li>{dict.about.principleDigital}</li>
+      <li>{dict.about.principleRedundancy}</li>
+      <li>{dict.about.principleCompounds}</li>
+    </ul>
+
+    <h2>{dict.about.contribute}</h2>
+    <p>{dict.about.contributeText}</p>
+
+    <blockquote>{dict.about.quote}</blockquote>
+  </article>
+</BaseLayout>

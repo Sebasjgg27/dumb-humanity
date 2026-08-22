@@ -1,0 +1,137 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { LOCALES, type Locale } from '../../i18n/locales';
+import { getDictionary, href as i18nHref } from '../../i18n/index';
+import { getCollection } from 'astro:content';
+import pkg from '../../../package.json';
+
+export async function getStaticPaths() {
+  return LOCALES.map((l) => ({ params: { locale: l.code } }));
+}
+
+const { locale } = Astro.params;
+const dict = getDictionary(locale);
+const tech = await getCollection('tech');
+const updated = new Date().toISOString().slice(0, 10);
+
+const items = [
+  {
+    title: dict.downloads.fullArchiveTitle,
+    desc: dict.downloads.fullArchiveDesc,
+    action: dict.downloads.fullArchiveAction,
+    href: 'https://github.com/Sebasjgg27/dumb-humanity/archive/refs/heads/main.zip',
+    icon: 'download',
+    highlight: true,
+  },
+  {
+    title: dict.downloads.printableTitle,
+    desc: dict.downloads.printableDesc,
+    action: dict.downloads.printableAction,
+    href: i18nHref(locale, '/print/'),
+    icon: 'print',
+    highlight: false,
+  },
+  {
+    title: dict.downloads.sourceTitle,
+    desc: dict.downloads.sourceDesc,
+    action: dict.downloads.sourceAction,
+    href: 'https://github.com/Sebasjgg27/dumb-humanity',
+    icon: 'code',
+    highlight: false,
+  },
+];
+---
+
+<BaseLayout title={dict.downloads.title} description={dict.downloads.subtitle} locale={locale}>
+  <header class="mb-8">
+    <p class="tech-label text-blue mb-2">{dict.downloads.tagline}</p>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{dict.downloads.title}</h1>
+    <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.downloads.subtitle}</p>
+  </header>
+
+  <div class="grid md:grid-cols-3 gap-4">
+    {
+      items.map((i) => (
+        <div class:list={[
+          'rounded-lg border bg-surface p-5 flex flex-col',
+          i.highlight ? 'border-blue/40 ring-1 ring-blue/20' : 'border-line',
+        ]}>
+          {i.highlight && (
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-blue mb-2">{dict.downloads.recommended}</span>
+          )}
+          <h2 class="font-semibold text-lg">{i.title}</h2>
+          <p class="text-sm text-ink-soft mt-2 leading-relaxed flex-1">{i.desc}</p>
+          <a
+            href={i.href}
+            class:list={[
+              'mt-4 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-semibold text-sm transition-colors',
+              i.highlight
+                ? 'bg-navy text-white hover:bg-navy-light'
+                : 'border border-line-strong bg-surface hover:border-blue hover:text-blue',
+            ]}
+          >
+            {i.action}
+            <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2">
+              {i.icon === 'download'
+                ? '<path d="M12 3v12M7 10l5 5 5-5M5 21h14" stroke-linecap="round" stroke-linejoin="round"/>'
+                : i.icon === 'print'
+                  ? '<path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" stroke-linecap="round" stroke-linejoin="round"/><rect x="6" y="14" width="12" height="8" stroke-linecap="round" stroke-linejoin="round"/>'
+                  : '<path d="M16 18l6-6-6-6M8 6l-6 6 6 6" stroke-linecap="round" stroke-linejoin="round"/>'}
+            </svg>
+          </a>
+        </div>
+      ))
+    }
+  </div>
+
+  <section class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="rounded-lg border border-line bg-surface p-4">
+      <p class="tech-label text-ink-faint mb-1">{dict.downloads.version}</p>
+      <p class="font-mono text-lg font-semibold">v{pkg.version}</p>
+    </div>
+    <div class="rounded-lg border border-line bg-surface p-4">
+      <p class="tech-label text-ink-faint mb-1">{dict.downloads.lastUpdated}</p>
+      <p class="font-mono text-lg font-semibold">{updated}</p>
+    </div>
+    <div class="rounded-lg border border-line bg-surface p-4">
+      <p class="tech-label text-ink-faint mb-1">{dict.downloads.articles}</p>
+      <p class="font-mono text-lg font-semibold">{tech.length}</p>
+    </div>
+    <div class="rounded-lg border border-line bg-surface p-4">
+      <p class="tech-label text-ink-faint mb-1">{dict.downloads.totalSize}</p>
+      <p class="font-mono text-lg font-semibold">{dict.downloads.fitsUSB}</p>
+    </div>
+  </section>
+
+  <section class="mt-10 rounded-lg border border-warn/30 bg-warn-soft p-6">
+    <p class="tech-label text-warn mb-3">{dict.downloads.redundancyDoctrine}</p>
+    <ul class="space-y-2 text-sm text-ink leading-relaxed">
+      <li><strong>{dict.downloads.rule1Strong}</strong>{dict.downloads.rule1Text}</li>
+      <li><strong>{dict.downloads.rule2Strong}</strong>{dict.downloads.rule2Text}</li>
+      <li><strong>{dict.downloads.rule3Strong}</strong>{dict.downloads.rule3Text}</li>
+      <li><strong>{dict.downloads.rule4Strong}</strong>{dict.downloads.rule4Text}</li>
+    </ul>
+  </section>
+
+  <section class="mt-10">
+    <h2 class="font-serif text-xl font-bold tracking-tight mb-6">{dict.downloads.packContents}</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <a href={i18nHref(locale, '/scenarios/')} class="block rounded-lg border border-line bg-surface p-5 transition-all hover:border-blue/50 hover:shadow-sm">
+        <h3 class="font-semibold mb-1">{dict.downloads.packSurvival}</h3>
+        <p class="text-sm text-ink-soft leading-relaxed">{dict.downloads.packSurvivalDesc}</p>
+      </a>
+      <a href={i18nHref(locale, '/emergency/')} class="block rounded-lg border border-line bg-surface p-5 transition-all hover:border-warn/50 hover:shadow-sm">
+        <h3 class="font-semibold mb-1">{dict.downloads.packEmergency}</h3>
+        <p class="text-sm text-ink-soft leading-relaxed">{dict.downloads.packEmergencyDesc}</p>
+      </a>
+      <a href={i18nHref(locale, '/library/')} class="block rounded-lg border border-line bg-surface p-5 transition-all hover:border-blue/50 hover:shadow-sm">
+        <h3 class="font-semibold mb-1">{dict.downloads.packScience}</h3>
+        <p class="text-sm text-ink-soft leading-relaxed">{dict.downloads.packScienceDesc}</p>
+      </a>
+      <a href={i18nHref(locale, '/print/')} class="block rounded-lg border border-line bg-surface p-5 transition-all hover:border-ok/50 hover:shadow-sm">
+        <h3 class="font-semibold mb-1">{dict.downloads.packPrint}</h3>
+        <p class="text-sm text-ink-soft leading-relaxed">{dict.downloads.packPrintDesc}</p>
+      </a>
+    </div>
+  </section>
+</BaseLayout>

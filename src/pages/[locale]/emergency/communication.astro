@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { LOCALES, type Locale } from '../../../i18n/locales';
+import { getDictionary, href as i18nHref } from '../../../i18n/index';
+import { COMMUNICATION_METHODS } from '../../../data/emergency';
+
+export async function getStaticPaths() {
+  return LOCALES.map((l) => ({ params: { locale: l.code } }));
+}
+
+const { locale } = Astro.params;
+const dict = getDictionary(locale);
+---
+
+<BaseLayout title={dict.emergency.communicationTitle} description={dict.emergency.communicationDescription} locale={locale}>
+  <nav class="text-xs text-ink-faint no-print mb-4 flex items-center gap-1.5">
+    <a href={i18nHref(locale, '/')} class="hover:text-blue">{dict.techArticle.home}</a>
+    <span>/</span>
+    <a href={i18nHref(locale, '/emergency/')} class="hover:text-blue">{dict.emergency.title}</a>
+    <span>/</span>
+    <span class="text-ink-soft">{dict.emergency.communicationTitle}</span>
+  </nav>
+
+  <header class="mb-8 border-b border-line pb-6">
+    <p class="tech-label text-danger mb-2">{dict.emergency.communicationTagline}</p>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{dict.emergency.communicationTitle}</h1>
+    <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.emergency.communicationDescription}</p>
+  </header>
+
+  <div class="space-y-6">
+    {COMMUNICATION_METHODS.map((method) => (
+      <div class="rounded-lg border border-line bg-surface p-6">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <h2 class="font-serif text-xl font-bold">{method.name}</h2>
+          <span class="shrink-0 rounded-full bg-ok-soft text-ok text-xs font-semibold px-3 py-1 whitespace-nowrap">
+            {dict.emergency.range}: {method.range}
+          </span>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-warn mb-2">{dict.emergency.powerSource}</p>
+            <p class="text-sm leading-relaxed">{method.powerSource}</p>
+          </div>
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-blue mb-2">{dict.emergency.useCase}</p>
+            <p class="text-sm leading-relaxed">{method.useCase}</p>
+          </div>
+          <div class="md:col-span-2">
+            <p class="text-xs font-semibold uppercase tracking-wider text-ok mb-2">{dict.emergency.setup}</p>
+            <p class="text-sm text-ink-soft leading-relaxed">{method.setup}</p>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</BaseLayout>

@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { LOCALES, type Locale } from '../../../i18n/locales';
+import { getDictionary, href as i18nHref } from '../../../i18n/index';
+import { WATER_PURIFICATION_METHODS } from '../../../data/emergency';
+
+export async function getStaticPaths() {
+  return LOCALES.map((l) => ({ params: { locale: l.code } }));
+}
+
+const { locale } = Astro.params;
+const dict = getDictionary(locale);
+---
+
+<BaseLayout title={dict.emergency.waterPurificationTitle} description={dict.emergency.waterPurificationDescription} locale={locale}>
+  <nav class="text-xs text-ink-faint no-print mb-4 flex items-center gap-1.5">
+    <a href={i18nHref(locale, '/')} class="hover:text-blue">{dict.techArticle.home}</a>
+    <span>/</span>
+    <a href={i18nHref(locale, '/emergency/')} class="hover:text-blue">{dict.emergency.title}</a>
+    <span>/</span>
+    <span class="text-ink-soft">{dict.emergency.waterPurificationTitle}</span>
+  </nav>
+
+  <header class="mb-8 border-b border-line pb-6">
+    <p class="tech-label text-danger mb-2">{dict.emergency.waterPurificationTagline}</p>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{dict.emergency.waterPurificationTitle}</h1>
+    <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.emergency.waterPurificationDescription}</p>
+  </header>
+
+  <div class="space-y-6">
+    {WATER_PURIFICATION_METHODS.map((method) => (
+      <div class="rounded-lg border border-line bg-surface p-6">
+        <h2 class="font-serif text-xl font-bold mb-1">{method.name}</h2>
+        <p class="text-sm text-ink-soft mb-4">{method.description}</p>
+
+        <div class="grid sm:grid-cols-2 gap-3 mb-5">
+          <div class="rounded-md bg-bg px-3 py-2 text-sm">
+            <span class="text-xs font-semibold uppercase tracking-wider text-ok mr-2">{dict.emergency.bestFor}</span>
+            <span>{method.bestFor}</span>
+          </div>
+          <div class="rounded-md bg-bg px-3 py-2 text-sm">
+            <span class="text-xs font-semibold uppercase tracking-wider text-warn mr-2">{dict.emergency.effectiveness}</span>
+            <span>{method.effectiveness}</span>
+          </div>
+        </div>
+
+        <p class="text-xs font-semibold uppercase tracking-wider text-ok mb-3">{dict.emergency.steps}</p>
+        <ol class="space-y-2">
+          {method.steps.map((step, i) => (
+            <li class="flex items-start gap-3 text-sm">
+              <span class="shrink-0 w-5 h-5 rounded-full bg-ok-soft text-ok flex items-center justify-center text-[11px] font-bold">{i + 1}</span>
+              <span>{step}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    ))}
+  </div>
+</BaseLayout>

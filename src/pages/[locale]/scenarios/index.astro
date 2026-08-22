@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ScenarioCard from '../../../components/ScenarioCard.astro';
+import { LOCALES, type Locale } from '../../../i18n/locales';
+import { getDictionary, href as i18nHref } from '../../../i18n/index';
+import { SCENARIOS } from '../../../data/scenarios';
+
+export async function getStaticPaths() {
+  return LOCALES.map((l) => ({ params: { locale: l.code } }));
+}
+
+const { locale } = Astro.params;
+const dict = getDictionary(locale);
+---
+
+<BaseLayout title={dict.scenarios.title} description={dict.scenarios.description} locale={locale}>
+  <header class="mb-10">
+    <p class="tech-label text-danger mb-2">{dict.scenarios.tagline}</p>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{dict.scenarios.title}</h1>
+    <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.scenarios.description}</p>
+  </header>
+
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    {SCENARIOS.map((s) => (
+      <ScenarioCard
+        id={s.id}
+        title={s.title}
+        environment={s.environment}
+        dangerLevel={s.dangerLevel}
+        href={i18nHref(locale, `/scenarios/${s.id}/`)}
+        dict={dict}
+      />
+    ))}
+  </div>
+
+  <section class="mt-12 pt-8 border-t border-line">
+    <p class="tech-label text-ink-faint mb-3">{dict.scenarios.generalRule}</p>
+    <div class="grid sm:grid-cols-3 gap-4">
+      <div class="rounded-lg border border-line bg-surface p-4">
+        <p class="font-semibold text-sm mb-1">{dict.scenarios.rule1Title}</p>
+        <p class="text-xs text-ink-soft leading-relaxed">{dict.scenarios.rule1Desc}</p>
+      </div>
+      <div class="rounded-lg border border-line bg-surface p-4">
+        <p class="font-semibold text-sm mb-1">{dict.scenarios.rule2Title}</p>
+        <p class="text-xs text-ink-soft leading-relaxed">{dict.scenarios.rule2Desc}</p>
+      </div>
+      <div class="rounded-lg border border-line bg-surface p-4">
+        <p class="font-semibold text-sm mb-1">{dict.scenarios.rule3Title}</p>
+        <p class="text-xs text-ink-soft leading-relaxed">{dict.scenarios.rule3Desc}</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

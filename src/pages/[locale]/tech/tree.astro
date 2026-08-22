@@ -1,0 +1,224 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { techSlug, LEVELS, LEVEL_BY_ID, type Level } from '../../../data/levels';
+import { getTranslatedLevels } from '../../../i18n/data';
+import { LOCALES, type Locale } from '../../../i18n/locales';
+import { getDictionary, href as i18nHref } from '../../../i18n/index';
+
+export async function getStaticPaths() {
+  return LOCALES.map((l) => ({ params: { locale: l.code } }));
+}
+
+const { locale } = Astro.params;
+const dict = getDictionary(locale);
+const translatedLevels = getTranslatedLevels(locale);
+const levelName = (id: string) => translatedLevels.find((l) => l.id === id)?.name ?? id;
+
+const tech = await getCollection('tech');
+const nodes = tech.map((t) => ({
+  id: techSlug(t.id),
+  title: t.data.title,
+  level: t.data.level as Level,
+  category: t.data.category,
+  safety: t.data.safety,
+  critical: t.data.critical,
+  prerequisites: t.data.prerequisites.map((p: any) => typeof p === 'string' ? p : p.id?.replace(/\.mdx?$/, '') || ''),
+})).sort((a, b) => {
+  const levelOrder: Record<string, number> = { A0: 0, A1: 1, A2: 2, A3: 3, A4: 4, A5: 5 };
+  return (levelOrder[a.level] || 0) - (levelOrder[b.level] || 0);
+});
+
+const byLevel: Record<Level, typeof nodes> = { A0: [], A1: [], A2: [], A3: [], A4: [], A5: [] };
+nodes.forEach((n) => { byLevel[n.level].push(n); });
+
+const COL_W = 180;
+const ROW_H = 52;
+const PAD_X = 40;
+const PAD_Y = 60;
+const LEVEL_GAP = 80;
+
+const maxPerLevel = Math.max(...LEVELS.map((l) => byLevel[l.id].length));
+const svgW = LEVELS.length * (COL_W + LEVEL_GAP) - LEVEL_GAP + PAD_X * 2;
+const svgH = maxPerLevel * ROW_H + PAD_Y * 2 + 40;
+
+const levelPositions: Record<string, number> = {};
+LEVELS.forEach((l, i) => { levelPositions[l.id] = PAD_X + i * (COL_W + LEVEL_GAP); });
+
+const nodePositions: Record<string, { x: number; y: number }> = {};
+LEVELS.forEach((l) => {
+  const items = byLevel[l.id];
+  const totalH = items.length * ROW_H;
+  const startY = PAD_Y + (svgH - PAD_Y * 2 - 40 - totalH) / 2;
+  items.forEach((n, i) => {
+    nodePositions[n.id] = {
+      x: levelPositions[l.id],
+      y: startY + i * ROW_H,
+    };
+  });
+});
+
+const edges: { from: string; to: string }[] = [];
+nodes.forEach((n) => {
+  n.prerequisites.forEach((p) => {
+    if (nodePositions[p] && nodePositions[n.id]) {
+      edges.push({ from: p, to: n.id });
+    }
+  });
+});
+
+const safetyColors: Record<string, string> = {
+  LOW: '#16a34a', MODERATE: '#ca8a04', HIGH: '#ea580c', EXTREME: '#dc2626',
+};
+---
+
+<BaseLayout title={dict.techTree.title} description={dict.techTree.subtitle} locale={locale}>
+  <header class="mb-8">
+    <nav class="text-xs text-ink-faint no-print mb-4 flex items-center gap-1.5">
+      <a href={i18nHref(locale, '/')} class="hover:text-blue">{dict.techArticle.home}</a>
+      <span>/</span>
+      <a href={i18nHref(locale, '/tech/')} class="hover:text-blue">{dict.nav.library}</a>
+      <span>/</span>
+      <span class="text-ink-soft">{dict.techTree.treeBreadcrumb}</span>
+    </nav>
+    <p class="tech-label text-blue mb-2">{dict.techTree.interactiveGraph}</p>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{dict.techTree.title}</h1>
+    <p class="text-ink-soft mt-2 max-w-2xl">{dict.techTree.hoverHint}</p>
+  </header>
+
+  <div class="overflow-x-auto border border-line rounded-lg bg-surface p-4">
+    <svg viewBox={`0 0 ${svgW} ${svgH}`} class="w-full min-w-[900px]" style={{ height: `${svgH * 0.7}px` }}>
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="8" markerHeight="5" orient="auto-start-reverse">
+          <path d="M0 0 L10 3 L0 6" fill="var(--color-ink-faint)" />
+        </marker>
+      </defs>
+
+      {LEVELS.map((l, i) => (
+        <g>
+          <text
+            x={levelPositions[l.id] + COL_W / 2}
+            y={20}
+            text-anchor="middle"
+            class="fill-ink-faint"
+            style={{ font: '600 11px var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase' }}
+          >
+            {l.id} — {levelName(l.id)}
+          </text>
+          <line
+            x1={levelPositions[l.id] + COL_W / 2}
+            y1={28}
+            x2={levelPositions[l.id] + COL_W / 2}
+            y2={svgH - 10}
+            stroke="var(--color-line)"
+            stroke-width="1"
+            stroke-dasharray="3 5"
+          />
+        </g>
+      ))}
+
+      {edges.map((e) => {
+        const from = nodePositions[e.from];
+        const to = nodePositions[e.to];
+        if (!from || !to) return null;
+        const x1 = from.x + COL_W;
+        const y1 = from.y + 14;
+        const x2 = to.x;
+        const y2 = to.y + 14;
+        const cx1 = x1 + (x2 - x1) * 0.4;
+        const cx2 = x2 - (x2 - x1) * 0.4;
+        return (
+          <path
+            d={`M${x1},${y1} C${cx1},${y1} ${cx2},${y2} ${x2},${y2}`}
+            fill="none"
+            stroke="var(--color-line-strong)"
+            stroke-width="1"
+            marker-end="url(#arrow)"
+            class="tree-edge"
+          />
+        );
+      })}
+
+      {nodes.map((n) => {
+        const pos = nodePositions[n.id];
+        if (!pos) return null;
+        const fillColor = safetyColors[n.safety] || '#16a34a';
+        return (
+          <a href={i18nHref(locale, `/tech/${n.id}/`)}>
+            <g class="tree-node" data-id={n.id}>
+              <rect
+                x={pos.x}
+                y={pos.y}
+                width={COL_W}
+                height={28}
+                rx="5"
+                fill="var(--color-surface)"
+                stroke="var(--color-line-strong)"
+                stroke-width="1"
+              />
+              <rect
+                x={pos.x}
+                y={pos.y}
+                width={4}
+                height={28}
+                rx="2"
+                fill={fillColor}
+              />
+              {n.critical && (
+                <circle
+                  cx={pos.x + COL_W - 10}
+                  cy={pos.y + 14}
+                  r="3"
+                  fill="var(--color-danger)"
+                />
+              )}
+              <text
+                x={pos.x + 12}
+                y={pos.y + 17.5}
+                class="fill-ink"
+                style={{ font: '500 10.5px var(--font-sans)' }}
+              >
+                {n.title.length > 18 ? n.title.slice(0, 17) + '…' : n.title}
+              </text>
+            </g>
+          </a>
+        );
+      })}
+    </svg>
+  </div>
+
+  <div class="mt-6 flex flex-wrap items-center gap-4 text-xs text-ink-faint">
+    <div class="flex items-center gap-1.5">
+      <span class="w-3 h-1 rounded bg-[#16a34a]"></span> {dict.danger.low}
+    </div>
+    <div class="flex items-center gap-1.5">
+      <span class="w-3 h-1 rounded bg-[#ca8a04]"></span> {dict.danger.moderate}
+    </div>
+    <div class="flex items-center gap-1.5">
+      <span class="w-3 h-1 rounded bg-[#ea580c]"></span> {dict.danger.high}
+    </div>
+    <div class="flex items-center gap-1.5">
+      <span class="w-3 h-1 rounded bg-[#dc2626]"></span> {dict.danger.extreme}
+    </div>
+    <div class="flex items-center gap-1.5">
+      <span class="w-2 h-2 rounded-full bg-danger"></span> {dict.common.criticalPath}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .tree-node rect {
+    transition: stroke 0.15s, filter 0.15s;
+  }
+  .tree-node:hover rect:first-of-type {
+    stroke: var(--color-blue);
+    filter: drop-shadow(0 2px 6px rgba(29, 78, 216, 0.2));
+  }
+  .tree-edge {
+    transition: stroke 0.15s, stroke-width 0.15s;
+  }
+  .tree-node:hover ~ .tree-edge {
+    stroke: var(--color-blue);
+    stroke-width: 1.5;
+  }
+</style>

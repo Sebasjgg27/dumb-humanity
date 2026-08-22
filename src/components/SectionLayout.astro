@@ -3,13 +3,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import NodeCard from '../components/NodeCard.astro';
 import { getCollection } from 'astro:content';
 import { techSlug } from '../data/levels';
-import { SECTIONS, type Section } from '../data/sections';
+import type { Locale } from '../i18n/locales';
+import { href as i18nHref } from '../i18n/index';
+import { getTranslatedSections } from '../i18n/data';
 
 interface Props {
-  section: Section;
+  section: any;
+  locale: Locale;
+  dict: any;
 }
 
-const { section } = Astro.props;
+const { section, locale, dict } = Astro.props;
 const tech = await getCollection('tech');
 const summary = (n: (typeof tech)[number]) => n.body.slice(0, 130).replace(/#/g, '').replace(/\s+/g, ' ').trim();
 
@@ -25,12 +29,24 @@ for (const s of section.slugs) {
 const articles = [...matched.values()].sort(
   (a, b) => a.data.level.localeCompare(b.data.level) || a.data.order - b.data.order
 );
-const next = SECTIONS.find((s) => s.priority === section.priority + 1) ?? SECTIONS.find((s) => s.priority > section.priority);
+
+const allSections = [
+  { id: 'survival', priority: 1 }, { id: 'settlement', priority: 2 },
+  { id: 'agriculture', priority: 2 }, { id: 'medicine', priority: 1 },
+  { id: 'science', priority: 4 }, { id: 'engineering', priority: 3 },
+  { id: 'industry', priority: 5 },
+];
+const nextDef = allSections.find((s) => s.priority === section.priority + 1) ?? allSections.find((s) => s.priority > section.priority);
+const translatedSections = getTranslatedSections(locale);
+const nextSectionTitle = translatedSections.find((s) => s.id === nextDef?.id)?.title ?? nextDef?.id;
+const levelRange = articles.length
+  ? `${articles[0].data.level}–${articles[articles.length - 1].data.level}`
+  : '';
 ---
 
-<BaseLayout title={section.title} description={section.description}>
-  <nav class="text-xs text-ink-faint no-print mb-4 flex items-center gap-1.5" aria-label="Breadcrumb">
-    <a href="/dumb-humanity/" class="hover:text-blue">Home</a>
+<BaseLayout title={section.title} description={section.description} locale={locale}>
+  <nav class="text-xs text-ink-faint no-print mb-4 flex items-center gap-1.5" aria-label={dict.aria.breadcrumb}>
+    <a href={i18nHref(locale, '/')} class="hover:text-blue">{dict.techArticle.home}</a>
     <span>/</span>
     <span class="text-ink-soft">{section.title}</span>
   </nav>
@@ -39,13 +55,13 @@ const next = SECTIONS.find((s) => s.priority === section.priority + 1) ?? SECTIO
     <p class="tech-label text-blue mb-2">{section.subtitle}</p>
     <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{section.title}</h1>
     <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{section.description}</p>
-    <p class="text-xs text-ink-faint mt-3 font-mono">{articles.length} articles · levels A0–A2</p>
+    <p class="text-xs text-ink-faint mt-3 font-mono">{articles.length} {dict.common.articles} · {dict.common.level} {levelRange}</p>
   </header>
 
   <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
     {
       articles.map((n) => (
-        <NodeCard
+        <NodeCard locale={locale}
           slug={techSlug(n.id)}
           title={n.data.title}
           level={n.data.level}
@@ -58,11 +74,11 @@ const next = SECTIONS.find((s) => s.priority === section.priority + 1) ?? SECTIO
     }
   </div>
 
-  {next && (
+  {nextDef && (
     <div class="mt-12 border-t border-line pt-6 no-print">
-      <p class="tech-label text-ink-faint mb-2">Continue the ladder</p>
-      <a href={`/dumb-humanity/${next.id}/`} class="inline-flex items-center gap-2 text-sm font-semibold text-blue hover:underline">
-        {next.title}
+      <p class="tech-label text-ink-faint mb-2">{dict.home.reconstructionPath}</p>
+      <a href={i18nHref(locale, `/${nextDef.id}/`)} class="inline-flex items-center gap-2 text-sm font-semibold text-blue hover:underline">
+        {nextSectionTitle}
         <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>

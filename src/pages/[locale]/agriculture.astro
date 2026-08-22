@@ -1,0 +1,16 @@
+---
+import SectionLayout from '../../components/SectionLayout.astro';
+import { getTranslatedSections } from '../../i18n/data';
+import { LOCALES, type Locale } from '../../i18n/locales';
+import { getDictionary } from '../../i18n/index';
+
+export async function getStaticPaths() {
+  return LOCALES.map((l) => ({ params: { locale: l.code } }));
+}
+
+const { locale } = Astro.params;
+const dict = getDictionary(locale);
+const sections = getTranslatedSections(locale);
+const section = sections.find((s) => s.id === 'agriculture')!;
+---
+<SectionLayout section={section} locale={locale} dict={dict} />

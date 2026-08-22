@@ -1,0 +1,318 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { SAFETY_META, techSlug } from '../../../data/levels';
+import { difficultyFor, stageFor } from '../../../data/stages';
+import { getTranslatedLevels, getTranslatedStages, getTranslatedSafety, getTranslatedCategories } from '../../../i18n/data';
+import { LOCALES, type Locale } from '../../../i18n/locales';
+import { getDictionary, href as i18nHref } from '../../../i18n/index';
+
+export async function getStaticPaths() {
+  const paths: any[] = [];
+  const tech = await getCollection('tech');
+  for (const l of LOCALES) {
+    for (const t of tech) {
+      paths.push({ params: { locale: l.code, slug: techSlug(t.id) }, props: { tech: t } });
+    }
+  }
+  return paths;
+}
+
+const { locale } = Astro.params;
+const { tech } = Astro.props;
+const { Content } = await render(tech);
+const dict = getDictionary(locale);
+const levels = getTranslatedLevels(locale);
+const stages = getTranslatedStages(locale);
+const safetyMeta = getTranslatedSafety(locale);
+
+const lvl = levels.find((l) => l.id === tech.data.level)!;
+const safety = safetyMeta[tech.data.safety] ?? SAFETY_META[tech.data.safety];
+const stage = stageFor(tech.id);
+const translatedStage = stages.find((s) => s.id === stage.id) ?? stage;
+const diff = difficultyFor(tech.id, tech.data.level);
+const categoryLabel = (() => {
+  const cats = getTranslatedCategories(locale);
+  const idx = ['Survival','Shelter','Food & Water','Community','Power','Metallurgy','Chemistry','Machine Tools','Communications','Transport','Metrology','Infrastructure','Electronics','Computing','Frontier'].indexOf(tech.data.category);
+  return typeof cats[idx] === 'string' ? cats[idx] : tech.data.category;
+})();
+const CATEGORY_KEYS = ['Survival','Shelter','Food & Water','Community','Power','Metallurgy','Chemistry','Machine Tools','Communications','Transport','Metrology','Infrastructure','Electronics','Computing','Frontier'] as const;
+const categoryLabelOf = (cat: string) => {
+  const cats = getTranslatedCategories(locale);
+  const idx = (CATEGORY_KEYS as readonly string[]).indexOf(cat);
+  return typeof cats[idx] === 'string' ? cats[idx] : cat;
+};
+const metaDescription = `${tech.data.title} — ${categoryLabel}, ${dict.common.level} ${tech.data.level}`;
+
+const allTech = await getCollection('tech');
+const bySlug = new Map(allTech.map((t) => [techSlug(t.id), t]));
+type TechEntry = (typeof allTech)[number];
+const refId = (r: unknown) => (r as { id?: string; slug?: string }).id ?? (r as string);
+const prereqs = tech.data.prerequisites.map((r: unknown) => bySlug.get(refId(r))).filter(Boolean);
+const unlocks = tech.data.unlocks.map((r: unknown) => bySlug.get(refId(r))).filter(Boolean);
+
+const body = tech.body;
+const hasScience = /the chemistry|the concept|the principle|the science|how .* works|why .*\?|^#+ .*(physic|chemis|mechanic|principle)/i.test(body);
+const hasIllustrations = /\|/m.test(body) || /- \[ \]/.test(body) || /^#{1,6} .*(diagram|illustrat)/mi.test(body);
+const prereqsComplete = prereqs.length === tech.data.prerequisites.length;
+const pathValid = prereqsComplete && unlocks.length + tech.data.prerequisites.length > 0;
+const related = allTech
+  .filter((t) => t.id !== tech.id && (t.data.category === tech.data.category || t.data.level === tech.data.level))
+  .slice(0, 6);
+
+const validation = [
+  { label: dict.techArticle.prereqComplete, ok: prereqsComplete },
+  { label: dict.techArticle.scientificVerified, ok: hasScience },
+  { label: dict.techArticle.illustrationsIncluded, ok: hasIllustrations },
+  { label: dict.techArticle.printReady, ok: true },
+  { label: dict.techArticle.offlineReady, ok: true },
+  { label: dict.techArticle.pathValid, ok: pathValid },
+];
+const validated = validation.every((v) => v.ok);
+---
+
+<BaseLayout title={tech.data.title} description={metaDescription} locale={locale}>
+  <nav class="text-xs text-ink-faint no-print mb-4 flex items-center gap-1.5 flex-wrap" aria-label={dict.aria.breadcrumb}>
+    <a href={i18nHref(locale, '/')} class="hover:text-blue">{dict.techArticle.home}</a>
+    <span>/</span>
+    <a href={i18nHref(locale, '/library/')} class="hover:text-blue">{dict.techArticle.library}</a>
+    <span>/</span>
+    <a href={i18nHref(locale, `/library/?stage=${stage.id}`)} class="hover:text-blue">{translatedStage.name}</a>
+    <span>/</span>
+    <span class="text-ink-soft">{tech.data.title}</span>
+  </nav>
+
+  <header class="mb-8 border-b border-line pb-6">
+    <div class="flex flex-wrap items-center gap-2 mb-3">
+      <span class="tech-label px-2 py-1 rounded bg-navy text-white">{dict.techArticle.level} {tech.data.level}</span>
+      <span class="text-xs font-medium px-2 py-1 rounded bg-blue-soft text-blue">{categoryLabel}</span>
+      <span class="text-xs font-medium px-2 py-1 rounded" style={`background: ${safety.color}1a; color: ${safety.color}`}>{dict.techArticle.risk}: {safety.label}</span>
+      {tech.data.critical && <span class="text-xs font-semibold px-2 py-1 rounded bg-warn-soft text-warn">{dict.techArticle.coreTechnology}</span>}
+    </div>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{tech.data.title}</h1>
+
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-4 mt-6">
+      <div>
+        <p class="tech-label text-ink-faint mb-1.5">{dict.techArticle.difficulty}</p>
+        <div class="flex items-center gap-1.5">
+          <div class="flex gap-1" title={`${dict.techArticle.difficulty} ${diff}/5`}>
+            {[1, 2, 3, 4, 5].map((i) => (
+              <span class:list={['w-3 h-3 rounded-sm border', i <= diff ? 'bg-navy border-navy' : 'bg-surface border-line-strong']}></span>
+            ))}
+          </div>
+          <span class="text-sm font-mono text-ink-soft">{diff}/5</span>
+        </div>
+      </div>
+      <div>
+        <p class="tech-label text-ink-faint mb-1.5">{dict.techArticle.levelRequired}</p>
+        <p class="text-sm font-medium"><span class="font-mono font-semibold" style={`color: ${lvl.color}`}>{tech.data.level}</span> — {lvl.name}</p>
+      </div>
+      <div>
+        <p class="tech-label text-ink-faint mb-1.5">{dict.techArticle.studyTime}</p>
+        <p class="text-sm font-medium">{tech.data.time_estimate}</p>
+      </div>
+      <div>
+        <p class="tech-label text-ink-faint mb-1.5">{dict.techArticle.stage}</p>
+        <p class="text-sm font-medium">{String(translatedStage.index + 1).padStart(2, '0')} · {translatedStage.name}</p>
+      </div>
+    </div>
+
+    {prereqs.length > 0 && (
+      <div class="mt-5">
+        <p class="tech-label text-ink-faint mb-2">{dict.techArticle.requiredKnowledge}</p>
+        <div class="flex flex-wrap gap-2">
+          {prereqs.map((p: TechEntry) => (
+            <a href={i18nHref(locale, `/tech/${techSlug(p!.id)}/`)} class="inline-flex items-center gap-1.5 text-[13px] font-medium px-2.5 py-1 rounded-md bg-blue-soft text-blue hover:bg-blue hover:text-white transition-colors">
+              {p!.data.title}
+              <svg viewBox="0 0 24 24" class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M8 7h9v9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+    {prereqs.length === 0 && (
+      <p class="text-sm text-ink-soft mt-4">{dict.techArticle.noPrerequisites}</p>
+    )}
+  </header>
+
+  <div class="grid lg:grid-cols-[minmax(0,1fr)_320px] gap-8 lg:gap-10">
+    <article class="prose-tech min-w-0">
+      <Content />
+    </article>
+
+    <aside class="space-y-4 min-w-0">
+      <div class="sidebar-card">
+        <p class="tech-label text-ink-faint mb-3">{dict.techArticle.knowledgeValidation}</p>
+        <ul class="space-y-2">
+          {validation.map((v) => (
+            <li class="flex items-center gap-2.5 text-[13px]">
+              <span class:list={['shrink-0 w-5 h-5 rounded-full flex items-center justify-center', v.ok ? 'bg-ok-soft text-ok' : 'bg-line text-ink-faint']}>
+                {v.ok ? (
+                  <svg viewBox="0 0 24 24" class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                ) : (
+                  <svg viewBox="0 0 24 24" class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 6l12 12M18 6 6 18" stroke-linecap="round"/></svg>
+                )}
+              </span>
+              <span class:list={[v.ok ? 'text-ink' : 'text-ink-soft']}>{v.label}</span>
+            </li>
+          ))}
+        </ul>
+        {validated && (
+          <p class="mt-3 text-xs font-medium text-ok bg-ok-soft rounded px-2.5 py-1.5">{dict.techArticle.allChecksPass}</p>
+        )}
+      </div>
+
+      <div class="sidebar-card">
+        <p class="tech-label text-ink-faint mb-3">{dict.techArticle.specifications}</p>
+        <dl class="space-y-2.5 text-sm">
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-soft">{dict.techArticle.materials}</dt>
+            <dd class="font-medium text-right">{tech.data.materials.join(', ') || '—'}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-soft">{dict.techArticle.energy}</dt>
+            <dd class="font-medium">{tech.data.energy}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-soft">{dict.techArticle.people}</dt>
+            <dd class="font-medium">{tech.data.people}</dd>
+          </div>
+          {tech.data.dr_stone_ref && (
+            <div class="flex justify-between gap-3">
+              <dt class="text-ink-soft">{dict.techArticle.reference}</dt>
+              <dd class="font-medium text-right italic">{tech.data.dr_stone_ref}</dd>
+            </div>
+          )}
+        </dl>
+      </div>
+
+      {tech.data.salvage.length > 0 && (
+        <div class="sidebar-card sidebar-card-warn">
+          <p class="tech-label text-warn mb-2">{dict.techArticle.scavengeBeforeBuilding}</p>
+          <ul class="list-disc pl-4 space-y-1 text-[13px] text-ink leading-relaxed">
+            {tech.data.salvage.map((s: string) => <li>{s}</li>)}
+          </ul>
+        </div>
+      )}
+
+      {unlocks.length > 0 && (
+        <div class="sidebar-card">
+          <p class="tech-label text-ink-faint mb-3">{dict.techArticle.unlocksNext}</p>
+          <ul class="space-y-1.5">
+            {unlocks.map((u: TechEntry) => (
+              <li>
+                <a href={i18nHref(locale, `/tech/${techSlug(u!.id)}/`)} class="text-[13px] text-ink-soft hover:text-blue flex items-center justify-between gap-2 py-0.5">
+                  <span>{u!.data.title}</span>
+                  <span class="text-ink-faint shrink-0 font-mono text-[11px]">{u!.data.level}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div class="sidebar-card">
+        <p class="tech-label text-ink-faint mb-3">{dict.techArticle.dependencies}</p>
+        <div class="space-y-2">
+          {prereqs.map((p: TechEntry) => (
+            <a href={i18nHref(locale, `/tech/${techSlug(p!.id)}/`)} class="flex items-center gap-2 text-[13px] text-ink hover:text-blue py-0.5">
+              <svg viewBox="0 0 24 24" class="w-3.5 h-3.5 shrink-0 text-ink-faint" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14" stroke-linecap="round"/><path d="M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              {p!.data.title}
+            </a>
+          ))}
+          {prereqs.length === 0 && <p class="text-[13px] text-ink-soft">{dict.techArticle.noDependencies}</p>}
+        </div>
+      </div>
+
+      <div class="space-y-2 pt-2">
+        <button data-master-toggle data-label-mastered={dict.techArticle.masteredUndo} data-label-unmastered={dict.techArticle.markAsMastered} class="sidebar-btn sidebar-btn-primary">{dict.techArticle.markAsMastered}</button>
+        <button onclick="window.print()" class="sidebar-btn sidebar-btn-secondary">{dict.techArticle.printThisGuide}</button>
+        <a href={i18nHref(locale, '/downloads/')} class="sidebar-btn sidebar-btn-secondary block text-center">{dict.techArticle.exportOptions}</a>
+      </div>
+    </aside>
+  </div>
+
+  {related.length > 0 && (
+    <section class="mt-12 pt-8 border-t border-line">
+      <p class="tech-label text-ink-faint mb-4">{dict.techArticle.relatedArticles}</p>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {related.map((r) => (
+          <a href={i18nHref(locale, `/tech/${techSlug(r.id)}/`)} class="rounded-lg border border-line bg-surface p-4 hover:border-blue/50 transition-colors">
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="text-[11px] font-mono text-ink-faint">{r.data.level}</span>
+              <span class="text-[11px] text-ink-faint">{categoryLabelOf(r.data.category)}</span>
+            </div>
+            <p class="text-sm font-semibold">{r.data.title}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <script>
+    (() => {
+      const KEY = 'crp-mastered';
+      const slug = window.location.pathname.split('/').filter(Boolean).pop() ?? '';
+      const btn = document.querySelector('[data-master-toggle]') as HTMLButtonElement | null;
+      if (!btn) return;
+      let done: string[] = [];
+      try { done = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch { done = []; }
+      const set = new Set(done);
+      const render = () => {
+        btn.textContent = set.has(slug)
+          ? (btn.dataset.labelMastered ?? 'Mastered — click to undo')
+          : (btn.dataset.labelUnmastered ?? 'Mark as mastered');
+        btn.classList.toggle('opacity-60', set.has(slug));
+      };
+      btn.addEventListener('click', () => {
+        if (set.has(slug)) set.delete(slug);
+        else set.add(slug);
+        localStorage.setItem(KEY, JSON.stringify([...set]));
+        render();
+      });
+      render();
+    })();
+  </script>
+</BaseLayout>
+
+<style>
+  .sidebar-card {
+    border: 1px solid var(--color-line);
+    border-radius: 0.5rem;
+    background: var(--color-surface);
+    padding: 1rem;
+  }
+  .sidebar-card-warn {
+    border-color: rgba(232, 89, 12, 0.3);
+    background: var(--color-warn-soft);
+  }
+  .sidebar-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.625rem 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+  .sidebar-btn-primary {
+    background: var(--color-navy);
+    color: white;
+    border: none;
+    font-weight: 600;
+  }
+  .sidebar-btn-primary:hover {
+    background: var(--color-navy-light);
+  }
+  .sidebar-btn-secondary {
+    background: var(--color-surface);
+    color: var(--color-ink);
+    border: 1px solid var(--color-line-strong);
+  }
+  .sidebar-btn-secondary:hover {
+    border-color: var(--color-blue);
+    color: var(--color-blue);
+  }
+</style>

@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import NodeCard from '../../../components/NodeCard.astro';
+import { getCollection } from 'astro:content';
+import { LEVELS, techSlug } from '../../../data/levels';
+import { getTranslatedLevels } from '../../../i18n/data';
+import { LOCALES, type Locale } from '../../../i18n/locales';
+import { getDictionary, href as i18nHref } from '../../../i18n/index';
+
+export async function getStaticPaths() {
+  const paths: any[] = [];
+  for (const l of LOCALES) {
+    for (const level of LEVELS) {
+      paths.push({ params: { locale: l.code, level: level.id } });
+    }
+  }
+  return paths;
+}
+
+const { locale, level } = Astro.params;
+const dict = getDictionary(locale);
+const levels = getTranslatedLevels(locale);
+const info = levels.find((l) => l.id === level)!;
+
+const tech = await getCollection('tech');
+const nodes = tech.filter((t) => t.data.level === level).sort((a, b) => a.data.order - b.data.order);
+const idx = levels.findIndex((l) => l.id === level);
+const prevLevel = idx > 0 ? levels[idx - 1] : null;
+const nextLevel = idx < levels.length - 1 ? levels[idx + 1] : null;
+const refId = (r: unknown) => (r as { id?: string }).id ?? (r as string);
+const summary = (n: (typeof tech)[number]) => n.body.slice(0, 140).replace(/#/g, '').replace(/\s+/g, ' ').trim();
+
+const unresolved = nodes.filter((n) => {
+  const set = new Set(tech.map((t) => techSlug(t.id)));
+  return n.data.prerequisites.some((p) => !set.has(refId(p)));
+});
+---
+
+<BaseLayout title={`${info.id} — ${info.name}`} description={info.description} locale={locale}>
+  <a href={i18nHref(locale, '/ladder/')} class="text-sm text-blue hover:underline font-medium no-print">← {dict.ladder.title}</a>
+
+  <header class="mt-4 mb-8 print-break">
+    <div class="flex items-center gap-3">
+      <span class="w-10 h-10 rounded-lg flex items-center justify-center font-serif font-bold text-white" style={`background: ${info.color}`}>
+        {info.id}
+      </span>
+      <div>
+        <p class="text-xs text-ink-soft font-medium">{info.timeframe}</p>
+        <h1 class="font-serif text-2xl md:text-3xl font-bold">{info.name}</h1>
+      </div>
+    </div>
+    <p class="text-warn font-semibold mt-2">{info.question}</p>
+    <p class="text-ink-soft mt-2 max-w-3xl leading-relaxed">{info.description}</p>
+    <p class="text-xs text-ink-soft/70 mt-2 italic">{dict.ladder.drStoneParallel}: {info.dr_stone}</p>
+  </header>
+
+  {
+    unresolved.length > 0 && (
+      <p class="text-xs text-warn bg-warn-soft border border-warn/30 rounded-md px-3 py-2 mb-4">
+        {dict.ladder.noteUnresolved.replace('{titles}', unresolved.map((n) => n.data.title).join(', '))}
+      </p>
+    )
+  }
+
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+    {
+      nodes.map((n) => (
+        <NodeCard locale={locale}
+          slug={techSlug(n.id)}
+          title={n.data.title}
+          level={n.data.level}
+          category={n.data.category}
+          safety={n.data.safety}
+          critical={n.data.critical}
+          summary={summary(n)}
+        />
+      ))
+    }
+  </div>
+
+  <div class="flex items-center justify-between mt-10 pt-6 border-t border-line no-print">
+    {
+      prevLevel ? (
+        <a href={i18nHref(locale, `/ladder/${prevLevel.id}/`)} class="text-sm font-semibold text-blue hover:underline">
+          ← {prevLevel.id}: {prevLevel.name}
+        </a>
+      ) : <span />
+    }
+    {
+      nextLevel && (
+        <a href={i18nHref(locale, `/ladder/${nextLevel.id}/`)} class="text-sm font-semibold text-blue hover:underline">
+          {nextLevel.id}: {nextLevel.name} →
+        </a>
+      )
+    }
+  </div>
+</BaseLayout>

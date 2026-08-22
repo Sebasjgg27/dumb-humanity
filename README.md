@@ -1,62 +1,51 @@
-# Rebirth Manual
+# Dumb Humanity
 
-A practical, offline-first knowledge base for restarting human civilization — from
-survival to industry. Inspired by *Dr. Stone*, grounded in real knowledge-recovery
-science (InfoPreserver's Rebuild Ladder, Lewis Dartnell's *The Knowledge*, Open Source
-Ecology's GVCS).
+> Because apparently we need a manual for not dying.
 
-## Live site
+An offline-first, print-ready survival knowledge base for rebuilding civilization from scratch. From making fire to building engines — the whole ladder.
 
-Deployed to GitHub Pages. After the first push, the site builds automatically at:
+Inspired by *Dr. Stone*, grounded in real knowledge-recovery science.
 
-```
-https://sebasjgg27.github.io/dumb-humanity/
-```
+## Live Site
 
-## Stack
+**[dumb-humanity.github.io/dumb-humanity](https://sebasjgg27.github.io/dumb-humanity/)**
+
+## What's Inside
+
+| Section | What It Covers |
+|---|---|
+| **Survival** | Water, fire, shelter, food, medicine, tools |
+| **Science** | Chemistry, measurement, optics |
+| **Engineering** | Metallurgy, machines, power, communication |
+| **Community** | Governance, social structures |
+| **Emergency** | Survival kits, first aid, rescue signals |
+| **Scenarios** | Island, desert, arctic, jungle, mountain, ocean, urban ruins |
+| **Disasters** | Earthquake, tsunami, hurricane, tornado, flood, volcano, blizzard, nuclear, industrial, pandemic |
+
+## The Ladder (A0 → A5)
+
+Every technology depends on the ones before it. You can't skip rungs.
+
+| Level | Name | The Big Question |
+|---|---|---|
+| A0 | Survival Baseline | Can humans stay alive? |
+| A1 | Stabilized Community | Can people live here sustainably? |
+| A2 | Industrial Seed | Can we bootstrap industry? |
+| A3 | Infrastructure Recovery | Can systems scale beyond one town? |
+| A4 | Advanced Industry | Precision, optimization, research |
+| A5 | Frontier & Leapfrogs | High-dependency future systems |
+
+## Download & Print
+
+Every guide is print-optimized. Download the packs from the [Downloads page](https://sebasjgg27.github.io/dumb-humanity/en/downloads/) — paper outlives power grids.
+
+## Tech Stack
 
 - **Astro 5** — static site generator
-- **MDX** — content collections (guides as content)
+- **MDX** — content collections
 - **Tailwind CSS v4** — styling
-- **GitHub Actions** — deploy to GitHub Pages
+- **GitHub Actions** — auto-deploy to GitHub Pages
 
-## The ladder (A0–A5)
+## License
 
-| Level | Name                 | Question                       |
-| ----- | -------------------- | ------------------------------ |
-| A0    | Survival Baseline    | Can humans stay alive?         |
-| A1    | Stabilized Community | Can people live here sustainably? |
-| A2    | Industrial Seed      | Can we bootstrap industry?     |
-| A3    | Infrastructure Recovery | Can systems scale beyond one town? |
-| A4    | Advanced Industry & Science | Precision, optimization, research |
-| A5    | Frontier & Leapfrogs | High-dependency systems for future societies |
-
-## Development
-
-```bash
-npm install
-npm run dev       # local dev server
-npm run build     # static build to ./dist
-npm run check     # type + content check
-```
-
-## Content
-
-Each technology is an MDX file in `src/content/tech/` with a typed frontmatter schema
-(level, category, prerequisites, unlocks, materials, salvage, safety, Dr. Stone ref).
-The schema lives in `src/content.config.ts`.
-
-## Deploy
-
-Currently deployed from the `gh-pages` branch:
-
-```bash
-npm run build
-git worktree add /tmp/ghpages -b gh-pages
-cd /tmp/ghpages && git rm -rf . -q && cp -r ../dist/* . && git add -A && git commit -m "Deploy" && git push origin gh-pages
-git worktree remove /tmp/ghpages --force
-```
-
-Alternatively, `.github/workflows/deploy.yml` automates this on every push to `main`
-(requires the `workflow` OAuth scope on your GitHub token, and
-**Settings → Pages → Build and deployment: GitHub Actions**).
+Open source. Free to copy, print, and redistribute. Knowledge belongs to everyone.
