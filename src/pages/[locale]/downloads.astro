@@ -112,4 +112,26 @@ const items = [
       <li><strong>{dict.downloads.rule4Strong}</strong>{dict.downloads.rule4Text}</li>
     </ul>
   </section>
+
+  <section class="mt-10">
+    <h2 class="font-serif text-xl font-bold tracking-tight mb-6">{dict.downloads.packContents}</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <a href={i18nHref(locale, '/scenarios/')} class="block rounded-lg border border-line bg-surface p-5 transition-all hover:border-blue/50 hover:shadow-sm">
+        <h3 class="font-semibold mb-1">{dict.downloads.packSurvival}</h3>
+        <p class="text-sm text-ink-soft leading-relaxed">{dict.downloads.packSurvivalDesc}</p>
+      </a>
+      <a href={i18nHref(locale, '/emergency/')} class="block rounded-lg border border-line bg-surface p-5 transition-all hover:border-warn/50 hover:shadow-sm">
+        <h3 class="font-semibold mb-1">{dict.downloads.packEmergency}</h3>
+        <p class="text-sm text-ink-soft leading-relaxed">{dict.downloads.packEmergencyDesc}</p>
+      </a>
+      <a href={i18nHref(locale, '/library/')} class="block rounded-lg border border-line bg-surface p-5 transition-all hover:border-blue/50 hover:shadow-sm">
+        <h3 class="font-semibold mb-1">{dict.downloads.packScience}</h3>
+        <p class="text-sm text-ink-soft leading-relaxed">{dict.downloads.packScienceDesc}</p>
+      </a>
+      <a href={i18nHref(locale, '/print/')} class="block rounded-lg border border-line bg-surface p-5 transition-all hover:border-ok/50 hover:shadow-sm">
+        <h3 class="font-semibold mb-1">{dict.downloads.packPrint}</h3>
+        <p class="text-sm text-ink-soft leading-relaxed">{dict.downloads.packPrintDesc}</p>
+      </a>
+    </div>
+  </section>
 </BaseLayout>

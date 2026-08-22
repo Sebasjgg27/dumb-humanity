@@ -4,6 +4,7 @@ import NodeCard from '../../components/NodeCard.astro';
 import { getCollection } from 'astro:content';
 import { techSlug } from '../../data/levels';
 import { getTranslatedStages, getTranslatedLevels } from '../../i18n/data';
+import { stageFor } from '../../data/stages';
 import { LOCALES, type Locale } from '../../i18n/locales';
 import { getDictionary, href as i18nHref } from '../../i18n/index';
 
@@ -28,7 +29,7 @@ const cards = tech
     safety: n.data.safety,
     critical: n.data.critical,
     summary: summary(n),
-    stage: (n.data as any)._stageId ?? 'survival',
+    stage: stageFor(techSlug(n.id)).id,
   }))
   .sort((a, b) => a.level.localeCompare(b.level) || a.title.localeCompare(b.title));
 ---
@@ -67,7 +68,7 @@ const cards = tech
 
   <p id="lib-count" class="text-xs text-ink-faint mb-4 font-mono">{cards.length} {dict.common.articles}</p>
 
-  <div id="lib-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3" data-cards={JSON.stringify(cards)}>
+  <div id="lib-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3" data-cards={JSON.stringify(cards)} data-articles-label={dict.common.articles}>
     {
       cards.map((c) => (
         <NodeCard locale={locale}
@@ -93,6 +94,12 @@ const cards = tech
       const searchEl = document.getElementById('lib-search') as HTMLInputElement | null;
       const countEl = document.getElementById('lib-count');
 
+      const urlStage = new URLSearchParams(window.location.search).get('stage') || '';
+      if (stageEl && urlStage && stageEl.querySelector(`option[value="${urlStage}"]`)) {
+        stageEl.value = urlStage;
+        history.replaceState(null, '', window.location.pathname);
+      }
+
       function apply() {
         if (!grid) return;
         const q = (searchEl?.value || '').toLowerCase().trim();
@@ -106,11 +113,13 @@ const cards = tech
           const slug = a.getAttribute('href')!.split('/').filter(Boolean).pop()!;
           a.classList.toggle('hidden', !visible.some((c) => c.slug === slug));
         });
-        if (countEl) countEl.textContent = `${visible.length} articles`;
+        const articlesLabel = grid.dataset.articlesLabel || 'articles';
+        if (countEl) countEl.textContent = `${visible.length} ${articlesLabel}`;
       }
 
       stageEl?.addEventListener('change', apply);
       searchEl?.addEventListener('input', apply);
+      apply();
     })();
   </script>
 </BaseLayout>

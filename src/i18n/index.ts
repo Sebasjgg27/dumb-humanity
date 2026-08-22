@@ -22,8 +22,13 @@ export function t(locale: Locale, key: string): string {
 }
 
 export function href(locale: Locale, path: string): string {
-  const clean = path.replace(/^\/dumb-humanity/, '').replace(/^\//, '');
-  return `/dumb-humanity/${locale}/${clean}`.replace(/\/+$/, '/') || `/dumb-humanity/${locale}/`;
+  const [rawPath, search = ''] = path.split(/(?=[?#])/);
+  const clean = rawPath
+    .replace(/^\/dumb-humanity/, '')
+    .replace(/^\/(en|es|fr|zh|ar|pt)(\/|$)/, '/')
+    .replace(/^\/+/, '');
+  const joined = `/dumb-humanity/${locale}/${clean}`.replace(/\/+$/, '');
+  return `${joined}/${search}`;
 }
 
 export { DEFAULT_LOCALE, LOCALES, LOCALE_MAP };

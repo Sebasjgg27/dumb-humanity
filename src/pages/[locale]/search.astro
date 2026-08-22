@@ -52,7 +52,11 @@ const cards = tech
 
   <p id="search-count" class="text-xs text-ink-faint mb-4 font-mono">{cards.length} {dict.common.articles}</p>
 
-  <div id="search-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3" data-cards={JSON.stringify(cards)}>
+  <div id="search-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3" data-cards={JSON.stringify(cards)}
+    data-articles-count={dict.search.articlesCount}
+    data-articles-of={dict.search.articlesOf}
+    data-no-results={dict.search.noResults}
+  >
     {
       cards.map((c) => (
         <NodeCard locale={locale}
@@ -77,21 +81,37 @@ const cards = tech
       const input = document.getElementById('search-input') as HTMLInputElement | null;
       const countEl = document.getElementById('search-count');
       const empty = document.createElement('p');
+      const fill = (tpl: string, vars: Record<string, number>) =>
+        tpl.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? `{${k}}`));
+      const articlesCountTpl = grid.dataset.articlesCount || '{count} articles';
+      const articlesOfTpl = grid.dataset.articlesOf || '{visible} of {total} articles';
+      const noResultsMsg = grid.dataset.noResults || 'No articles match.';
 
       function tokenize(q: string): string[] {
-        return q.toLowerCase().replace(/[^a-z0-9_]+/g, ' ').split(' ').filter(Boolean);
+        return q.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(/[^\p{L}\p{N}_]+/u).filter(Boolean);
+      }
+
+      function fold(s: string): string {
+        return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
       }
 
       function apply() {
         if (!grid) return;
         const tokens = tokenize(input?.value || '');
-        const visible = cards.filter((c) => tokens.every((t) => c.text.includes(t)));
+        const visible = cards.filter((c) => {
+          const hay = fold(c.text);
+          return tokens.every((t) => hay.includes(t));
+        });
         grid.querySelectorAll<HTMLElement>('a[href*="/tech/"]').forEach((a) => {
           const slug = a.getAttribute('href')!.split('/').filter(Boolean).pop()!;
           a.classList.toggle('hidden', !visible.some((c) => c.slug === slug));
         });
-        if (countEl) countEl.textContent = visible.length === cards.length ? `${cards.length} articles` : `${visible.length} of ${cards.length} articles`;
-        empty.textContent = visible.length ? '' : 'No articles match. Try a broader keyword, or start at the Library.';
+        if (countEl) {
+          countEl.textContent = visible.length === cards.length
+            ? fill(articlesCountTpl, { count: cards.length })
+            : fill(articlesOfTpl, { visible: visible.length, total: cards.length });
+        }
+        empty.textContent = visible.length ? '' : noResultsMsg;
         empty.className = visible.length ? 'hidden' : 'text-sm text-ink-soft py-8 text-center';
       }
 

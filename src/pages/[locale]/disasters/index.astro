@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import DisasterCard from '../../../components/DisasterCard.astro';
+import { LOCALES, type Locale } from '../../../i18n/locales';
+import { getDictionary, href as i18nHref } from '../../../i18n/index';
+import { DISASTERS } from '../../../data/disasters';
+
+export async function getStaticPaths() {
+  return LOCALES.map((l) => ({ params: { locale: l.code } }));
+}
+
+const { locale } = Astro.params;
+const dict = getDictionary(locale);
+
+const natural = DISASTERS.filter((d) => d.type === 'natural');
+const manMade = DISASTERS.filter((d) => d.type === 'man-made');
+---
+
+<BaseLayout title={dict.disasters.title} description={dict.disasters.description} locale={locale}>
+  <header class="mb-10">
+    <p class="tech-label text-warn mb-2">{dict.disasters.tagline}</p>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{dict.disasters.title}</h1>
+    <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.disasters.description}</p>
+  </header>
+
+  <div class="mb-8">
+    <div class="flex items-center gap-2 mb-4">
+      <span class="w-2 h-2 rounded-full bg-ok"></span>
+      <h2 class="font-serif text-lg font-bold">{dict.disasters.naturalDisasters}</h2>
+      <span class="text-xs text-ink-faint font-mono">({natural.length})</span>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {natural.map((d) => (
+        <DisasterCard
+          id={d.id}
+          title={d.title}
+          type={d.type}
+          dangerLevel={d.dangerLevel}
+          href={i18nHref(locale, `/disasters/${d.id}/`)}
+          dict={dict}
+        />
+      ))}
+    </div>
+  </div>
+
+  <div class="mb-8">
+    <div class="flex items-center gap-2 mb-4">
+      <span class="w-2 h-2 rounded-full bg-danger"></span>
+      <h2 class="font-serif text-lg font-bold">{dict.disasters.manMadeDisasters}</h2>
+      <span class="text-xs text-ink-faint font-mono">({manMade.length})</span>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {manMade.map((d) => (
+        <DisasterCard
+          id={d.id}
+          title={d.title}
+          type={d.type}
+          dangerLevel={d.dangerLevel}
+          href={i18nHref(locale, `/disasters/${d.id}/`)}
+          dict={dict}
+        />
+      ))}
+    </div>
+  </div>
+
+  <section class="mt-12 pt-8 border-t border-line">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="shrink-0 w-8 h-8 rounded-full bg-warn-soft text-warn flex items-center justify-center">
+        <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 9v4M12 17h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <div>
+        <p class="font-semibold">{dict.disasters.ruleOfThrees}</p>
+        <p class="text-sm text-ink-soft">{dict.disasters.ruleOfThreesDesc}</p>
+      </div>
+    </div>
+    <div class="grid grid-cols-3 gap-4 mt-4">
+      <div class="text-center p-3 rounded-lg bg-surface border border-line">
+        <p class="font-mono text-lg font-bold text-danger">3</p>
+        <p class="text-xs text-ink-faint">{dict.disasters.hoursWithoutShelter}</p>
+      </div>
+      <div class="text-center p-3 rounded-lg bg-surface border border-line">
+        <p class="font-mono text-lg font-bold text-warn">3</p>
+        <p class="text-xs text-ink-faint">{dict.disasters.daysWithoutWater}</p>
+      </div>
+      <div class="text-center p-3 rounded-lg bg-surface border border-line">
+        <p class="font-mono text-lg font-bold text-ink-soft">3</p>
+        <p class="text-xs text-ink-faint">{dict.disasters.weeksWithoutFood}</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

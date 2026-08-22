@@ -1,6 +1,6 @@
 {
   "site": {
-    "title": "Civilizational Recovery Project",
+    "title": "Dumb Humanity",
     "shortTitle": "CRP",
     "description": "The complete knowledge required to rebuild civilization from the ground up."
   },
@@ -13,7 +13,39 @@
     "agriculture": "Agriculture",
     "industry": "Industry",
     "library": "Library",
-    "downloads": "Downloads"
+    "downloads": "Downloads",
+    "groupRestore": "Restore Humanity",
+    "groupEmergency": "Emergency",
+    "groupScenarios": "Survival Scenes",
+    "emergencyHub": "Emergency",
+    "kits": "Kits",
+    "firstAid": "First Aid",
+    "signals": "Signals",
+    "waterPurification": "Water Purification",
+    "shelter": "Emergency Shelter",
+    "foodForaging": "Food & Foraging",
+    "evacuation": "Evacuation",
+    "communication": "Communication",
+    "scenariosHub": "Scenarios",
+    "scenarioIsland": "Island",
+    "scenarioDesert": "Desert",
+    "scenarioArctic": "Arctic",
+    "scenarioJungle": "Jungle",
+    "scenarioMountain": "Mountain",
+    "scenarioOcean": "Ocean",
+    "scenarioUrban": "Urban Ruins",
+    "groupDisasters": "Disasters",
+    "disastersHub": "Disasters",
+    "disasterEarthquake": "Earthquake",
+    "disasterTsunami": "Tsunami",
+    "disasterHurricane": "Hurricane",
+    "disasterTornado": "Tornado",
+    "disasterFlood": "Flood",
+    "disasterVolcano": "Volcano",
+    "disasterBlizzard": "Blizzard",
+    "disasterNuclear": "Nuclear Event",
+    "disasterIndustrial": "Industrial Accident",
+    "disasterPandemic": "Pandemic"
   },
   "aria": {
     "toggleSidebar": "Toggle navigation sidebar",
@@ -23,11 +55,13 @@
     "breadcrumb": "Breadcrumb",
     "knowledgeTree": "Knowledge tree",
     "rebuildLadder": "Rebuild ladder",
-    "techGraph": "Interactive technology dependency graph"
+    "techGraph": "Interactive technology dependency graph",
+    "changeLanguage": "Change language",
+    "selectLanguage": "Select language"
   },
   "footer": {
     "mission": "Mission",
-    "missionText": "The Civilizational Recovery Project preserves humanity's operational knowledge — the instructions for making everything again — in an offline-first, print-ready archive. It is not a website. It is a backup of civilization.",
+    "missionText": "Dumb Humanity preserves humanity's operational knowledge — the instructions for making everything again — in an offline-first, print-ready archive. It is not a website. It is a backup of civilization.",
     "knowledgeSections": "Knowledge sections",
     "downloads": "Downloads",
     "offlineLibrary": "Offline library",
@@ -62,10 +96,17 @@
     "printIsPermanent": "Print is permanent",
     "printIsPermanentDesc": "Power grids fail. Screens die. Paper outlives both. Every guide is print-optimized with printable chapter packs.",
     "validatedReproducible": "Validated & reproducible",
-    "validatedReproducibleDesc": "Every procedure lists materials, tools, steps, and the science behind it — reproducible with progressively available technology."
+    "validatedReproducibleDesc": "Every procedure lists materials, tools, steps, and the science behind it — reproducible with progressively available technology.",
+    "viewAllStages": "View all stages →",
+    "emergencyHub": "Emergency",
+    "emergencyHubDesc": "Survival kits, first aid, signals, water purification, shelter, foraging, evacuation, and communication.",
+    "scenariosHub": "Survival Scenes",
+    "scenariosHubDesc": "Environment-specific guides for island, desert, arctic, jungle, mountain, ocean, and urban ruins.",
+    "disastersHub": "Disasters",
+    "disastersHubDesc": "Natural and man-made disaster guides — earthquake, tsunami, hurricane, tornado, flood, volcano, blizzard, nuclear, industrial, and pandemic."
   },
   "about": {
-    "title": "About the Civilizational Recovery Project",
+    "title": "About Dumb Humanity",
     "intro": "This is an open-source, offline-first knowledge base for restarting human civilization — built in the spirit of the anime *Dr. Stone* and grounded in the real science of knowledge recovery.",
     "whyExists": "Why this exists",
     "whyExistsText": "If civilization collapsed, the single most valuable resource would be **knowledge**: not gold, not machines, but the instructions for making things from scratch. Modern survivors know how to *use* things but not how to *make* them. This site is an attempt to close that gap with a practical, ordered technology tree.",
@@ -108,6 +149,15 @@
     "articles": "Articles",
     "totalSize": "Total size",
     "fitsUSB": "Fits any USB stick",
+    "packContents": "Pack contents",
+    "packSurvival": "Survival Pack",
+    "packSurvivalDesc": "Survival scenarios + key articles (water, fire, shelter)",
+    "packEmergency": "Emergency Pack",
+    "packEmergencyDesc": "Kits, first aid, signals + 5 new pages",
+    "packScience": "Science Pack",
+    "packScienceDesc": "Core knowledge articles",
+    "packPrint": "Print Guide",
+    "packPrintDesc": "3 downloadable packs (A0, A1, A2)",
     "redundancyDoctrine": "Redundancy doctrine",
     "rule1Strong": "Three copies, two media, one far away.",
     "rule1Text": " Keep a digital copy, a printed copy, and a sealed backup stored separately.",
@@ -162,7 +212,14 @@
     "legendCritical": "Critical path",
     "legendMissing": "Missing prerequisite",
     "resetProgress": "Reset progress",
-    "resetConfirm": "Reset all mastery progress on this device?"
+    "resetConfirm": "Reset all mastery progress on this device?",
+    "interactiveGraph": "Interactive graph",
+    "treeBreadcrumb": "Tree",
+    "hoverHint": "Every technology depends on the ones before it. Hover a node to see what it needs and what it unlocks.",
+    "legendLowRisk": "Low risk",
+    "legendModerate": "Moderate",
+    "legendHighRisk": "High risk",
+    "legendExtreme": "Extreme"
   },
   "techArticle": {
     "home": "Home",
@@ -278,33 +335,170 @@
     }
   },
   "stages": {
-    "survival": { "name": "Survival", "question": "Can we stay alive?", "description": "Water, fire, shelter, and the first hand-made tools." },
-    "settlement": { "name": "Settlement", "question": "Can we live here permanently?", "description": "Permanent shelter, sanitation, hygiene, and community." },
-    "agriculture": { "name": "Agriculture", "question": "Can we feed ourselves reliably?", "description": "Farming, seed saving, preservation, and animal husbandry." },
-    "craftsmanship": { "name": "Craftsmanship", "question": "Can we make things well?", "description": "Pottery, textiles, glass, paper, and the precision mindset." },
-    "metallurgy": { "name": "Metallurgy", "question": "Can we extract and shape metal?", "description": "Charcoal, iron, steel, copper — the materials of everything after." },
-    "engineering": { "name": "Engineering", "question": "Can we build machines?", "description": "Measurement, the lathe, water power, and the steam engine." },
-    "electricity": { "name": "Electricity", "question": "Can we harness the electron?", "description": "Generators, batteries, and the communication tree." },
-    "industry": { "name": "Industry", "question": "Can systems scale beyond a town?", "description": "Chemistry at scale, transport, and regional infrastructure." },
-    "digital": { "name": "Digital Technology", "question": "Can we compute again?", "description": "Electronics, computing, and the return of research." },
-    "space": { "name": "Space Age", "question": "Can we leave the cradle?", "description": "Aerospace, rocketry, and high-dependency systems." }
+    "survival": {
+      "name": "Survival",
+      "question": "Can we stay alive?",
+      "description": "Water, fire, shelter, and the first hand-made tools."
+    },
+    "settlement": {
+      "name": "Settlement",
+      "question": "Can we live here permanently?",
+      "description": "Permanent shelter, sanitation, hygiene, and community."
+    },
+    "agriculture": {
+      "name": "Agriculture",
+      "question": "Can we feed ourselves reliably?",
+      "description": "Farming, seed saving, preservation, and animal husbandry."
+    },
+    "craftsmanship": {
+      "name": "Craftsmanship",
+      "question": "Can we make things well?",
+      "description": "Pottery, textiles, glass, paper, and the precision mindset."
+    },
+    "metallurgy": {
+      "name": "Metallurgy",
+      "question": "Can we extract and shape metal?",
+      "description": "Charcoal, iron, steel, copper — the materials of everything after."
+    },
+    "engineering": {
+      "name": "Engineering",
+      "question": "Can we build machines?",
+      "description": "Measurement, the lathe, water power, and the steam engine."
+    },
+    "electricity": {
+      "name": "Electricity",
+      "question": "Can we harness the electron?",
+      "description": "Generators, batteries, and the communication tree."
+    },
+    "industry": {
+      "name": "Industry",
+      "question": "Can systems scale beyond a town?",
+      "description": "Chemistry at scale, transport, and regional infrastructure."
+    },
+    "digital": {
+      "name": "Digital Technology",
+      "question": "Can we compute again?",
+      "description": "Electronics, computing, and the return of research."
+    },
+    "space": {
+      "name": "Space Age",
+      "question": "Can we leave the cradle?",
+      "description": "Aerospace, rocketry, and high-dependency systems."
+    }
   },
   "sections": {
-    "survival": { "title": "Survival", "subtitle": "Priority 1 — keep people alive", "description": "Water, fire, shelter, food, hygiene, and first aid. The absolute floor of the ladder. Nothing else matters until a group can stay alive." },
-    "settlement": { "title": "Settlement", "subtitle": "Priority 2 — live here permanently", "description": "Permanent shelter, sanitation, and the social structures that let a village persist across seasons and generations." },
-    "agriculture": { "title": "Agriculture", "subtitle": "Priority 2 — feed people reliably", "description": "Farming, seed saving, food preservation, and animal husbandry. The surplus that frees people to become specialists." },
-    "medicine": { "title": "Medicine", "subtitle": "Priority 1 — infection kills more than injury", "description": "Wound care, hygiene, herbal knowledge, and the honest limits of low-tech medicine before real chemistry exists." },
-    "science": { "title": "Science", "subtitle": "Priority 4 — the method behind the rebuild", "description": "The scientific method made physical: measurement, chemistry, and the reproducible experiments that unlock every later stage." },
-    "engineering": { "title": "Engineering", "subtitle": "Priority 3 — machines and power", "description": "Mechanics, materials, metallurgy, and the machines — the lathe, water wheel, and steam engine — that multiply human muscle." },
-    "industry": { "title": "Industry", "subtitle": "Priority 5 — scale beyond one town", "description": "Manufacturing, chemicals, transport, and communication at regional scale. Where the seed of A2 becomes the fabric of a civilization." }
+    "survival": {
+      "title": "Survival",
+      "subtitle": "Priority 1 — keep people alive",
+      "description": "Water, fire, shelter, food, hygiene, and first aid. The absolute floor of the ladder. Nothing else matters until a group can stay alive."
+    },
+    "settlement": {
+      "title": "Settlement",
+      "subtitle": "Priority 2 — live here permanently",
+      "description": "Permanent shelter, sanitation, and the social structures that let a village persist across seasons and generations."
+    },
+    "agriculture": {
+      "title": "Agriculture",
+      "subtitle": "Priority 2 — feed people reliably",
+      "description": "Farming, seed saving, food preservation, and animal husbandry. The surplus that frees people to become specialists."
+    },
+    "medicine": {
+      "title": "Medicine",
+      "subtitle": "Priority 1 — infection kills more than injury",
+      "description": "Wound care, hygiene, herbal knowledge, and the honest limits of low-tech medicine before real chemistry exists."
+    },
+    "science": {
+      "title": "Science",
+      "subtitle": "Priority 4 — the method behind the rebuild",
+      "description": "The scientific method made physical: measurement, chemistry, and the reproducible experiments that unlock every later stage."
+    },
+    "engineering": {
+      "title": "Engineering",
+      "subtitle": "Priority 3 — machines and power",
+      "description": "Mechanics, materials, metallurgy, and the machines — the lathe, water wheel, and steam engine — that multiply human muscle."
+    },
+    "industry": {
+      "title": "Industry",
+      "subtitle": "Priority 5 — scale beyond one town",
+      "description": "Manufacturing, chemicals, transport, and communication at regional scale. Where the seed of A2 becomes the fabric of a civilization."
+    }
   },
   "sidebar": {
     "knowledgeTree": "Knowledge tree",
     "groups": {
-      "survival": { "label": "Survival", "subsections": { "s-water": "Water", "s-shelter": "Shelter", "s-fire": "Fire", "s-food": "Food", "s-med": "Medicine", "s-tools": "Tools & Materials" } },
-      "science": { "label": "Science", "subsections": { "c-chem": "Chemistry", "c-measure": "Measurement" } },
-      "engineering": { "label": "Engineering", "subsections": { "e-met": "Metallurgy", "e-mach": "Machines", "e-power": "Power", "e-comms": "Communication" } },
-      "community": { "label": "Community", "subsections": { "g-gov": "Governance" } }
+      "survival": {
+        "label": "Survival",
+        "subsections": {
+          "s-water": "Water",
+          "s-shelter": "Shelter",
+          "s-fire": "Fire",
+          "s-food": "Food",
+          "s-med": "Medicine",
+          "s-tools": "Tools & Materials"
+        }
+      },
+      "science": {
+        "label": "Science",
+        "subsections": {
+          "c-chem": "Chemistry",
+          "c-measure": "Measurement"
+        }
+      },
+      "engineering": {
+        "label": "Engineering",
+        "subsections": {
+          "e-met": "Metallurgy",
+          "e-mach": "Machines",
+          "e-power": "Power",
+          "e-comms": "Communication"
+        }
+      },
+      "community": {
+        "label": "Community",
+        "subsections": {
+          "g-gov": "Governance"
+        }
+      },
+      "emergency": {
+        "label": "Emergency",
+        "subsections": {
+          "em-comms": "Communication",
+          "em-evac": "Evacuation",
+          "em-firstaid": "First Aid",
+          "em-food": "Food & Foraging",
+          "em-kits": "Survival Kits",
+          "em-shelter": "Emergency Shelter",
+          "em-signals": "Signals",
+          "em-water": "Water Purification"
+        }
+      },
+      "scenarios": {
+        "label": "Survival Scenes",
+        "subsections": {
+          "sc-arctic": "Arctic",
+          "sc-desert": "Desert",
+          "sc-island": "Island",
+          "sc-jungle": "Jungle",
+          "sc-mountain": "Mountain",
+          "sc-ocean": "Ocean",
+          "sc-urban": "Urban Ruins"
+        }
+      },
+      "disasters": {
+        "label": "Disasters",
+        "subsections": {
+          "d-blizzard": "Blizzard",
+          "d-earthquake": "Earthquake",
+          "d-flood": "Flood",
+          "d-hurricane": "Hurricane",
+          "d-industrial": "Industrial Accident",
+          "d-nuclear": "Nuclear Event",
+          "d-pandemic": "Pandemic",
+          "d-tornado": "Tornado",
+          "d-tsunami": "Tsunami",
+          "d-volcano": "Volcanic Eruption"
+        }
+      }
     }
   },
   "categories": {
@@ -340,6 +534,123 @@
     "available": "Available",
     "locked": "Locked",
     "criticalPath": "Critical path",
-    "missingPrerequisite": "Missing prerequisite"
+    "missingPrerequisite": "Missing prerequisite",
+    "dangerLevel": "Danger level"
+  },
+  "emergency": {
+    "title": "Emergency Reference",
+    "description": "Survival kits, first aid, and signaling techniques for when civilization fails. Print this section — you may not have a screen.",
+    "tagline": "BEFORE THE COLLAPSE",
+    "kitsTitle": "Survival Kits",
+    "kitsDescription": "Essential gear checklists for every environment. Build these before you need them.",
+    "kitsTagline": "WHAT TO PACK",
+    "forScenario": "For",
+    "essential": "Essential",
+    "niceToHave": "Nice to Have",
+    "firstAidTitle": "First Aid",
+    "firstAidDescription": "Critical medical knowledge when help is days or weeks away.",
+    "firstAidTagline": "WHEN HELP IS FAR",
+    "steps": "Steps",
+    "warnings": "Warnings",
+    "signalsTitle": "Signals & Rescue",
+    "signalsDescription": "How to get found when you need help most. Three of anything is a distress signal.",
+    "signalsTagline": "GET FOUND",
+    "universalSignal": "Universal Distress Signal: 3 of Anything",
+    "universalSignalDesc": "Three fires, three whistle blasts, three mirror flashes, three rock piles — three of anything repeated means you need help.",
+    "ruleOfThrees": "The Rule of Threes",
+    "ruleOfThreesDesc": "You can survive 3 hours without shelter, 3 days without water, 3 weeks without food.",
+    "hoursWithoutShelter": "Hours without shelter",
+    "daysWithoutWater": "Days without water",
+    "weeksWithoutFood": "Weeks without food",
+    "whenToUse": "When to use",
+    "waterPurificationTitle": "Water Purification",
+    "waterPurificationDescription": "Methods to make any water source safe to drink. Water is priority #1 — you can survive 3 days without it.",
+    "waterPurificationTagline": "CLEAN WATER OR DIE",
+    "bestFor": "Best for",
+    "effectiveness": "Effectiveness",
+    "shelterTitle": "Emergency Shelter",
+    "shelterDescription": "Shelter types for every environment. Hypothermia kills faster than dehydration — build shelter before anything else.",
+    "shelterTagline": "SHELTER FIRST",
+    "windRating": "Wind protection",
+    "warmthRating": "Warmth",
+    "foodForagingTitle": "Food & Foraging",
+    "foodForagingDescription": "Edible plants and natural food sources in every environment. You can survive 3 weeks without food — but morale drops fast.",
+    "foodForagingTagline": "EAT WHAT THE LAND GIVES",
+    "identification": "Identification",
+    "preparation": "Preparation",
+    "evacuationTitle": "Evacuation Plans",
+    "evacuationDescription": "When to leave, where to go, and what to take. Speed saves lives — hesitation kills.",
+    "evacuationTagline": "GET OUT FAST",
+    "route": "Route",
+    "checklist": "Checklist",
+    "timeEstimate": "Time estimate",
+    "communicationTitle": "Emergency Communication",
+    "communicationDescription": "How to communicate when the grid is down. From ham radios to whistle codes — information is survival.",
+    "communicationTagline": "STAY CONNECTED",
+    "range": "Range",
+    "powerSource": "Power source",
+    "setup": "Setup",
+    "useCase": "Use case"
+  },
+  "scenarios": {
+    "title": "Survival Scenes",
+    "description": "Environment-specific survival guides. What to do when you're alone, far from help, and the clock is ticking.",
+    "tagline": "KNOW YOUR ENVIRONMENT",
+    "danger": "Danger",
+    "priorityActions": "Priority Actions",
+    "keyDangers": "Key Dangers",
+    "shelter": "Shelter",
+    "water": "Water",
+    "fire": "Fire",
+    "food": "Food",
+    "signalsAndRescue": "Signals & Rescue",
+    "commonMistakes": "Common Mistakes",
+    "quickRef": "Quick Reference",
+    "actions": "Actions",
+    "dangers": "Dangers",
+    "relatedTech": "Related Tech",
+    "alsoCheck": "Also Check",
+    "generalRule": "Universal Survival Rules",
+    "rule1Title": "STOP",
+    "rule1Desc": "Sit, Think, Observe, Plan. Panic kills more people than the emergency itself.",
+    "rule2Title": "Signal Early",
+    "rule2Desc": "Make yourself findable before doing anything else. Rescue is always the fastest way to safety.",
+    "rule3Title": "Rule of 3s",
+    "rule3Desc": "3 hours without shelter, 3 days without water, 3 weeks without food. Prioritize accordingly."
+  },
+  "disasters": {
+    "title": "Disasters",
+    "description": "Natural and man-made disaster survival guides. What to do when the world throws everything at you.",
+    "tagline": "PREPARE FOR THE WORST",
+    "naturalDisasters": "Natural Disasters",
+    "manMadeDisasters": "Man-Made Disasters",
+    "danger": "Danger",
+    "priorityActions": "Priority Actions",
+    "keyDangers": "Key Dangers",
+    "shelter": "Shelter",
+    "water": "Water",
+    "fire": "Fire",
+    "food": "Food",
+    "signalsAndRescue": "Signals & Rescue",
+    "commonMistakes": "Common Mistakes",
+    "quickRef": "Quick Reference",
+    "actions": "Actions",
+    "dangers": "Dangers",
+    "relatedTech": "Related Tech",
+    "alsoCheck": "Also Check",
+    "ruleOfThrees": "The Rule of Threes",
+    "ruleOfThreesDesc": "You can survive 3 hours without shelter, 3 days without water, 3 weeks without food.",
+    "hoursWithoutShelter": "Hours without shelter",
+    "daysWithoutWater": "Days without water",
+    "weeksWithoutFood": "Weeks without food",
+    "natural": "Natural",
+    "manMade": "Man-made"
+  },
+  "danger": {
+    "low": "Low",
+    "moderate": "Moderate",
+    "high": "High",
+    "severe": "Severe",
+    "extreme": "Extreme"
   }
 }

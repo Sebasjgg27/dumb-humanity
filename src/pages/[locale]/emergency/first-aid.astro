@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { LOCALES, type Locale } from '../../../i18n/locales';
+import { getDictionary, href as i18nHref } from '../../../i18n/index';
+import { FIRST_AID_TOPICS } from '../../../data/emergency';
+
+export async function getStaticPaths() {
+  return LOCALES.map((l) => ({ params: { locale: l.code } }));
+}
+
+const { locale } = Astro.params;
+const dict = getDictionary(locale);
+---
+
+<BaseLayout title={dict.emergency.firstAidTitle} description={dict.emergency.firstAidDescription} locale={locale}>
+  <nav class="text-xs text-ink-faint no-print mb-4 flex items-center gap-1.5">
+    <a href={i18nHref(locale, '/')} class="hover:text-blue">{dict.techArticle.home}</a>
+    <span>/</span>
+    <a href={i18nHref(locale, '/emergency/')} class="hover:text-blue">{dict.emergency.title}</a>
+    <span>/</span>
+    <span class="text-ink-soft">{dict.emergency.firstAidTitle}</span>
+  </nav>
+
+  <header class="mb-8 border-b border-line pb-6">
+    <p class="tech-label text-danger mb-2">{dict.emergency.firstAidTagline}</p>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{dict.emergency.firstAidTitle}</h1>
+    <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.emergency.firstAidDescription}</p>
+  </header>
+
+  <div class="space-y-6">
+    {FIRST_AID_TOPICS.map((topic) => (
+      <div class="rounded-lg border border-line bg-surface p-6">
+        <h2 class="font-serif text-xl font-bold mb-1">{topic.title}</h2>
+        <p class="text-sm text-ink-soft mb-4">{topic.description}</p>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-ok mb-3">{dict.emergency.steps}</p>
+            <ol class="space-y-2">
+              {topic.steps.map((step, i) => (
+                <li class="flex items-start gap-3 text-sm">
+                  <span class="shrink-0 w-5 h-5 rounded-full bg-ok-soft text-ok flex items-center justify-center text-[11px] font-bold">{i + 1}</span>
+                  <span>{step}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-warn mb-3">{dict.emergency.warnings}</p>
+            <ul class="space-y-2">
+              {topic.warnings.map((warn) => (
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="shrink-0 mt-0.5 text-warn">
+                    <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 9v4M12 17h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  <span>{warn}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</BaseLayout>

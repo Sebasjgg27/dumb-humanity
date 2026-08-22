@@ -3,13 +3,14 @@ import { LEVELS, type Level } from '../data/levels';
 import { getCollection } from 'astro:content';
 import type { Locale } from '../i18n/locales';
 import { getTranslatedLevels } from '../i18n/data';
-import { href as i18nHref } from '../i18n/index';
+import { getDictionary, href as i18nHref } from '../i18n/index';
 
 interface Props {
   locale: Locale;
 }
 
 const { locale } = Astro.props;
+const dict = getDictionary(locale);
 const tech = await getCollection('tech');
 const levels = getTranslatedLevels(locale);
 
@@ -18,9 +19,9 @@ function countFor(level: Level): number {
 }
 ---
 
-<nav aria-label="Rebuild ladder" class="text-sm">
+<nav aria-label={dict.aria.rebuildLadder} class="text-sm">
   <p class="font-semibold uppercase tracking-wider text-xs text-ink-soft mb-3 px-2">
-    The Rebuild Ladder
+    {dict.ladder.title}
   </p>
   <ul class="space-y-1">
     {

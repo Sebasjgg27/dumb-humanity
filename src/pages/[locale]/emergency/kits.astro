@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { LOCALES, type Locale } from '../../../i18n/locales';
+import { getDictionary, href as i18nHref } from '../../../i18n/index';
+import { EMERGENCY_KITS } from '../../../data/emergency';
+
+export async function getStaticPaths() {
+  return LOCALES.map((l) => ({ params: { locale: l.code } }));
+}
+
+const { locale } = Astro.params;
+const dict = getDictionary(locale);
+---
+
+<BaseLayout title={dict.emergency.kitsTitle} description={dict.emergency.kitsDescription} locale={locale}>
+  <nav class="text-xs text-ink-faint no-print mb-4 flex items-center gap-1.5">
+    <a href={i18nHref(locale, '/')} class="hover:text-blue">{dict.techArticle.home}</a>
+    <span>/</span>
+    <a href={i18nHref(locale, '/emergency/')} class="hover:text-blue">{dict.emergency.title}</a>
+    <span>/</span>
+    <span class="text-ink-soft">{dict.emergency.kitsTitle}</span>
+  </nav>
+
+  <header class="mb-8 border-b border-line pb-6">
+    <p class="tech-label text-warn mb-2">{dict.emergency.kitsTagline}</p>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{dict.emergency.kitsTitle}</h1>
+    <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.emergency.kitsDescription}</p>
+  </header>
+
+  <div class="space-y-6">
+    {EMERGENCY_KITS.map((kit) => (
+      <div class="rounded-lg border border-line bg-surface p-6">
+        <h2 class="font-serif text-xl font-bold mb-1">{kit.name}</h2>
+        <p class="text-sm text-ink-faint mb-4">{dict.emergency.forScenario}: {kit.scenario}</p>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-danger mb-3">{dict.emergency.essential}</p>
+            <ul class="space-y-1.5">
+              {kit.essentials.map((item) => (
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="shrink-0 mt-1 w-1.5 h-1.5 rounded-full bg-danger"></span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-blue mb-3">{dict.emergency.niceToHave}</p>
+            <ul class="space-y-1.5">
+              {kit.niceToHave.map((item) => (
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="shrink-0 mt-1 w-1.5 h-1.5 rounded-full bg-blue"></span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</BaseLayout>

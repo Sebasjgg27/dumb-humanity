@@ -1,0 +1,216 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import NodeCard from '../../../components/NodeCard.astro';
+import { getCollection } from 'astro:content';
+import { techSlug } from '../../../data/levels';
+import { SCENARIOS, SCENARIO_BY_ID } from '../../../data/scenarios';
+import { LOCALES, type Locale } from '../../../i18n/locales';
+import { getDictionary, href as i18nHref } from '../../../i18n/index';
+
+export async function getStaticPaths() {
+  const paths: any[] = [];
+  for (const l of LOCALES) {
+    for (const s of SCENARIOS) {
+      paths.push({ params: { locale: l.code, slug: s.id } });
+    }
+  }
+  return paths;
+}
+
+const { locale, slug } = Astro.params;
+const dict = getDictionary(locale);
+const scenario = SCENARIO_BY_ID[slug!];
+if (!scenario) return Astro.redirect(i18nHref(locale as Locale, '/'));
+
+const tech = await getCollection('tech');
+const linked = scenario.linkedTech
+  .map((t) => tech.find((entry) => techSlug(entry.id) === t))
+  .filter(Boolean);
+const summary = (n: (typeof tech)[number]) => n.body.slice(0, 120).replace(/#/g, '').replace(/\s+/g, ' ').trim();
+
+const dangerColors: Record<number, string> = {
+  1: 'text-ok', 2: 'text-blue', 3: 'text-warn', 4: 'text-warn', 5: 'text-danger',
+};
+const dangerLabel = dict.danger[['low', 'moderate', 'high', 'severe', 'extreme'][scenario.dangerLevel - 1] as keyof typeof dict.danger];
+---
+
+<BaseLayout title={scenario.title} description={`${scenario.environment} — ${dict.common.dangerLevel} ${scenario.dangerLevel}/5`} locale={locale}>
+  <nav class="text-xs text-ink-faint no-print mb-4 flex items-center gap-1.5">
+    <a href={i18nHref(locale, '/')} class="hover:text-blue">{dict.techArticle.home}</a>
+    <span>/</span>
+    <a href={i18nHref(locale, '/scenarios/')} class="hover:text-blue">{dict.scenarios.title}</a>
+    <span>/</span>
+    <span class="text-ink-soft">{scenario.title}</span>
+  </nav>
+
+  <header class="mb-8 border-b border-line pb-6">
+    <div class="flex flex-wrap items-center gap-2 mb-3">
+      <span class="text-xs font-medium px-2.5 py-1 rounded bg-blue-soft text-blue">{scenario.environment}</span>
+      <span class:list={['text-xs font-medium px-2.5 py-1 rounded bg-surface border border-line', dangerColors[scenario.dangerLevel]]}>
+        {dict.scenarios.danger}: {dangerLabel} ({scenario.dangerLevel}/5)
+      </span>
+    </div>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{scenario.title}</h1>
+  </header>
+
+  <div class="grid lg:grid-cols-[minmax(0,1fr)_340px] gap-8 lg:gap-10">
+    <div class="space-y-8 min-w-0">
+      <section>
+        <h2 class="font-serif text-xl font-bold mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded bg-danger-soft text-danger flex items-center justify-center text-sm font-bold">1</span>
+          {dict.scenarios.priorityActions}
+        </h2>
+        <ol class="space-y-2">
+          {scenario.priorityActions.map((action, i) => (
+            <li class="flex items-start gap-3 text-sm leading-relaxed">
+              <span class="shrink-0 w-6 h-6 rounded-full bg-navy text-white flex items-center justify-center text-[11px] font-bold mt-0.5">{i + 1}</span>
+              <span>{action}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section>
+        <h2 class="font-serif text-xl font-bold mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded bg-warn-soft text-warn flex items-center justify-center">
+            <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 9v4M12 17h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          {dict.scenarios.keyDangers}
+        </h2>
+        <ul class="space-y-1.5">
+          {scenario.dangers.map((d) => (
+            <li class="flex items-start gap-2 text-sm">
+              <span class="shrink-0 mt-1 w-1.5 h-1.5 rounded-full bg-danger"></span>
+              <span>{d}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="font-serif text-xl font-bold mb-3">{dict.scenarios.shelter}</h2>
+        <p class="text-sm text-ink leading-relaxed">{scenario.shelter}</p>
+      </section>
+
+      <section>
+        <h2 class="font-serif text-xl font-bold mb-3">{dict.scenarios.water}</h2>
+        <p class="text-sm text-ink leading-relaxed">{scenario.water}</p>
+      </section>
+
+      <section>
+        <h2 class="font-serif text-xl font-bold mb-3">{dict.scenarios.fire}</h2>
+        <p class="text-sm text-ink leading-relaxed">{scenario.fire}</p>
+      </section>
+
+      <section>
+        <h2 class="font-serif text-xl font-bold mb-3">{dict.scenarios.food}</h2>
+        <p class="text-sm text-ink leading-relaxed">{scenario.food}</p>
+      </section>
+
+      <section>
+        <h2 class="font-serif text-xl font-bold mb-4">{dict.scenarios.signalsAndRescue}</h2>
+        <ul class="space-y-1.5">
+          {scenario.signals.map((s) => (
+            <li class="flex items-start gap-2 text-sm">
+              <span class="shrink-0 mt-1 w-1.5 h-1.5 rounded-full bg-blue"></span>
+              <span>{s}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="font-serif text-xl font-bold mb-4 text-danger">{dict.scenarios.commonMistakes}</h2>
+        <ul class="space-y-1.5">
+          {scenario.commonMistakes.map((m) => (
+            <li class="flex items-start gap-2 text-sm">
+              <span class="shrink-0 mt-0.5 text-danger">
+                <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12" stroke-linecap="round"/></svg>
+              </span>
+              <span>{m}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+
+    <aside class="space-y-4 min-w-0">
+      <div class="sidebar-card">
+        <p class="tech-label text-ink-faint mb-3">{dict.scenarios.quickRef}</p>
+        <div class="space-y-3">
+          <div class="flex items-center gap-2 text-sm">
+            <span class="shrink-0 w-6 h-6 rounded bg-danger-soft text-danger flex items-center justify-center text-xs font-bold">!</span>
+            <span class="font-medium">{dict.scenarios.danger}: {scenario.dangerLevel}/5</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="p-2 rounded bg-surface border border-line text-center">
+              <p class="font-bold text-warn">{scenario.priorityActions.length}</p>
+              <p class="text-ink-faint">{dict.scenarios.actions}</p>
+            </div>
+            <div class="p-2 rounded bg-surface border border-line text-center">
+              <p class="font-bold text-danger">{scenario.dangers.length}</p>
+              <p class="text-ink-faint">{dict.scenarios.dangers}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {linked.length > 0 && (
+        <div class="sidebar-card">
+          <p class="tech-label text-ink-faint mb-3">{dict.scenarios.relatedTech}</p>
+          <ul class="space-y-2">
+            {linked.map((t) => (
+              <li>
+                <a href={i18nHref(locale, `/tech/${techSlug(t!.id)}/`)} class="text-[13px] text-ink-soft hover:text-blue flex items-center justify-between gap-2 py-0.5">
+                  <span>{t!.data.title}</span>
+                  <span class="text-ink-faint shrink-0 font-mono text-[11px]">{t!.data.level}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div class="sidebar-card">
+        <p class="tech-label text-ink-faint mb-3">{dict.scenarios.alsoCheck}</p>
+        <ul class="space-y-1.5">
+          <li><a href={i18nHref(locale, '/emergency/kits/')} class="text-[13px] text-blue hover:underline">{dict.emergency.kitsTitle}</a></li>
+          <li><a href={i18nHref(locale, '/emergency/first-aid/')} class="text-[13px] text-blue hover:underline">{dict.emergency.firstAidTitle}</a></li>
+          <li><a href={i18nHref(locale, '/emergency/signals/')} class="text-[13px] text-blue hover:underline">{dict.emergency.signalsTitle}</a></li>
+        </ul>
+      </div>
+
+      <div class="space-y-2 pt-2 no-print">
+        <button onclick="window.print()" class="sidebar-btn sidebar-btn-secondary">{dict.techArticle.printThisGuide}</button>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  .sidebar-card {
+    border: 1px solid var(--color-line);
+    border-radius: 0.5rem;
+    background: var(--color-surface);
+    padding: 1rem;
+  }
+  .sidebar-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.625rem 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .sidebar-btn-secondary {
+    background: var(--color-surface);
+    color: var(--color-ink);
+    border: 1px solid var(--color-line-strong);
+  }
+  .sidebar-btn-secondary:hover {
+    border-color: var(--color-blue);
+    color: var(--color-blue);
+  }
+</style>

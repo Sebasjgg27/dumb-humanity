@@ -5,6 +5,7 @@ import { getCollection } from 'astro:content';
 import { techSlug } from '../data/levels';
 import type { Locale } from '../i18n/locales';
 import { href as i18nHref } from '../i18n/index';
+import { getTranslatedSections } from '../i18n/data';
 
 interface Props {
   section: any;
@@ -36,6 +37,11 @@ const allSections = [
   { id: 'industry', priority: 5 },
 ];
 const nextDef = allSections.find((s) => s.priority === section.priority + 1) ?? allSections.find((s) => s.priority > section.priority);
+const translatedSections = getTranslatedSections(locale);
+const nextSectionTitle = translatedSections.find((s) => s.id === nextDef?.id)?.title ?? nextDef?.id;
+const levelRange = articles.length
+  ? `${articles[0].data.level}–${articles[articles.length - 1].data.level}`
+  : '';
 ---
 
 <BaseLayout title={section.title} description={section.description} locale={locale}>
@@ -49,7 +55,7 @@ const nextDef = allSections.find((s) => s.priority === section.priority + 1) ?? 
     <p class="tech-label text-blue mb-2">{section.subtitle}</p>
     <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{section.title}</h1>
     <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{section.description}</p>
-    <p class="text-xs text-ink-faint mt-3 font-mono">{articles.length} {dict.common.articles} · levels A0–A2</p>
+    <p class="text-xs text-ink-faint mt-3 font-mono">{articles.length} {dict.common.articles} · {dict.common.level} {levelRange}</p>
   </header>
 
   <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -72,7 +78,7 @@ const nextDef = allSections.find((s) => s.priority === section.priority + 1) ?? 
     <div class="mt-12 border-t border-line pt-6 no-print">
       <p class="tech-label text-ink-faint mb-2">{dict.home.reconstructionPath}</p>
       <a href={i18nHref(locale, `/${nextDef.id}/`)} class="inline-flex items-center gap-2 text-sm font-semibold text-blue hover:underline">
-        {nextDef.id}
+        {nextSectionTitle}
         <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>

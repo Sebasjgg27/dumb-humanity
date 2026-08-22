@@ -1,8 +1,9 @@
 ---
 import { LEVEL_BY_ID } from '../data/levels';
 import { stageFor } from '../data/stages';
-import type { Locale } from '../i18n/locales';
-import { href as i18nHref } from '../i18n/index';
+import { getTranslatedStages, getTranslatedSafety } from '../i18n/data';
+import { DEFAULT_LOCALE, type Locale } from '../i18n/locales';
+import { getDictionary, href as i18nHref } from '../i18n/index';
 
 interface Props {
   slug: string;
@@ -16,9 +17,13 @@ interface Props {
   locale?: Locale;
 }
 
-const { slug, title, level, safety, critical, summary, locale } = Astro.props;
+const { slug, title, level, safety, critical, summary } = Astro.props;
+const locale = Astro.props.locale ?? DEFAULT_LOCALE;
+const dict = getDictionary(locale);
 const lvl = LEVEL_BY_ID[level as keyof typeof LEVEL_BY_ID];
-const stage = stageFor(slug);
+const stage = getTranslatedStages(locale).find((s) => s.id === stageFor(slug).id) ?? stageFor(slug);
+const safetyMeta = getTranslatedSafety(locale);
+const safetyLabel = safetyMeta[safety]?.label ?? safety;
 
 const safetyColor: Record<string, string> = {
   LOW: 'bg-ok-soft text-ok',
@@ -36,7 +41,7 @@ const safetyColor: Record<string, string> = {
     <h3 class="font-semibold leading-snug group-hover:text-blue text-[15px]">{title}</h3>
     {critical && (
       <span class="shrink-0 text-[10px] font-semibold uppercase tracking-wide bg-warn-soft text-warn rounded px-1.5 py-0.5">
-        Core
+        {dict.common.core}
       </span>
     )}
   </div>
@@ -49,7 +54,7 @@ const safetyColor: Record<string, string> = {
     </span>
     <span class="text-[11px] px-1.5 py-0.5 rounded bg-blue-soft text-blue font-medium">{stage.name}</span>
     <span class:list={['text-[11px] px-1.5 py-0.5 rounded font-medium', safetyColor[safety] ?? 'bg-bg text-ink-soft']}>
-      {safety}
+      {safetyLabel}
     </span>
   </div>
 </a>
