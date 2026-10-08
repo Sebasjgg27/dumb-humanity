@@ -20,7 +20,8 @@ function buildLocalTech(
   localized: CollectionEntry<'tech_i18n'>[],
   summaryLength: number
 ): LocalTech[] {
-  const bySlug = new Map(localized.map((e) => [techSlug(e.id), e]));
+  // tech_i18n ids are prefixed with the locale folder (e.g. `es/paper`).
+  const bySlug = new Map(localized.map((e) => [techSlug(e.id.replace(/^[a-z]{2}\//, '')), e]));
   return tech.map((entry) => {
     const slug = techSlug(entry.id);
     const translated = bySlug.get(slug) ?? null;
