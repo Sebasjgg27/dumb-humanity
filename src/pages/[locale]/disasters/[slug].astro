@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import NodeCard from '../../../components/NodeCard.astro';
+import PlateArt from '../../../components/PlateArt.astro';
 import { getCollection } from 'astro:content';
 import { techSlug } from '../../../data/levels';
 import { getTechTitles } from '../../../i18n/content';
@@ -39,28 +40,33 @@ const typeColor = disaster.type === 'natural' ? 'bg-ok-soft text-ok' : 'bg-dange
 ---
 
 <BaseLayout title={disaster.title} description={`${typeLabel} — ${dict.common.dangerLevel} ${disaster.dangerLevel}/5`} locale={locale}>
-  <nav class="text-xs text-ink-faint no-print mb-4 flex items-center gap-1.5">
-    <a href={i18nHref(locale, '/')} class="hover:text-blue">{dict.techArticle.home}</a>
-    <span>/</span>
-    <a href={i18nHref(locale, '/disasters/')} class="hover:text-blue">{dict.disasters.title}</a>
-    <span>/</span>
+  <nav class="font-mono text-[11px] tracking-[0.06em] text-ink-faint no-print mb-5 flex items-center gap-2 flex-wrap" aria-label={dict.aria.breadcrumb}>
+    <a href={i18nHref(locale, '/')} class="hover:text-blue transition-colors">{dict.techArticle.home}</a>
+    <span class="text-line-strong">/</span>
+    <a href={i18nHref(locale, '/disasters/')} class="hover:text-blue transition-colors">{dict.disasters.title}</a>
+    <span class="text-line-strong">/</span>
     <span class="text-ink-soft">{disaster.title}</span>
   </nav>
 
-  <header class="mb-8 border-b border-line pb-6">
-    <div class="flex flex-wrap items-center gap-2 mb-3">
-      <span class={`text-xs font-medium px-2.5 py-1 rounded ${typeColor}`}>{typeLabel}</span>
-      <span class:list={['text-xs font-medium px-2.5 py-1 rounded bg-surface border border-line', dangerColors[disaster.dangerLevel]]}>
-        {dict.disasters.danger}: {dangerLabel} ({disaster.dangerLevel}/5)
-      </span>
+  <header class="mb-10 border-b border-line pb-8">
+    <div class="flex items-start justify-between gap-6">
+      <div class="min-w-0">
+        <div class="flex flex-wrap items-center gap-2 mb-3">
+          <span class={`text-xs font-medium px-2.5 py-1 rounded-sm ${typeColor}`}>{typeLabel}</span>
+          <span class:list={['text-xs font-medium px-2.5 py-1 rounded-sm bg-surface border border-line', dangerColors[disaster.dangerLevel]]}>
+            {dict.disasters.danger}: {dangerLabel} ({disaster.dangerLevel}/5)
+          </span>
+        </div>
+        <h1 class="font-serif text-3xl md:text-4xl font-semibold tracking-tight">{disaster.title}</h1>
+      </div>
+      <PlateArt name={slug!} class="hidden sm:block w-[240px] lg:w-[300px] shrink-0 -mt-2 no-print" />
     </div>
-    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{disaster.title}</h1>
   </header>
 
   <div class="grid lg:grid-cols-[minmax(0,1fr)_340px] gap-8 lg:gap-10">
     <div class="space-y-8 min-w-0">
       <section>
-        <h2 class="font-serif text-xl font-bold mb-4 flex items-center gap-2">
+        <h2 class="font-serif text-xl font-semibold mb-4 flex items-center gap-2">
           <span class="w-7 h-7 rounded bg-danger-soft text-danger flex items-center justify-center text-sm font-bold">1</span>
           {dict.disasters.priorityActions}
         </h2>
@@ -75,7 +81,7 @@ const typeColor = disaster.type === 'natural' ? 'bg-ok-soft text-ok' : 'bg-dange
       </section>
 
       <section>
-        <h2 class="font-serif text-xl font-bold mb-4 flex items-center gap-2">
+        <h2 class="font-serif text-xl font-semibold mb-4 flex items-center gap-2">
           <span class="w-7 h-7 rounded bg-warn-soft text-warn flex items-center justify-center">
             <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 9v4M12 17h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </span>
@@ -92,27 +98,27 @@ const typeColor = disaster.type === 'natural' ? 'bg-ok-soft text-ok' : 'bg-dange
       </section>
 
       <section>
-        <h2 class="font-serif text-xl font-bold mb-3">{dict.disasters.shelter}</h2>
+        <h2 class="font-serif text-xl font-semibold mb-3">{dict.disasters.shelter}</h2>
         <p class="text-sm text-ink leading-relaxed">{disaster.shelter}</p>
       </section>
 
       <section>
-        <h2 class="font-serif text-xl font-bold mb-3">{dict.disasters.water}</h2>
+        <h2 class="font-serif text-xl font-semibold mb-3">{dict.disasters.water}</h2>
         <p class="text-sm text-ink leading-relaxed">{disaster.water}</p>
       </section>
 
       <section>
-        <h2 class="font-serif text-xl font-bold mb-3">{dict.disasters.fire}</h2>
+        <h2 class="font-serif text-xl font-semibold mb-3">{dict.disasters.fire}</h2>
         <p class="text-sm text-ink leading-relaxed">{disaster.fire}</p>
       </section>
 
       <section>
-        <h2 class="font-serif text-xl font-bold mb-3">{dict.disasters.food}</h2>
+        <h2 class="font-serif text-xl font-semibold mb-3">{dict.disasters.food}</h2>
         <p class="text-sm text-ink leading-relaxed">{disaster.food}</p>
       </section>
 
       <section>
-        <h2 class="font-serif text-xl font-bold mb-4">{dict.disasters.signalsAndRescue}</h2>
+        <h2 class="font-serif text-xl font-semibold mb-4">{dict.disasters.signalsAndRescue}</h2>
         <ul class="space-y-1.5">
           {disaster.signals.map((s) => (
             <li class="flex items-start gap-2 text-sm">
@@ -124,7 +130,7 @@ const typeColor = disaster.type === 'natural' ? 'bg-ok-soft text-ok' : 'bg-dange
       </section>
 
       <section>
-        <h2 class="font-serif text-xl font-bold mb-4 text-danger">{dict.disasters.commonMistakes}</h2>
+        <h2 class="font-serif text-xl font-semibold mb-4 text-danger">{dict.disasters.commonMistakes}</h2>
         <ul class="space-y-1.5">
           {disaster.commonMistakes.map((m) => (
             <li class="flex items-start gap-2 text-sm">

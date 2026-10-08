@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PlateArt from '../../../components/PlateArt.astro';
 import { LOCALES, type Locale } from '../../../i18n/locales';
 import { getDictionary, href as i18nHref } from '../../../i18n/index';
 import { getEmergencyData } from '../../../i18n/data';
@@ -26,14 +27,19 @@ const sections = [
 
 <BaseLayout title={dict.emergency.title} description={dict.emergency.description} locale={locale}>
   <header class="mb-10">
-    <p class="tech-label text-warn mb-2">{dict.emergency.tagline}</p>
-    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{dict.emergency.title}</h1>
-    <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.emergency.description}</p>
+    <div class="flex items-start justify-between gap-8">
+      <div class="min-w-0">
+        <p class="tech-label text-warn mb-2">{dict.emergency.tagline}</p>
+        <h1 class="font-serif text-3xl md:text-4xl font-semibold tracking-tight">{dict.emergency.title}</h1>
+        <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.emergency.description}</p>
+      </div>
+      <PlateArt name="cross" class="hidden md:block w-[260px] lg:w-[320px] shrink-0 -mt-1 no-print" />
+    </div>
   </header>
 
-  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
     {sections.map((s) => (
-      <a href={i18nHref(locale, `/emergency/${s.id}/`)} class="group block rounded-lg border border-line bg-surface p-6 transition-all hover:border-blue/50 hover:shadow-sm">
+      <a href={i18nHref(locale, `/emergency/${s.id}/`)} class="card group p-6">
         <div class="w-12 h-12 rounded-lg bg-warn-soft flex items-center justify-center mb-4">
           <svg viewBox="0 0 24 24" class="w-6 h-6 text-warn" fill="none" stroke="currentColor" stroke-width="1.8">
             <Fragment set:html={s.icon} />

@@ -24,14 +24,14 @@ const { FIRST_AID_TOPICS } = getEmergencyData(locale);
 
   <header class="mb-8 border-b border-line pb-6">
     <p class="tech-label text-danger mb-2">{dict.emergency.firstAidTagline}</p>
-    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{dict.emergency.firstAidTitle}</h1>
+    <h1 class="font-serif text-3xl md:text-4xl font-semibold tracking-tight">{dict.emergency.firstAidTitle}</h1>
     <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.emergency.firstAidDescription}</p>
   </header>
 
   <div class="space-y-6">
     {FIRST_AID_TOPICS.map((topic) => (
       <div class="rounded-lg border border-line bg-surface p-6">
-        <h2 class="font-serif text-xl font-bold mb-1">{topic.title}</h2>
+        <h2 class="font-serif text-xl font-semibold mb-1">{topic.title}</h2>
         <p class="text-sm text-ink-soft mb-4">{topic.description}</p>
         <div class="grid md:grid-cols-2 gap-6">
           <div>

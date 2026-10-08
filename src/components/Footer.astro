@@ -13,41 +13,44 @@ const today = new Date().toISOString().slice(0, 10);
 ---
 
 <footer class="no-print border-t border-line bg-surface">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-    <div class="sm:col-span-2">
-      <p class="tech-label text-blue mb-3">{dict.footer.mission}</p>
-      <p class="text-sm text-ink-soft leading-relaxed max-w-md">
-        {dict.footer.missionText}
-      </p>
-    </div>
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 xl:px-16 py-14 md:py-16">
+    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-12">
+      <div class="lg:col-span-5">
+        <p class="font-serif text-2xl font-semibold tracking-tight mb-4">{dict.site.title}</p>
+        <p class="tech-label text-ink-faint mb-3">{dict.footer.mission}</p>
+        <p class="text-sm text-ink-soft leading-relaxed max-w-md">
+          {dict.footer.missionText}
+        </p>
+      </div>
 
-    <div>
-      <p class="tech-label text-blue mb-3">{dict.footer.knowledgeSections}</p>
-      <ul class="space-y-2.5 text-sm">
-        <li><a href={i18nHref(locale, '/survival/')} class="text-ink-soft hover:text-blue transition-colors">{dict.nav.survival}</a></li>
-        <li><a href={i18nHref(locale, '/science/')} class="text-ink-soft hover:text-blue transition-colors">{dict.nav.science}</a></li>
-        <li><a href={i18nHref(locale, '/engineering/')} class="text-ink-soft hover:text-blue transition-colors">{dict.nav.engineering}</a></li>
-        <li><a href={i18nHref(locale, '/industry/')} class="text-ink-soft hover:text-blue transition-colors">{dict.nav.industry}</a></li>
-      </ul>
-    </div>
+      <div class="lg:col-span-3 lg:col-start-7">
+        <p class="tech-label text-ink-faint mb-4">{dict.footer.knowledgeSections}</p>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href={i18nHref(locale, '/survival/')} class="text-ink-soft hover:text-ink transition-colors">{dict.nav.survival}</a></li>
+          <li><a href={i18nHref(locale, '/science/')} class="text-ink-soft hover:text-ink transition-colors">{dict.nav.science}</a></li>
+          <li><a href={i18nHref(locale, '/engineering/')} class="text-ink-soft hover:text-ink transition-colors">{dict.nav.engineering}</a></li>
+          <li><a href={i18nHref(locale, '/industry/')} class="text-ink-soft hover:text-ink transition-colors">{dict.nav.industry}</a></li>
+        </ul>
+      </div>
 
-    <div>
-      <p class="tech-label text-blue mb-3">{dict.footer.downloads}</p>
-      <ul class="space-y-2.5 text-sm">
-        <li><a href={i18nHref(locale, '/downloads/')} class="text-ink-soft hover:text-blue transition-colors">{dict.footer.offlineLibrary}</a></li>
-        <li><a href={i18nHref(locale, '/print/')} class="text-ink-soft hover:text-blue transition-colors">{dict.footer.printableEdition}</a></li>
-        <li><a href={i18nHref(locale, '/library/')} class="text-ink-soft hover:text-blue transition-colors">{dict.footer.fullLibraryIndex}</a></li>
-        <li><a href="https://github.com/Sebasjgg27/dumb-humanity/archive/refs/heads/main.zip" class="text-ink-soft hover:text-blue transition-colors">{dict.footer.sourceZIP}</a></li>
-      </ul>
+      <div class="lg:col-span-3">
+        <p class="tech-label text-ink-faint mb-4">{dict.footer.downloads}</p>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href={i18nHref(locale, '/downloads/')} class="text-ink-soft hover:text-ink transition-colors">{dict.footer.offlineLibrary}</a></li>
+          <li><a href={i18nHref(locale, '/print/')} class="text-ink-soft hover:text-ink transition-colors">{dict.footer.printableEdition}</a></li>
+          <li><a href={i18nHref(locale, '/library/')} class="text-ink-soft hover:text-ink transition-colors">{dict.footer.fullLibraryIndex}</a></li>
+          <li><a href="https://github.com/Sebasjgg27/dumb-humanity/archive/refs/heads/main.zip" class="text-ink-soft hover:text-ink transition-colors">{dict.footer.sourceZIP}</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 
   <div class="border-t border-line">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-ink-faint">
-      <p>
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 xl:px-16 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p class="font-mono text-[11px] tracking-[0.08em] text-ink-faint">
         {dict.site.title} · v{pkg.version} · {today}
       </p>
-      <p>{dict.footer.openSource}</p>
+      <p class="font-mono text-[11px] tracking-[0.08em] text-ink-faint">{dict.footer.openSource}</p>
     </div>
   </div>
 </footer>

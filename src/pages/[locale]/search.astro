@@ -30,7 +30,7 @@ const cards = tech
 <BaseLayout title={dict.search.title} description={dict.search.subtitle} locale={locale}>
   <header class="mb-8">
     <p class="tech-label text-blue mb-2">{dict.search.tagline}</p>
-    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{dict.search.title}</h1>
+    <h1 class="font-serif text-3xl md:text-4xl font-semibold tracking-tight">{dict.search.title}</h1>
     <p class="text-ink-soft mt-3 max-w-2xl">{dict.search.subtitle}</p>
   </header>
 
@@ -50,7 +50,7 @@ const cards = tech
 
   <p id="search-count" class="text-xs text-ink-faint mb-4 font-mono">{cards.length} {dict.common.articles}</p>
 
-  <div id="search-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3" data-cards={JSON.stringify(cards)}
+  <div id="search-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5" data-cards={JSON.stringify(cards)}
     data-articles-count={dict.search.articlesCount}
     data-articles-of={dict.search.articlesOf}
     data-no-results={dict.search.noResults}

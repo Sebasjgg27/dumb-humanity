@@ -24,7 +24,7 @@ const { COMMUNICATION_METHODS } = getEmergencyData(locale);
 
   <header class="mb-8 border-b border-line pb-6">
     <p class="tech-label text-danger mb-2">{dict.emergency.communicationTagline}</p>
-    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{dict.emergency.communicationTitle}</h1>
+    <h1 class="font-serif text-3xl md:text-4xl font-semibold tracking-tight">{dict.emergency.communicationTitle}</h1>
     <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.emergency.communicationDescription}</p>
   </header>
 
@@ -32,7 +32,7 @@ const { COMMUNICATION_METHODS } = getEmergencyData(locale);
     {COMMUNICATION_METHODS.map((method) => (
       <div class="rounded-lg border border-line bg-surface p-6">
         <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-          <h2 class="font-serif text-xl font-bold">{method.name}</h2>
+          <h2 class="font-serif text-xl font-semibold">{method.name}</h2>
           <span class="shrink-0 rounded-full bg-ok-soft text-ok text-xs font-semibold px-3 py-1 whitespace-nowrap">
             {dict.emergency.range}: {method.range}
           </span>

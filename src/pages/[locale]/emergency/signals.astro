@@ -24,7 +24,7 @@ const { SIGNAL_METHODS } = getEmergencyData(locale);
 
   <header class="mb-8 border-b border-line pb-6">
     <p class="tech-label text-blue mb-2">{dict.emergency.signalsTagline}</p>
-    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{dict.emergency.signalsTitle}</h1>
+    <h1 class="font-serif text-3xl md:text-4xl font-semibold tracking-tight">{dict.emergency.signalsTitle}</h1>
     <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.emergency.signalsDescription}</p>
   </header>
 
@@ -37,7 +37,7 @@ const { SIGNAL_METHODS } = getEmergencyData(locale);
     {SIGNAL_METHODS.map((method) => (
       <div class="rounded-lg border border-line bg-surface p-6">
         <div class="flex items-start justify-between gap-4 mb-2">
-          <h2 class="font-serif text-lg font-bold">{method.name}</h2>
+          <h2 class="font-serif text-lg font-semibold">{method.name}</h2>
           <span class="shrink-0 text-[11px] font-medium px-2 py-0.5 rounded bg-blue-soft text-blue">{method.visibility}</span>
         </div>
         <p class="text-sm text-ink-soft leading-relaxed mb-3">{method.description}</p>

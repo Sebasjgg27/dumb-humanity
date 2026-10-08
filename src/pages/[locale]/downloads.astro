@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PlateArt from '../../components/PlateArt.astro';
 import { LOCALES, type Locale } from '../../i18n/locales';
 import { getDictionary, href as i18nHref } from '../../i18n/index';
 import { getCollection } from 'astro:content';
@@ -44,9 +45,14 @@ const items = [
 
 <BaseLayout title={dict.downloads.title} description={dict.downloads.subtitle} locale={locale}>
   <header class="mb-8">
-    <p class="tech-label text-blue mb-2">{dict.downloads.tagline}</p>
-    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{dict.downloads.title}</h1>
-    <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.downloads.subtitle}</p>
+    <div class="flex items-start justify-between gap-8">
+      <div class="min-w-0">
+        <p class="tech-label text-blue mb-2">{dict.downloads.tagline}</p>
+        <h1 class="font-serif text-3xl md:text-4xl font-semibold tracking-tight">{dict.downloads.title}</h1>
+        <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.downloads.subtitle}</p>
+      </div>
+      <PlateArt name="archive" class="hidden md:block w-[260px] lg:w-[320px] shrink-0 -mt-1 no-print" />
+    </div>
   </header>
 
   <div class="grid md:grid-cols-3 gap-4">
@@ -114,17 +120,17 @@ const items = [
   </section>
 
   <section class="mt-10">
-    <h2 class="font-serif text-xl font-bold tracking-tight mb-6">{dict.downloads.packContents}</h2>
+    <h2 class="font-serif text-xl font-semibold tracking-tight mb-6">{dict.downloads.packContents}</h2>
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <a href={i18nHref(locale, '/scenarios/')} class="block rounded-lg border border-line bg-surface p-5 transition-all hover:border-blue/50 hover:shadow-sm">
+      <a href={i18nHref(locale, '/scenarios/')} class="card p-5">
         <h3 class="font-semibold mb-1">{dict.downloads.packSurvival}</h3>
         <p class="text-sm text-ink-soft leading-relaxed">{dict.downloads.packSurvivalDesc}</p>
       </a>
-      <a href={i18nHref(locale, '/emergency/')} class="block rounded-lg border border-line bg-surface p-5 transition-all hover:border-warn/50 hover:shadow-sm">
+      <a href={i18nHref(locale, '/emergency/')} class="card p-5">
         <h3 class="font-semibold mb-1">{dict.downloads.packEmergency}</h3>
         <p class="text-sm text-ink-soft leading-relaxed">{dict.downloads.packEmergencyDesc}</p>
       </a>
-      <a href={i18nHref(locale, '/library/')} class="block rounded-lg border border-line bg-surface p-5 transition-all hover:border-blue/50 hover:shadow-sm">
+      <a href={i18nHref(locale, '/library/')} class="card p-5">
         <h3 class="font-semibold mb-1">{dict.downloads.packScience}</h3>
         <p class="text-sm text-ink-soft leading-relaxed">{dict.downloads.packScienceDesc}</p>
       </a>

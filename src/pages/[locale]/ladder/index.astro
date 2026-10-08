@@ -16,7 +16,7 @@ const levels = getTranslatedLevels(locale);
 <BaseLayout title={dict.ladder.title} description={dict.ladder.subtitle} locale={locale}>
   <header class="mb-10">
     <p class="tech-label text-blue mb-2">{dict.ladder.framework}</p>
-    <h1 class="font-serif text-3xl md:text-4xl font-bold">{dict.ladder.title}</h1>
+    <h1 class="font-serif text-3xl md:text-4xl font-semibold">{dict.ladder.title}</h1>
     <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.ladder.subtitle}</p>
   </header>
 
@@ -25,17 +25,17 @@ const levels = getTranslatedLevels(locale);
       levels.map((l, i) => (
         <a
           href={i18nHref(locale, `/ladder/${l.id}/`)}
-          class="block rounded-lg border border-line bg-surface p-6 hover:border-blue/40 hover:shadow-sm transition-all print-break"
+          class="card p-6 print-break"
         >
           <div class="flex items-center gap-4">
             <div class="shrink-0 flex flex-col items-center">
-              <span class="w-12 h-12 rounded-lg flex items-center justify-center font-serif font-bold text-white text-lg" style={`background: ${l.color}`}>
+              <span class="w-12 h-12 rounded-lg flex items-center justify-center font-serif font-semibold text-white text-lg" style={`background: ${l.color}`}>
                 {l.id}
               </span>
             </div>
             <div class="min-w-0">
               <p class="text-xs text-ink-soft font-medium">{l.timeframe}</p>
-              <h2 class="font-serif text-xl font-bold">{l.name}</h2>
+              <h2 class="font-serif text-xl font-semibold">{l.name}</h2>
               <p class="text-warn font-semibold text-sm mt-0.5">{l.question}</p>
             </div>
             <div class="flex-1" />

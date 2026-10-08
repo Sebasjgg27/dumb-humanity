@@ -18,7 +18,7 @@ export const LEVELS: LevelInfo[] = [
     question: 'Can humans stay alive?',
     description:
       'Water, fire, shelter, first aid, and the first hand-made tools. The absolute floor for keeping a group alive.',
-    color: '#e11d48',
+    color: '#a94256',
     dr_stone: 'Senku\u2019s first three months: stone tools, rope, bow drill, fire.',
   },
   {
@@ -28,7 +28,7 @@ export const LEVELS: LevelInfo[] = [
     question: 'Can people live here sustainably?',
     description:
       'Agriculture, food preservation, permanent shelter, sanitation, soap, and the social structures that let a village persist across seasons and generations.',
-    color: '#ea580c',
+    color: '#ad5b22',
     dr_stone: 'Ishigami Village: farming, pottery, weaving, a settled way of life.',
   },
   {
@@ -38,7 +38,7 @@ export const LEVELS: LevelInfo[] = [
     question: 'Can we bootstrap industry?',
     description:
       'The non-linear acceleration point. Charcoal, iron, chemicals, the lathe, steam, and electricity unlock everything after them. The hardest and most valuable stage.',
-    color: '#ca8a04',
+    color: '#94771c',
     dr_stone: 'The Kingdom of Science: blast furnace, sulfuric acid, generators, radio.',
   },
   {
@@ -48,7 +48,7 @@ export const LEVELS: LevelInfo[] = [
     question: 'Can systems scale beyond one town?',
     description:
       'Regional waterworks, electrical grids, rail networks, cold chains, and public health systems that bind many communities together.',
-    color: '#16a34a',
+    color: '#457a54',
     dr_stone: 'The Perseus, GPS, hydroelectric dams, paved roads.',
   },
   {
@@ -58,7 +58,7 @@ export const LEVELS: LevelInfo[] = [
     question: 'Precision, optimization, research',
     description:
       'Transistor electronics, integrated circuits, modern chemistry and pharmaceuticals, and the return of scientific research as an institution.',
-    color: '#2563eb',
+    color: '#2b4a7a',
     dr_stone: 'The silicon road, vacuum tubes, the parametron computer.',
   },
   {
@@ -68,7 +68,7 @@ export const LEVELS: LevelInfo[] = [
     question: 'High-dependency systems for future societies',
     description:
       'Aerospace, satellites, and advanced biotechnology. Only worth building after the ladder below is solid. Also: ways to leapfrog the whole ladder.',
-    color: '#7c3aed',
+    color: '#66559b',
     dr_stone: 'The moon mission, contact with Why-Man.',
   },
 ];
@@ -97,8 +97,8 @@ export const CATEGORIES = [  'Survival',
 ] as const;
 
 export const SAFETY_META: Record<string, { label: string; color: string }> = {
-  LOW: { label: 'Low risk', color: '#16a34a' },
-  MODERATE: { label: 'Moderate risk', color: '#ca8a04' },
-  HIGH: { label: 'High risk', color: '#ea580c' },
-  EXTREME: { label: 'Extreme risk', color: '#dc2626' },
+  LOW: { label: 'Low risk', color: '#3e7250' },
+  MODERATE: { label: 'Moderate risk', color: '#94771c' },
+  HIGH: { label: 'High risk', color: '#ad5b22' },
+  EXTREME: { label: 'Extreme risk', color: '#9c3b2c' },
 };

@@ -34,27 +34,27 @@ const icons: Record<string, string> = {
 };
 ---
 
-<a href={href} class="group block rounded-lg border border-line bg-surface p-5 transition-all hover:border-blue/50 hover:shadow-sm">
-  <div class="flex items-start justify-between gap-3 mb-3">
-    <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-lg bg-blue-soft flex items-center justify-center">
+<a href={href} class="card group p-6">
+  <div class="flex items-start justify-between gap-3 mb-4">
+    <div class="flex items-center gap-3.5">
+      <div class="w-10 h-10 rounded-md bg-blue-soft flex items-center justify-center shrink-0">
         <svg viewBox="0 0 24 24" class="w-5 h-5 text-blue" fill="none" stroke="currentColor" stroke-width="1.8">
           <Fragment set:html={icons[id] ?? icons.mountain} />
         </svg>
       </div>
       <div>
-        <h3 class="font-semibold leading-snug group-hover:text-blue">{title}</h3>
-        <p class="text-xs text-ink-faint">{environment}</p>
+        <h3 class="font-serif text-[1.06rem] font-semibold leading-snug tracking-tight">{title}</h3>
+        <p class="text-[12.5px] text-ink-faint mt-0.5">{environment}</p>
       </div>
     </div>
-    <span class:list={['shrink-0 text-[11px] font-medium px-2 py-0.5 rounded', danger.bg, danger.text]}>
+    <span class:list={['shrink-0 text-[10.5px] font-medium px-2 py-0.5 rounded-sm', danger.bg, danger.text]}>
       {dangerLabel}
     </span>
   </div>
   <div class="flex items-center gap-1">
     {[1, 2, 3, 4, 5].map((i) => (
-      <span class:list={['w-4 h-1.5 rounded-full', i <= dangerLevel ? 'bg-danger' : 'bg-line']} />
+      <span class:list={['w-4 h-1 rounded-full transition-colors', i <= dangerLevel ? 'bg-danger' : 'bg-line']} />
     ))}
-    <span class="text-[11px] text-ink-faint ml-1">{dangerLevel}/5</span>
+    <span class="font-mono text-[11px] text-ink-faint ml-1.5">{dangerLevel}/5</span>
   </div>
 </a>

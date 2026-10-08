@@ -43,20 +43,20 @@ const levelRange = articles.length
 ---
 
 <BaseLayout title={section.title} description={section.description} locale={locale}>
-  <nav class="text-xs text-ink-faint no-print mb-4 flex items-center gap-1.5" aria-label={dict.aria.breadcrumb}>
-    <a href={i18nHref(locale, '/')} class="hover:text-blue">{dict.techArticle.home}</a>
-    <span>/</span>
+  <nav class="font-mono text-[11px] tracking-[0.06em] text-ink-faint no-print mb-5 flex items-center gap-2" aria-label={dict.aria.breadcrumb}>
+    <a href={i18nHref(locale, '/')} class="hover:text-blue transition-colors">{dict.techArticle.home}</a>
+    <span class="text-line-strong">/</span>
     <span class="text-ink-soft">{section.title}</span>
   </nav>
 
-  <header class="mb-8 border-b border-line pb-6">
-    <p class="tech-label text-blue mb-2">{section.subtitle}</p>
-    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{section.title}</h1>
-    <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{section.description}</p>
-    <p class="text-xs text-ink-faint mt-3 font-mono">{articles.length} {dict.common.articles} · {dict.common.level} {levelRange}</p>
+  <header class="mb-10 border-b border-line pb-8">
+    <p class="tech-label text-blue mb-4">{section.subtitle}</p>
+    <h1 class="font-serif text-3xl md:text-4xl font-semibold tracking-tight">{section.title}</h1>
+    <p class="text-ink-soft mt-4 max-w-2xl text-base md:text-lg leading-relaxed">{section.description}</p>
+    <p class="font-mono text-[11.5px] tracking-[0.06em] text-ink-faint mt-4">{articles.length} {dict.common.articles} · {dict.common.level} {levelRange}</p>
   </header>
 
-  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
     {
       articles.map((n) => (
         <NodeCard locale={locale}
@@ -73,11 +73,11 @@ const levelRange = articles.length
   </div>
 
   {nextDef && (
-    <div class="mt-12 border-t border-line pt-6 no-print">
-      <p class="tech-label text-ink-faint mb-2">{dict.home.reconstructionPath}</p>
-      <a href={i18nHref(locale, `/${nextDef.id}/`)} class="inline-flex items-center gap-2 text-sm font-semibold text-blue hover:underline">
+    <div class="mt-14 border-t border-line pt-8 no-print">
+      <p class="tech-label text-ink-faint mb-3">{dict.home.reconstructionPath}</p>
+      <a href={i18nHref(locale, `/${nextDef.id}/`)} class="group inline-flex items-center gap-2.5 font-serif text-lg font-semibold text-blue hover:text-ink transition-colors">
         {nextSectionTitle}
-        <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg viewBox="0 0 24 24" class="w-4 h-4 arrow-shift" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
   )}
