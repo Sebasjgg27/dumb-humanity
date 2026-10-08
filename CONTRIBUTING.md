@@ -6,9 +6,10 @@ Thanks for wanting to help rebuild civilization. Here's how.
 
 ```bash
 npm install
-npm run dev       # localhost:4321
-npm run build     # static build to ./dist
-npm run check     # type + content validation
+npm run dev         # localhost:4321
+npm run build       # static build to ./dist
+npm run check       # type + content validation
+npm run check:links # verify every internal link resolves
 ```
 
 ## Project Structure
@@ -18,6 +19,7 @@ src/
 ├── content/tech/          # MDX articles (the knowledge base)
 ├── data/
 │   ├── sidebar.ts         # Sidebar section structure
+│   ├── sections.ts        # Section hub pages (survival, settlement, ...)
 │   ├── scenarios.ts       # Survival scenario data
 │   ├── disasters.ts       # Disaster data
 │   ├── emergency.ts       # Emergency kits, first aid, signals
@@ -28,7 +30,17 @@ src/
 ├── components/            # Astro components
 ├── pages/                 # Routes (one file = one page)
 └── styles/global.css      # Design tokens + global styles
+scripts/
+└── check-links.mjs        # Internal link auditor (runs on dist/)
 ```
+
+## Link Rules
+
+- Internal links inside MDX articles are **relative**: `[printing](../printing/)`.
+  Article bodies only render at `/{locale}/tech/{slug}/`, so `../<slug>/` resolves
+  correctly in all 6 languages. Never hardcode `/dumb-humanity/tech/...`.
+- Everything else (components, pages) goes through `i18nHref(locale, path)`.
+- `npm run check:links` fails the build if any internal link 404s.
 
 ## Adding a Technology
 
@@ -67,8 +79,16 @@ order: 1
 All user-facing strings live in `src/i18n/dictionaries/`. When adding keys:
 
 1. Add the key to **all 6 files** (en, es, fr, zh, ar, pt)
-2. Keep disaster and section names in English (they're proper nouns)
+2. Individual disaster/scenario names stay in English; section titles and UI
+   strings are translated (`sections.*`, `nav.*`, ...)
 3. The `en.json` file is the source of truth
+
+## Adding a Section Hub
+
+1. Add the section definition to `src/data/sections.ts` (title, categories, slugs, priority)
+2. Create `src/pages/[locale]/yoursection.astro` — copy `settlement.astro` as the template
+3. Translate `sections.<id>` in all 6 dictionaries
+4. Wire it into the "next section" chain in `src/components/SectionLayout.astro`
 
 ## Design Principles
 
@@ -79,12 +99,21 @@ All user-facing strings live in `src/i18n/dictionaries/`. When adding keys:
 
 ## Deploy
 
-Push to `main` → GitHub Actions auto-deploys to GitHub Pages.
+Push to `main` → `.github/workflows/deploy.yml` runs `check`, `build`, and
+`check:links`, then deploys `./dist` to GitHub Pages.
 
-Or manually:
+The repo needs **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+
+Manual fallback (deploys `./dist` to the `gh-pages` branch):
+
 ```bash
-npm run build
-# Deploy ./dist to your hosting
+npm run build && npm run check:links
+git worktree add /tmp/ghpages gh-pages 2>/dev/null || git worktree add /tmp/ghpages -b gh-pages
+cp -R "$PWD"/dist/. /tmp/ghpages/
+git -C /tmp/ghpages add -A
+git -C /tmp/ghpages commit -m "Deploy"
+git -C /tmp/ghpages push origin gh-pages
+git worktree remove /tmp/ghpages --force
 ```
 
 ## Questions?
