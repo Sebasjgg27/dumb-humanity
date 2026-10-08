@@ -1,9 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import NodeCard from '../../components/NodeCard.astro';
-import { getCollection } from 'astro:content';
-import { techSlug } from '../../data/levels';
 import { getTranslatedStages, getTranslatedLevels } from '../../i18n/data';
+import { getLocalTech } from '../../i18n/content';
 import { stageFor } from '../../data/stages';
 import { LOCALES, type Locale } from '../../i18n/locales';
 import { getDictionary, href as i18nHref } from '../../i18n/index';
@@ -15,21 +14,20 @@ export async function getStaticPaths() {
 const { locale } = Astro.params;
 const dict = getDictionary(locale);
 const stages = getTranslatedStages(locale);
-const tech = await getCollection('tech');
-const summary = (n: (typeof tech)[number]) => n.body.slice(0, 130).replace(/#/g, '').replace(/\s+/g, ' ').trim();
+const tech = await getLocalTech(locale, 130);
 const stageParam = Astro.url.searchParams.get('stage') ?? '';
 const activeStage = stages.find((s) => s.id === stageParam) ?? null;
 
 const cards = tech
   .map((n) => ({
-    slug: techSlug(n.id),
-    title: n.data.title,
-    level: n.data.level,
-    category: n.data.category,
-    safety: n.data.safety,
-    critical: n.data.critical,
-    summary: summary(n),
-    stage: stageFor(techSlug(n.id)).id,
+    slug: n.slug,
+    title: n.title,
+    level: n.entry.data.level,
+    category: n.entry.data.category,
+    safety: n.entry.data.safety,
+    critical: n.entry.data.critical,
+    summary: n.summary,
+    stage: stageFor(n.slug).id,
   }))
   .sort((a, b) => a.level.localeCompare(b.level) || a.title.localeCompare(b.title));
 ---

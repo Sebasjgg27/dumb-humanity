@@ -79,9 +79,31 @@ order: 1
 All user-facing strings live in `src/i18n/dictionaries/`. When adding keys:
 
 1. Add the key to **all 6 files** (en, es, fr, zh, ar, pt)
-2. Individual disaster/scenario names stay in English; section titles and UI
-   strings are translated (`sections.*`, `nav.*`, ...)
+2. Section titles and UI strings are translated (`sections.*`, `nav.*`, ...)
 3. The `en.json` file is the source of truth
+4. `t()` falls back to English, then to the raw key — a missing key never renders
+   as `some.key` on screen
+
+### Translating content
+
+UI chrome is only half the story — the knowledge itself is translated separately:
+
+| Content | Where it lives | Fallback |
+|---|---|---|
+| 70 tech articles | `src/content/tech_i18n/<locale>/<slug>.mdx` | English body + "not translated" notice |
+| Scenario guides | `src/data/i18n/scenarios.<locale>.ts` (default export = full array, same ids) | English array |
+| Disaster guides | `src/data/i18n/disasters.<locale>.ts` (default export = full array, same ids) | English array |
+| Emergency (kits, first aid, signals, water, shelter, foraging, evacuation, comms) | `src/data/i18n/emergency.<locale>.ts` (default export = object with every key exported by `src/data/emergency.ts`) | English objects |
+
+Rules:
+
+- Translated article frontmatter: `title` is required; `materials`, `energy`,
+  `time_estimate`, `salvage` are optional and fall back to English per field
+- Keep `../<slug>/` relative links inside translated bodies (see Link Rules above)
+- Keep `dr_stone_ref` episode codes untranslated
+- Keep terminology consistent across a language (fire, shelter, purification…)
+- `npm run check:i18n` prints per-locale coverage, dictionary parity, and fails
+  on orphan files or incomplete data modules; `--strict` fails on partial coverage
 
 ## Adding a Section Hub
 

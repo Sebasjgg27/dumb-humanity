@@ -4,8 +4,9 @@ import { getCollection, render } from 'astro:content';
 import { SAFETY_META, techSlug } from '../../../data/levels';
 import { difficultyFor, stageFor } from '../../../data/stages';
 import { getTranslatedLevels, getTranslatedStages, getTranslatedSafety, getTranslatedCategories } from '../../../i18n/data';
-import { LOCALES, type Locale } from '../../../i18n/locales';
+import { LOCALES, LOCALE_MAP, type Locale } from '../../../i18n/locales';
 import { getDictionary, href as i18nHref } from '../../../i18n/index';
+import { getLocalTech } from '../../../i18n/content';
 
 export async function getStaticPaths() {
   const paths: any[] = [];
@@ -20,7 +21,16 @@ export async function getStaticPaths() {
 
 const { locale } = Astro.params;
 const { tech } = Astro.props;
-const { Content } = await render(tech);
+const localTech = await getLocalTech(locale);
+const local = localTech.find((t) => t.slug === techSlug(tech.id));
+const translated = local?.translated ?? null;
+const { Content } = await render(translated ?? tech);
+const title = local?.title ?? tech.data.title;
+const materials = local?.materials ?? tech.data.materials;
+const energy = local?.energy ?? tech.data.energy;
+const timeEstimate = local?.time_estimate ?? tech.data.time_estimate;
+const salvage = local?.salvage ?? tech.data.salvage;
+const showFallbackNotice = !translated && locale !== 'en';
 const dict = getDictionary(locale);
 const levels = getTranslatedLevels(locale);
 const stages = getTranslatedStages(locale);
@@ -42,17 +52,22 @@ const categoryLabelOf = (cat: string) => {
   const idx = (CATEGORY_KEYS as readonly string[]).indexOf(cat);
   return typeof cats[idx] === 'string' ? cats[idx] : cat;
 };
-const metaDescription = `${tech.data.title} — ${categoryLabel}, ${dict.common.level} ${tech.data.level}`;
+const metaDescription = `${title} — ${categoryLabel}, ${dict.common.level} ${tech.data.level}`;
 
 const allTech = await getCollection('tech');
 const bySlug = new Map(allTech.map((t) => [techSlug(t.id), t]));
 type TechEntry = (typeof allTech)[number];
+const titleOf = (entry: TechEntry) =>
+  localTech.find((t) => t.slug === techSlug(entry.id))?.title ?? entry.data.title;
 const refId = (r: unknown) => (r as { id?: string; slug?: string }).id ?? (r as string);
 const prereqs = tech.data.prerequisites.map((r: unknown) => bySlug.get(refId(r))).filter(Boolean);
 const unlocks = tech.data.unlocks.map((r: unknown) => bySlug.get(refId(r))).filter(Boolean);
 
-const body = tech.body;
-const hasScience = /the chemistry|the concept|the principle|the science|how .* works|why .*\?|^#+ .*(physic|chemis|mechanic|principle)/i.test(body);
+const body = local?.body ?? tech.body;
+const hasScience =
+  /the chemistry|the concept|the principle|the science|how .* works|why .*\?|^#+ .*(physic|chemis|mechanic|principle)/i.test(body) ||
+  /la química|el principio|la ciencia|cómo funciona|¿por qué|^#+ .*(físic|químic|mecán|principi)/i.test(body) ||
+  /^#+ .*(physique|chimie|principe|funziona|física|química|物理|化学|原理|الفيزياء|الكيمياء|المبدأ)/i.test(body);
 const hasIllustrations = /\|/m.test(body) || /- \[ \]/.test(body) || /^#{1,6} .*(diagram|illustrat)/mi.test(body);
 const prereqsComplete = prereqs.length === tech.data.prerequisites.length;
 const pathValid = prereqsComplete && unlocks.length + tech.data.prerequisites.length > 0;
@@ -71,7 +86,7 @@ const validation = [
 const validated = validation.every((v) => v.ok);
 ---
 
-<BaseLayout title={tech.data.title} description={metaDescription} locale={locale}>
+<BaseLayout title={title} description={metaDescription} locale={locale}>
   <nav class="text-xs text-ink-faint no-print mb-4 flex items-center gap-1.5 flex-wrap" aria-label={dict.aria.breadcrumb}>
     <a href={i18nHref(locale, '/')} class="hover:text-blue">{dict.techArticle.home}</a>
     <span>/</span>
@@ -79,7 +94,7 @@ const validated = validation.every((v) => v.ok);
     <span>/</span>
     <a href={i18nHref(locale, `/library/?stage=${stage.id}`)} class="hover:text-blue">{translatedStage.name}</a>
     <span>/</span>
-    <span class="text-ink-soft">{tech.data.title}</span>
+    <span class="text-ink-soft">{title}</span>
   </nav>
 
   <header class="mb-8 border-b border-line pb-6">
@@ -89,7 +104,13 @@ const validated = validation.every((v) => v.ok);
       <span class="text-xs font-medium px-2 py-1 rounded" style={`background: ${safety.color}1a; color: ${safety.color}`}>{dict.techArticle.risk}: {safety.label}</span>
       {tech.data.critical && <span class="text-xs font-semibold px-2 py-1 rounded bg-warn-soft text-warn">{dict.techArticle.coreTechnology}</span>}
     </div>
-    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{tech.data.title}</h1>
+    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{title}</h1>
+
+    {showFallbackNotice && (
+      <p class="mt-4 inline-block text-[13px] text-ink-soft bg-warn-soft/70 border border-warn/30 rounded-lg px-3 py-2 no-print">
+        {dict.techArticle.notTranslated.replaceAll('{locale}', LOCALE_MAP[locale as Locale].nativeName)}
+      </p>
+    )}
 
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-4 mt-6">
       <div>
@@ -109,7 +130,7 @@ const validated = validation.every((v) => v.ok);
       </div>
       <div>
         <p class="tech-label text-ink-faint mb-1.5">{dict.techArticle.studyTime}</p>
-        <p class="text-sm font-medium">{tech.data.time_estimate}</p>
+        <p class="text-sm font-medium">{timeEstimate}</p>
       </div>
       <div>
         <p class="tech-label text-ink-faint mb-1.5">{dict.techArticle.stage}</p>
@@ -123,7 +144,7 @@ const validated = validation.every((v) => v.ok);
         <div class="flex flex-wrap gap-2">
           {prereqs.map((p: TechEntry) => (
             <a href={i18nHref(locale, `/tech/${techSlug(p!.id)}/`)} class="inline-flex items-center gap-1.5 text-[13px] font-medium px-2.5 py-1 rounded-md bg-blue-soft text-blue hover:bg-blue hover:text-white transition-colors">
-              {p!.data.title}
+              {titleOf(p!)}
               <svg viewBox="0 0 24 24" class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M8 7h9v9" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
           ))}
@@ -167,11 +188,11 @@ const validated = validation.every((v) => v.ok);
         <dl class="space-y-2.5 text-sm">
           <div class="flex justify-between gap-3">
             <dt class="text-ink-soft">{dict.techArticle.materials}</dt>
-            <dd class="font-medium text-right">{tech.data.materials.join(', ') || '—'}</dd>
+            <dd class="font-medium text-right">{materials.join(', ') || '—'}</dd>
           </div>
           <div class="flex justify-between gap-3">
             <dt class="text-ink-soft">{dict.techArticle.energy}</dt>
-            <dd class="font-medium">{tech.data.energy}</dd>
+            <dd class="font-medium">{energy}</dd>
           </div>
           <div class="flex justify-between gap-3">
             <dt class="text-ink-soft">{dict.techArticle.people}</dt>
@@ -186,11 +207,11 @@ const validated = validation.every((v) => v.ok);
         </dl>
       </div>
 
-      {tech.data.salvage.length > 0 && (
+      {salvage.length > 0 && (
         <div class="sidebar-card sidebar-card-warn">
           <p class="tech-label text-warn mb-2">{dict.techArticle.scavengeBeforeBuilding}</p>
           <ul class="list-disc pl-4 space-y-1 text-[13px] text-ink leading-relaxed">
-            {tech.data.salvage.map((s: string) => <li>{s}</li>)}
+            {salvage.map((s: string) => <li>{s}</li>)}
           </ul>
         </div>
       )}
@@ -202,7 +223,7 @@ const validated = validation.every((v) => v.ok);
             {unlocks.map((u: TechEntry) => (
               <li>
                 <a href={i18nHref(locale, `/tech/${techSlug(u!.id)}/`)} class="text-[13px] text-ink-soft hover:text-blue flex items-center justify-between gap-2 py-0.5">
-                  <span>{u!.data.title}</span>
+                  <span>{titleOf(u!)}</span>
                   <span class="text-ink-faint shrink-0 font-mono text-[11px]">{u!.data.level}</span>
                 </a>
               </li>
@@ -217,7 +238,7 @@ const validated = validation.every((v) => v.ok);
           {prereqs.map((p: TechEntry) => (
             <a href={i18nHref(locale, `/tech/${techSlug(p!.id)}/`)} class="flex items-center gap-2 text-[13px] text-ink hover:text-blue py-0.5">
               <svg viewBox="0 0 24 24" class="w-3.5 h-3.5 shrink-0 text-ink-faint" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14" stroke-linecap="round"/><path d="M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              {p!.data.title}
+              {titleOf(p!)}
             </a>
           ))}
           {prereqs.length === 0 && <p class="text-[13px] text-ink-soft">{dict.techArticle.noDependencies}</p>}
@@ -242,7 +263,7 @@ const validated = validation.every((v) => v.ok);
               <span class="text-[11px] font-mono text-ink-faint">{r.data.level}</span>
               <span class="text-[11px] text-ink-faint">{categoryLabelOf(r.data.category)}</span>
             </div>
-            <p class="text-sm font-semibold">{r.data.title}</p>
+            <p class="text-sm font-semibold">{titleOf(r)}</p>
           </a>
         ))}
       </div>

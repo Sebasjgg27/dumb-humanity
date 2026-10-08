@@ -4,6 +4,45 @@ import { LEVELS, CATEGORIES, SAFETY_META } from '../data/levels';
 import { STAGES } from '../data/stages';
 import { SECTIONS } from '../data/sections';
 import { SIDEBAR } from '../data/sidebar';
+import { SCENARIOS, SCENARIO_BY_ID, type Scenario } from '../data/scenarios';
+import { DISASTERS, DISASTER_BY_ID, type Disaster } from '../data/disasters';
+import * as emergency from '../data/emergency';
+
+// Per-locale content modules: src/data/i18n/<domain>.<locale>.ts with a default export.
+// A missing file simply means that locale falls back to the English data.
+const contentModules = import.meta.glob<Record<string, unknown>>('../data/i18n/*.ts', {
+  eager: true,
+});
+const contentRegistry: Record<string, unknown> = {};
+for (const path of Object.keys(contentModules)) {
+  const match = /\/([a-z]+)\.([a-z]{2})\.ts$/.exec(path);
+  if (match) contentRegistry[`${match[1]}.${match[2]}`] = contentModules[path].default;
+}
+
+function localized<T>(domain: string, locale: Locale, base: T): T {
+  if (locale === 'en') return base;
+  return (contentRegistry[`${domain}.${locale}`] as T) ?? base;
+}
+
+export function getScenarios(locale: Locale): Scenario[] {
+  return localized('scenarios', locale, SCENARIOS);
+}
+
+export function getScenario(locale: Locale, id: string): Scenario | undefined {
+  return getScenarios(locale).find((s) => s.id === id) ?? SCENARIO_BY_ID[id];
+}
+
+export function getDisasters(locale: Locale): Disaster[] {
+  return localized('disasters', locale, DISASTERS);
+}
+
+export function getDisaster(locale: Locale, id: string): Disaster | undefined {
+  return getDisasters(locale).find((d) => d.id === id) ?? DISASTER_BY_ID[id];
+}
+
+export function getEmergencyData(locale: Locale): typeof emergency {
+  return localized('emergency', locale, emergency);
+}
 
 export function getTranslatedLevels(locale: Locale) {
   if (locale === 'en') return LEVELS;

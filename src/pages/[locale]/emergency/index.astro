@@ -2,7 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { LOCALES, type Locale } from '../../../i18n/locales';
 import { getDictionary, href as i18nHref } from '../../../i18n/index';
-import { FIRST_AID_TOPICS, SIGNAL_METHODS } from '../../../data/emergency';
+import { getEmergencyData } from '../../../i18n/data';
 
 export async function getStaticPaths() {
   return LOCALES.map((l) => ({ params: { locale: l.code } }));
@@ -10,6 +10,7 @@ export async function getStaticPaths() {
 
 const { locale } = Astro.params;
 const dict = getDictionary(locale);
+const { FIRST_AID_TOPICS, SIGNAL_METHODS } = getEmergencyData(locale);
 
 const sections = [
   { id: 'kits', title: dict.emergency.kitsTitle, desc: dict.emergency.kitsDescription, icon: '<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12" stroke-linecap="round" stroke-linejoin="round"/>' },

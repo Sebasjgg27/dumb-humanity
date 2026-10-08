@@ -9,7 +9,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
-    "check:links": "node scripts/check-links.mjs"
+    "check:links": "node scripts/check-links.mjs",
+    "check:i18n": "node scripts/check-i18n.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.0",

@@ -1,9 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import NodeCard from '../components/NodeCard.astro';
-import { getCollection } from 'astro:content';
-import { techSlug } from '../data/levels';
 import type { Locale } from '../i18n/locales';
+import { getLocalTech } from '../i18n/content';
 import { href as i18nHref } from '../i18n/index';
 import { getTranslatedSections } from '../i18n/data';
 
@@ -14,20 +13,19 @@ interface Props {
 }
 
 const { section, locale, dict } = Astro.props;
-const tech = await getCollection('tech');
-const summary = (n: (typeof tech)[number]) => n.body.slice(0, 130).replace(/#/g, '').replace(/\s+/g, ' ').trim();
+const tech = await getLocalTech(locale, 130);
 
-const bySlugMap = new Map(tech.map((t) => [techSlug(t.id), t]));
+const bySlugMap = new Map(tech.map((t) => [t.slug, t]));
 const matched = new Map<string, (typeof tech)[number]>();
 for (const t of tech) {
-  if (section.categories.includes(t.data.category)) matched.set(t.id, t);
+  if (section.categories.includes(t.entry.data.category)) matched.set(t.slug, t);
 }
 for (const s of section.slugs) {
   const t = bySlugMap.get(s);
-  if (t) matched.set(t.id, t);
+  if (t) matched.set(t.slug, t);
 }
 const articles = [...matched.values()].sort(
-  (a, b) => a.data.level.localeCompare(b.data.level) || a.data.order - b.data.order
+  (a, b) => a.entry.data.level.localeCompare(b.entry.data.level) || a.entry.data.order - b.entry.data.order
 );
 
 const allSections = [
@@ -40,7 +38,7 @@ const nextDef = allSections.find((s) => s.priority === section.priority + 1) ?? 
 const translatedSections = getTranslatedSections(locale);
 const nextSectionTitle = translatedSections.find((s) => s.id === nextDef?.id)?.title ?? nextDef?.id;
 const levelRange = articles.length
-  ? `${articles[0].data.level}–${articles[articles.length - 1].data.level}`
+  ? `${articles[0].entry.data.level}–${articles[articles.length - 1].entry.data.level}`
   : '';
 ---
 
@@ -62,13 +60,13 @@ const levelRange = articles.length
     {
       articles.map((n) => (
         <NodeCard locale={locale}
-          slug={techSlug(n.id)}
-          title={n.data.title}
-          level={n.data.level}
-          category={n.data.category}
-          safety={n.data.safety}
-          critical={n.data.critical}
-          summary={summary(n)}
+          slug={n.slug}
+          title={n.title}
+          level={n.entry.data.level}
+          category={n.entry.data.category}
+          safety={n.entry.data.safety}
+          critical={n.entry.data.critical}
+          summary={n.summary}
         />
       ))
     }

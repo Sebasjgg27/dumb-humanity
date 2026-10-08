@@ -3,7 +3,9 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import NodeCard from '../../../components/NodeCard.astro';
 import { getCollection } from 'astro:content';
 import { techSlug } from '../../../data/levels';
-import { DISASTERS, DISASTER_BY_ID } from '../../../data/disasters';
+import { getTechTitles } from '../../../i18n/content';
+import { getDisaster } from '../../../i18n/data';
+import { DISASTERS } from '../../../data/disasters';
 import { LOCALES, type Locale } from '../../../i18n/locales';
 import { getDictionary, href as i18nHref } from '../../../i18n/index';
 
@@ -19,10 +21,11 @@ export async function getStaticPaths() {
 
 const { locale, slug } = Astro.params;
 const dict = getDictionary(locale);
-const disaster = DISASTER_BY_ID[slug!];
+const disaster = getDisaster(locale, slug!);
 if (!disaster) return Astro.redirect(i18nHref(locale as Locale, '/'));
 
 const tech = await getCollection('tech');
+const techTitles = await getTechTitles(locale);
 const linked = disaster.linkedTech
   .map((t) => tech.find((entry) => techSlug(entry.id) === t))
   .filter(Boolean);
@@ -163,7 +166,7 @@ const typeColor = disaster.type === 'natural' ? 'bg-ok-soft text-ok' : 'bg-dange
             {linked.map((t) => (
               <li>
                 <a href={i18nHref(locale, `/tech/${techSlug(t!.id)}/`)} class="text-[13px] text-ink-soft hover:text-blue flex items-center justify-between gap-2 py-0.5">
-                  <span>{t!.data.title}</span>
+                  <span>{techTitles[techSlug(t!.id)] ?? t!.data.title}</span>
                   <span class="text-ink-faint shrink-0 font-mono text-[11px]">{t!.data.level}</span>
                 </a>
               </li>

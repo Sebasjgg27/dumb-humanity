@@ -3,7 +3,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import DisasterCard from '../../../components/DisasterCard.astro';
 import { LOCALES, type Locale } from '../../../i18n/locales';
 import { getDictionary, href as i18nHref } from '../../../i18n/index';
-import { DISASTERS } from '../../../data/disasters';
+import { getDisasters } from '../../../i18n/data';
 
 export async function getStaticPaths() {
   return LOCALES.map((l) => ({ params: { locale: l.code } }));
@@ -11,9 +11,10 @@ export async function getStaticPaths() {
 
 const { locale } = Astro.params;
 const dict = getDictionary(locale);
+const disasters = getDisasters(locale);
 
-const natural = DISASTERS.filter((d) => d.type === 'natural');
-const manMade = DISASTERS.filter((d) => d.type === 'man-made');
+const natural = disasters.filter((d) => d.type === 'natural');
+const manMade = disasters.filter((d) => d.type === 'man-made');
 ---
 
 <BaseLayout title={dict.disasters.title} description={dict.disasters.description} locale={locale}>

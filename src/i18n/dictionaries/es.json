@@ -222,6 +222,7 @@
     "legendExtreme": "Extremo"
   },
   "techArticle": {
+    "notTranslated": "Esta guía todavía no está disponible en {locale}; se muestra la versión en inglés.",
     "home": "Inicio",
     "library": "Biblioteca",
     "level": "Nivel",

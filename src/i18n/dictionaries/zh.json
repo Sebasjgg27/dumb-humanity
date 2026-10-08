@@ -222,6 +222,7 @@
     "legendExtreme": "极高"
   },
   "techArticle": {
+    "notTranslated": "本指南尚未翻译为 {locale}，当前显示英文版本。",
     "home": "首页",
     "library": "图书馆",
     "level": "等级",

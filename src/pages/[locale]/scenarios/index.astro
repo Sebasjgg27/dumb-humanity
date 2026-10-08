@@ -3,7 +3,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import ScenarioCard from '../../../components/ScenarioCard.astro';
 import { LOCALES, type Locale } from '../../../i18n/locales';
 import { getDictionary, href as i18nHref } from '../../../i18n/index';
-import { SCENARIOS } from '../../../data/scenarios';
+import { getScenarios } from '../../../i18n/data';
 
 export async function getStaticPaths() {
   return LOCALES.map((l) => ({ params: { locale: l.code } }));
@@ -11,6 +11,7 @@ export async function getStaticPaths() {
 
 const { locale } = Astro.params;
 const dict = getDictionary(locale);
+const scenarios = getScenarios(locale);
 ---
 
 <BaseLayout title={dict.scenarios.title} description={dict.scenarios.description} locale={locale}>
@@ -21,7 +22,7 @@ const dict = getDictionary(locale);
   </header>
 
   <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-    {SCENARIOS.map((s) => (
+    {scenarios.map((s) => (
       <ScenarioCard
         id={s.id}
         title={s.title}

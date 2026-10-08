@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
-import { techSlug, LEVELS, LEVEL_BY_ID, type Level } from '../../../data/levels';
+import { LEVELS, LEVEL_BY_ID, type Level } from '../../../data/levels';
 import { getTranslatedLevels } from '../../../i18n/data';
+import { getLocalTech } from '../../../i18n/content';
 import { LOCALES, type Locale } from '../../../i18n/locales';
 import { getDictionary, href as i18nHref } from '../../../i18n/index';
 
@@ -15,15 +15,15 @@ const dict = getDictionary(locale);
 const translatedLevels = getTranslatedLevels(locale);
 const levelName = (id: string) => translatedLevels.find((l) => l.id === id)?.name ?? id;
 
-const tech = await getCollection('tech');
+const tech = await getLocalTech(locale);
 const nodes = tech.map((t) => ({
-  id: techSlug(t.id),
-  title: t.data.title,
-  level: t.data.level as Level,
-  category: t.data.category,
-  safety: t.data.safety,
-  critical: t.data.critical,
-  prerequisites: t.data.prerequisites.map((p: any) => typeof p === 'string' ? p : p.id?.replace(/\.mdx?$/, '') || ''),
+  id: t.slug,
+  title: t.title,
+  level: t.entry.data.level as Level,
+  category: t.entry.data.category,
+  safety: t.entry.data.safety,
+  critical: t.entry.data.critical,
+  prerequisites: t.entry.data.prerequisites.map((p: any) => typeof p === 'string' ? p : p.id?.replace(/\.mdx?$/, '') || ''),
 })).sort((a, b) => {
   const levelOrder: Record<string, number> = { A0: 0, A1: 1, A2: 2, A3: 3, A4: 4, A5: 5 };
   return (levelOrder[a.level] || 0) - (levelOrder[b.level] || 0);

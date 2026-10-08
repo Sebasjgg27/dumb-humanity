@@ -53,4 +53,19 @@ const tech = defineCollection({
     }),
 });
 
-export const collections = { tech };
+// Translated article bodies + display strings, one folder per locale:
+// src/content/tech_i18n/<locale>/<slug>.mdx
+// Any field left out falls back to the English `tech` entry.
+const tech_i18n = defineCollection({
+  type: 'content',
+  schema: () =>
+    z.object({
+      title: z.string(),
+      materials: z.array(z.string()).optional(),
+      energy: z.string().optional(),
+      time_estimate: z.string().optional(),
+      salvage: z.array(z.string()).optional(),
+    }),
+});
+
+export const collections = { tech, tech_i18n };
