@@ -1,10 +1,10 @@
 # Dumb Humanity
 
-> Because apparently we need a manual for not dying.
+> Because apparently we need a manual for not dying and restore between us for our own mistakes.
 
-An offline-first, print-ready survival knowledge base for rebuilding civilization from scratch. From making fire to building engines — the whole ladder.
+An offline-first, print-ready survival knowledge base for rebuilding civilization from scratch or just do a survivable weekend n the most remote part of your country . From making fire to building engines — the whole ladder.
 
-Inspired by *Dr. Stone*, grounded in real knowledge-recovery science.
+Inspired by Riichiro Inagaki and Boichi, authors of manga and anime *Dr. Stone*, grounded in real knowledge-recovery science.
 
 ## Live Site
 
@@ -15,12 +15,12 @@ Inspired by *Dr. Stone*, grounded in real knowledge-recovery science.
 | Section | What It Covers |
 |---|---|
 | **Survival** | Water, fire, shelter, food, medicine, tools |
-| **Settlement** | Permanent shelter, sanitation, salt, community living |
-| **Agriculture** | Farming, seed saving, food preservation, animal husbandry |
+| **Settlement** | how to do a shelter, health, community living |
+| **Agriculture** | Farming, seed saving, food preservation, animals |
 | **Medicine** | First aid, herbal medicine, vaccination |
-| **Science** | Chemistry, measurement, optics |
+| **Science** | basic and advance Chemistry, measurement, optics |
 | **Engineering** | Metallurgy, machines, power, communication |
-| **Industry** | Scaling production past the workshop |
+| **Industry** | Scaling production past the workshop and basic techniques |
 
 Plus the hubs:
 
@@ -49,7 +49,7 @@ Every technology depends on the ones before it. You can't skip rungs.
 
 ## Languages
 
-Full interface translation in **6 languages**: English, Español, Français, 中文, العربية, Português — every page exists in all of them.
+Full interface translation in **6 languages**: English, Español, Français, 中文, العربية, Português — every page exists in all of them. for the moment the web is being working on English and will have update in the next updates
 
 **By the numbers:** 70 guides · 7 sections · 120 pages per language · 721 static HTML files · zero JavaScript required to read.
 
@@ -76,4 +76,8 @@ No CDNs, no analytics, no tracking, no build-time JS for content. Paper outlives
 
 ## License
 
-[MIT](LICENSE) — open source. Free to copy, print, and redistribute. Knowledge belongs to everyone.
+[MIT](LICENSE) — open source. Free to copy, print, and redistribute. Knowledge belongs to everyone, but use this knowledge wisely please, internet give this information and all we must appreciate.
+
+## Author and Creation
+
+This Website is Create by Sebastian Gonzalez, and his trying to learn code and how to use correctly AI in his crazy and amazing projects. Check out his personal Web!!

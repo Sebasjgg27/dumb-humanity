@@ -57,10 +57,10 @@ unlocks: [next_tech]         # What this enables
 materials: ['clay', 'water']
 energy: muscle               # muscle, fire, water, steam, electric
 time_estimate: "2 hours"
-people: 2
+people: 2 or more (More persons thinks better than one)
 safety: LOW                  # LOW, MODERATE, HIGH, EXTREME
 salvage: ['bricks from ruins']
-dr_stone_ref: "Episode 12"
+dr_stone_ref: "Episode 12" #just as reference :)
 critical: false
 order: 1
 ---
@@ -116,7 +116,7 @@ Rules:
 
 - **Offline-first** — everything is static HTML, no JS required for content
 - **Print-ready** — every page should look good on paper
-- **6 languages** — all content is translatable
+- **6 languages** — all content is adn must be translatable
 - **No external dependencies** — no CDN, no analytics, no tracking
 
 ## Deploy
@@ -140,4 +140,5 @@ git worktree remove /tmp/ghpages --force
 
 ## Questions?
 
-Open an issue. We don't bite. (We're too busy rebuilding civilization.)
+Open an issue. We don't bite. (We're too busy rebuilding civilization or searching more knowledge to dont let the humanity down, every corner could start or be a disaster.)
+before opening an issue check if your problem was resolved before, so everyone dont make turns around the same question bud.
