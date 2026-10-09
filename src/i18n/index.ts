@@ -16,9 +16,12 @@ export function getDictionary(locale: Locale): Dictionary {
 }
 
 export function t(locale: Locale, key: string): string {
-  const dict = getDictionary(locale);
-  const val = key.split('.').reduce((obj: any, k) => obj?.[k], dict);
-  return typeof val === 'string' ? val : key;
+  const resolve = (loc: Locale): unknown =>
+    key.split('.').reduce((obj: any, k) => obj?.[k], dictionaries[loc]);
+  const val = resolve(locale);
+  if (typeof val === 'string') return val;
+  const fallback = resolve(DEFAULT_LOCALE);
+  return typeof fallback === 'string' ? fallback : key;
 }
 
 export function href(locale: Locale, path: string): string {

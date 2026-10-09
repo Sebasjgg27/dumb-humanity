@@ -38,25 +38,25 @@ const icons: Record<string, string> = {
 };
 ---
 
-<a href={href} class="group block rounded-lg border border-line bg-surface p-5 transition-all hover:border-blue/50 hover:shadow-md">
-  <div class="flex items-start justify-between gap-3 mb-3">
-    <div class="w-10 h-10 rounded-lg bg-danger-soft flex items-center justify-center shrink-0">
+<a href={href} class="card group p-6">
+  <div class="flex items-start justify-between gap-3 mb-4">
+    <div class="w-10 h-10 rounded-md bg-danger-soft flex items-center justify-center shrink-0">
       <svg viewBox="0 0 24 24" class="w-5 h-5 text-danger" fill="none" stroke="currentColor" stroke-width="1.8">
         <Fragment set:html={icons[id] || icons.earthquake} />
       </svg>
     </div>
     <div class="flex items-center gap-2">
-      <span class={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${typeColor}`}>
+      <span class={`font-mono text-[9.5px] font-medium uppercase tracking-[0.1em] px-2 py-0.5 rounded-sm ${typeColor}`}>
         {typeLabel}
       </span>
-      <span class={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${dangerColors[dangerLevel]}`}>
+      <span class={`font-mono text-[9.5px] font-medium uppercase tracking-[0.1em] px-2 py-0.5 rounded-sm ${dangerColors[dangerLevel]}`}>
         {dangerLabel}
       </span>
     </div>
   </div>
-  <h3 class="font-semibold text-base group-hover:text-blue mb-1">{title}</h3>
+  <h3 class="font-serif text-[1.1rem] font-semibold tracking-tight mb-2">{title}</h3>
   <div class="flex items-center gap-2 mt-2">
-    <span class="text-[11px] text-ink-faint font-mono">{dict.common.dangerLevel} {dangerLevel}/5</span>
+    <span class="font-mono text-[11px] text-ink-faint">{dict.common.dangerLevel} {dangerLevel}/5</span>
     <div class="flex gap-0.5">
       {Array.from({ length: 5 }).map((_, i) => (
         <span class:list={['w-1.5 h-1.5 rounded-full', i < dangerLevel ? 'bg-danger' : 'bg-line']} />

@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
-import { techSlug, LEVELS, LEVEL_BY_ID, type Level } from '../../../data/levels';
+import { LEVELS, LEVEL_BY_ID, type Level } from '../../../data/levels';
 import { getTranslatedLevels } from '../../../i18n/data';
+import { getLocalTech } from '../../../i18n/content';
 import { LOCALES, type Locale } from '../../../i18n/locales';
 import { getDictionary, href as i18nHref } from '../../../i18n/index';
 
@@ -15,15 +15,15 @@ const dict = getDictionary(locale);
 const translatedLevels = getTranslatedLevels(locale);
 const levelName = (id: string) => translatedLevels.find((l) => l.id === id)?.name ?? id;
 
-const tech = await getCollection('tech');
+const tech = await getLocalTech(locale);
 const nodes = tech.map((t) => ({
-  id: techSlug(t.id),
-  title: t.data.title,
-  level: t.data.level as Level,
-  category: t.data.category,
-  safety: t.data.safety,
-  critical: t.data.critical,
-  prerequisites: t.data.prerequisites.map((p: any) => typeof p === 'string' ? p : p.id?.replace(/\.mdx?$/, '') || ''),
+  id: t.slug,
+  title: t.title,
+  level: t.entry.data.level as Level,
+  category: t.entry.data.category,
+  safety: t.entry.data.safety,
+  critical: t.entry.data.critical,
+  prerequisites: t.entry.data.prerequisites.map((p: any) => typeof p === 'string' ? p : p.id?.replace(/\.mdx?$/, '') || ''),
 })).sort((a, b) => {
   const levelOrder: Record<string, number> = { A0: 0, A1: 1, A2: 2, A3: 3, A4: 4, A5: 5 };
   return (levelOrder[a.level] || 0) - (levelOrder[b.level] || 0);
@@ -68,7 +68,7 @@ nodes.forEach((n) => {
 });
 
 const safetyColors: Record<string, string> = {
-  LOW: '#16a34a', MODERATE: '#ca8a04', HIGH: '#ea580c', EXTREME: '#dc2626',
+  LOW: '#3e7250', MODERATE: '#94771c', HIGH: '#ad5b22', EXTREME: '#9c3b2c',
 };
 ---
 
@@ -82,7 +82,7 @@ const safetyColors: Record<string, string> = {
       <span class="text-ink-soft">{dict.techTree.treeBreadcrumb}</span>
     </nav>
     <p class="tech-label text-blue mb-2">{dict.techTree.interactiveGraph}</p>
-    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{dict.techTree.title}</h1>
+    <h1 class="font-serif text-3xl md:text-4xl font-semibold tracking-tight">{dict.techTree.title}</h1>
     <p class="text-ink-soft mt-2 max-w-2xl">{dict.techTree.hoverHint}</p>
   </header>
 
@@ -142,7 +142,7 @@ const safetyColors: Record<string, string> = {
       {nodes.map((n) => {
         const pos = nodePositions[n.id];
         if (!pos) return null;
-        const fillColor = safetyColors[n.safety] || '#16a34a';
+        const fillColor = safetyColors[n.safety] || '#3e7250';
         return (
           <a href={i18nHref(locale, `/tech/${n.id}/`)}>
             <g class="tree-node" data-id={n.id}>
@@ -189,16 +189,16 @@ const safetyColors: Record<string, string> = {
 
   <div class="mt-6 flex flex-wrap items-center gap-4 text-xs text-ink-faint">
     <div class="flex items-center gap-1.5">
-      <span class="w-3 h-1 rounded bg-[#16a34a]"></span> {dict.danger.low}
+      <span class="w-3 h-1 rounded bg-[#457a54]"></span> {dict.danger.low}
     </div>
     <div class="flex items-center gap-1.5">
-      <span class="w-3 h-1 rounded bg-[#ca8a04]"></span> {dict.danger.moderate}
+      <span class="w-3 h-1 rounded bg-[#94771c]"></span> {dict.danger.moderate}
     </div>
     <div class="flex items-center gap-1.5">
-      <span class="w-3 h-1 rounded bg-[#ea580c]"></span> {dict.danger.high}
+      <span class="w-3 h-1 rounded bg-[#ad5b22]"></span> {dict.danger.high}
     </div>
     <div class="flex items-center gap-1.5">
-      <span class="w-3 h-1 rounded bg-[#dc2626]"></span> {dict.danger.extreme}
+      <span class="w-3 h-1 rounded bg-[#9c3b2c]"></span> {dict.danger.extreme}
     </div>
     <div class="flex items-center gap-1.5">
       <span class="w-2 h-2 rounded-full bg-danger"></span> {dict.common.criticalPath}
@@ -212,7 +212,7 @@ const safetyColors: Record<string, string> = {
   }
   .tree-node:hover rect:first-of-type {
     stroke: var(--color-blue);
-    filter: drop-shadow(0 2px 6px rgba(29, 78, 216, 0.2));
+    filter: drop-shadow(0 2px 6px rgba(43, 74, 122, 0.25));
   }
   .tree-edge {
     transition: stroke 0.15s, stroke-width 0.15s;

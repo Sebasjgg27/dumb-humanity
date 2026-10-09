@@ -72,12 +72,12 @@ const navGroups = [
 ];
 ---
 
-<header class="no-print sticky top-0 z-50 bg-navy text-navy-ink border-b border-white/10 shadow-sm">
+<header class="no-print sticky top-0 z-50 bg-navy text-navy-ink border-b border-white/10">
   <div class="max-w-7xl mx-auto flex items-center gap-2 px-4 sm:px-6 h-14">
     <button
       type="button"
       id="sidebar-toggle"
-      class="p-2 -ml-2 rounded-md hover:bg-white/10 text-navy-ink lg:hidden"
+      class="p-2 -ml-2 rounded-md hover:bg-white/10 text-navy-ink transition-colors lg:hidden"
       aria-label={dict.aria.toggleSidebar}
       title={dict.aria.toggleSidebar}
     >
@@ -86,16 +86,16 @@ const navGroups = [
       </svg>
     </button>
 
-    <a href={i18nHref(locale, '/')} class="flex items-center gap-2 min-w-0 shrink-0">
+    <a href={i18nHref(locale, '/')} class="group flex items-center gap-2.5 min-w-0 shrink-0">
       <svg viewBox="0 0 24 24" class="w-6 h-6 shrink-0" aria-hidden="true">
         <path d="M12 3 L5 6.5 V13 C5 17 8 20 12 21 C16 20 19 17 19 13 V6.5 Z" fill="none" stroke="currentColor" stroke-width="1.6" />
-        <path d="M12 7.5 V14" stroke="#7fb0ff" stroke-width="1.4" stroke-linecap="round" />
-        <circle cx="12" cy="14.5" r="1.2" fill="#7fb0ff" />
+        <path d="M12 7.5 V14" stroke="#9db8e0" stroke-width="1.4" stroke-linecap="round" />
+        <circle cx="12" cy="14.5" r="1.2" fill="#9db8e0" />
       </svg>
-      <span class="font-semibold tracking-tight text-[15px] leading-tight hidden sm:inline">
+      <span class="font-serif font-semibold tracking-tight text-[15.5px] leading-tight hidden sm:inline transition-opacity group-hover:opacity-80">
         {dict.site.title}
       </span>
-      <span class="font-semibold tracking-tight text-[15px] leading-tight sm:hidden">
+      <span class="font-serif font-semibold tracking-tight text-[15.5px] leading-tight sm:hidden">
         {dict.site.shortTitle}
       </span>
     </a>
@@ -131,7 +131,7 @@ const navGroups = [
 
       <a
         href={i18nHref(locale, '/search/')}
-        class="p-2 rounded-md hover:bg-white/10 text-navy-ink"
+        class="p-2 rounded-md hover:bg-white/10 text-navy-ink transition-colors"
         aria-label={dict.aria.searchLibrary}
         title={dict.aria.searchLibrary}
       >
@@ -143,7 +143,7 @@ const navGroups = [
       <button
         type="button"
         id="theme-toggle"
-        class="p-2 rounded-md hover:bg-white/10 text-navy-ink"
+        class="p-2 rounded-md hover:bg-white/10 text-navy-ink transition-colors"
         aria-label={dict.aria.toggleDarkMode}
         title={dict.aria.toggleDarkMode}
       >
@@ -162,10 +162,10 @@ const navGroups = [
     <div class="px-4 py-1.5 min-w-max max-w-7xl mx-auto">
       {navGroups.map((group) => (
         <div class="mb-1">
-          <span class="block text-[9px] font-bold uppercase tracking-wider text-white/30 px-2.5 pt-1.5">{group.label}</span>
+          <span class="block text-[9px] font-mono font-medium uppercase tracking-[0.16em] text-white/40 px-2.5 pt-1.5">{group.label}</span>
           <div class="flex gap-0.5">
             {group.items.map((n) => (
-              <a href={n.href} class="px-2.5 py-1.5 rounded-md text-[11px] font-medium hover:bg-white/10 text-navy-ink/90 whitespace-nowrap">
+              <a href={n.href} class="px-2.5 py-1.5 rounded-md text-[11.5px] font-medium hover:bg-white/10 text-navy-ink/90 whitespace-nowrap transition-colors">
                 {n.label}
               </a>
             ))}
@@ -182,89 +182,98 @@ const navGroups = [
     position: relative;
   }
 
-  /* ── Trigger button ── */
+  /* ── Trigger button: mono micro-caps ── */
   .nav-dropdown-trigger {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
-    padding: 0.4rem 0.65rem;
+    gap: 0.3rem;
+    padding: 0.45rem 0.7rem;
     border: none;
-    border-radius: 0.375rem;
+    border-radius: var(--radius-md);
     background: transparent;
-    color: var(--color-navy-ink, rgba(255,255,255,0.85));
-    font: inherit;
-    font-size: 12.5px;
-    font-weight: 600;
-    letter-spacing: 0.01em;
+    color: rgba(246, 243, 236, 0.72);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     cursor: pointer;
     white-space: nowrap;
-    transition: background-color 0.15s, color 0.15s;
+    transition: background-color 0.3s var(--ease-out), color 0.3s var(--ease-out);
   }
   .nav-dropdown-trigger:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.08);
     color: #fff;
   }
 
   .nav-chevron {
-    width: 0.75rem;
-    height: 0.75rem;
+    width: 0.7rem;
+    height: 0.7rem;
     opacity: 0.5;
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    transition: transform 0.3s var(--ease-out), opacity 0.3s var(--ease-out);
   }
   .nav-dropdown:hover .nav-chevron {
     transform: rotate(180deg);
     opacity: 1;
   }
 
-  /* ── Dropdown menu ── */
+  /* ── Dropdown menu: paper card ── */
   .nav-dropdown-menu {
     position: absolute;
-    top: calc(100% + 4px);
+    top: calc(100% + 6px);
     left: 50%;
-    transform: translateX(-50%);
-    min-width: 10rem;
-    padding: 0.3rem;
-    border-radius: 0.5rem;
-    background: var(--color-surface, #1a2332);
-    border: 1px solid var(--color-line, rgba(255,255,255,0.1));
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.2);
+    min-width: 12rem;
+    padding: 0.4rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    box-shadow: var(--shadow-lg);
     display: flex;
     flex-direction: column;
     gap: 1px;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transform: translateX(-50%) translateY(-4px);
-    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+    transform: translateX(-50%) translateY(-6px);
+    transition:
+      opacity 0.28s var(--ease-out),
+      transform 0.28s var(--ease-out),
+      visibility 0.28s;
   }
 
-  .nav-dropdown:hover > .nav-dropdown-menu {
+  .nav-dropdown:hover > .nav-dropdown-menu,
+  .nav-dropdown:focus-within > .nav-dropdown-menu {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
     transform: translateX(-50%) translateY(0);
-    transition: opacity 0.15s ease 0.06s, transform 0.15s ease 0.06s, visibility 0s;
+    transition:
+      opacity 0.28s var(--ease-out) 0.05s,
+      transform 0.28s var(--ease-out) 0.05s,
+      visibility 0s;
   }
 
   /* ── Menu item ── */
   .nav-dropdown-item {
     display: block;
-    padding: 0.4rem 0.75rem;
-    border-radius: 0.25rem;
-    font-size: 12.5px;
-    font-weight: 500;
-    color: var(--color-navy-ink, rgba(255,255,255,0.8));
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 450;
+    letter-spacing: 0.01em;
+    color: var(--color-ink-soft);
     text-decoration: none;
     white-space: nowrap;
-    transition: background-color 0.1s, color 0.1s;
+    transition: background-color 0.2s var(--ease-out), color 0.2s var(--ease-out);
   }
   .nav-dropdown-item:hover {
-    background-color: rgba(255, 255, 255, 0.08);
-    color: #fff;
+    background-color: var(--color-bg);
+    color: var(--color-ink);
   }
   .nav-dropdown-item.active {
-    background-color: rgba(127, 176, 255, 0.15);
-    color: #7fb0ff;
+    background-color: var(--color-blue-soft);
+    color: var(--color-blue);
+    font-weight: 550;
   }
 </style>
 

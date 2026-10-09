@@ -2,7 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { LOCALES, type Locale } from '../../../i18n/locales';
 import { getDictionary, href as i18nHref } from '../../../i18n/index';
-import { EVACUATION_PLANS } from '../../../data/emergency';
+import { getEmergencyData } from '../../../i18n/data';
 
 export async function getStaticPaths() {
   return LOCALES.map((l) => ({ params: { locale: l.code } }));
@@ -10,6 +10,7 @@ export async function getStaticPaths() {
 
 const { locale } = Astro.params;
 const dict = getDictionary(locale);
+const { EVACUATION_PLANS } = getEmergencyData(locale);
 ---
 
 <BaseLayout title={dict.emergency.evacuationTitle} description={dict.emergency.evacuationDescription} locale={locale}>
@@ -23,7 +24,7 @@ const dict = getDictionary(locale);
 
   <header class="mb-8 border-b border-line pb-6">
     <p class="tech-label text-danger mb-2">{dict.emergency.evacuationTagline}</p>
-    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{dict.emergency.evacuationTitle}</h1>
+    <h1 class="font-serif text-3xl md:text-4xl font-semibold tracking-tight">{dict.emergency.evacuationTitle}</h1>
     <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.emergency.evacuationDescription}</p>
   </header>
 
@@ -31,7 +32,7 @@ const dict = getDictionary(locale);
     {EVACUATION_PLANS.map((plan) => (
       <div class="rounded-lg border border-line bg-surface p-6">
         <div class="flex items-start justify-between gap-4 mb-4 flex-wrap">
-          <h2 class="font-serif text-xl font-bold">{plan.name}</h2>
+          <h2 class="font-serif text-xl font-semibold">{plan.name}</h2>
           <span class="shrink-0 text-[11px] font-medium px-2 py-0.5 rounded bg-danger-soft text-danger">{plan.timeEstimate}</span>
         </div>
 

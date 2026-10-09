@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import { techSlug } from '../data/levels';
 import { SIDEBAR } from '../data/sidebar';
 import { getTranslatedSidebar } from '../i18n/data';
+import { getTechTitles } from '../i18n/content';
 import { href as i18nHref } from '../i18n/index';
 import type { Locale } from '../i18n/locales';
 
@@ -16,6 +17,7 @@ const SIDEBAR_DATA = getTranslatedSidebar(locale);
 
 const tech = await getCollection('tech');
 const bySlug = new Map(tech.map((t) => [techSlug(t.id), t]));
+const techTitles = await getTechTitles(locale);
 
 const PAGE_LINKS: Record<string, { href: string; label: string }> = {
   'em-kits': { href: '/emergency/kits/', label: 'Survival Kits' },
@@ -112,7 +114,7 @@ const icons = {
                   const items = sub.slugs
                     .map((s) => bySlug.get(s))
                     .filter(Boolean)
-                    .map((t) => ({ id: techSlug(t!.id), title: t!.data.title }));
+                    .map((t) => ({ id: techSlug(t!.id), title: techTitles[techSlug(t!.id)] ?? t!.data.title }));
 
                   if (items.length === 0) return null;
 
@@ -166,14 +168,14 @@ const icons = {
     width: 100%;
     padding: 0.5rem 0.5rem;
     border: none;
-    border-radius: 0.375rem;
+    border-radius: var(--radius-md);
     background: transparent;
     color: inherit;
     font: inherit;
     font-size: 13px;
     cursor: pointer;
     text-align: left;
-    transition: background-color 0.15s, color 0.15s;
+    transition: background-color 0.2s var(--ease-out), color 0.2s var(--ease-out);
   }
   .nav-button:hover {
     background-color: var(--color-blue-soft);
@@ -198,7 +200,7 @@ const icons = {
     width: 0.875rem;
     height: 0.875rem;
     color: var(--color-ink-faint);
-    transition: transform 0.2s ease;
+    transition: transform 0.3s var(--ease-out);
   }
   .nav-item:hover .nav-chevron,
   .nav-item:focus-within .nav-chevron {
@@ -212,7 +214,7 @@ const icons = {
     height: 0;
     opacity: 0;
     overflow: hidden;
-    transition: opacity 0.15s ease 0.08s, height 0.2s ease;
+    transition: opacity 0.25s var(--ease-out) 0.08s, height 0.25s var(--ease-out);
     pointer-events: none;
   }
 
@@ -221,7 +223,7 @@ const icons = {
     height: auto;
     opacity: 1;
     pointer-events: auto;
-    transition: opacity 0.15s ease 0.12s, height 0s;
+    transition: opacity 0.25s var(--ease-out) 0.12s, height 0s;
   }
 
   .nav-dropdown-inner {
@@ -242,7 +244,7 @@ const icons = {
     font-size: 12.5px;
     color: var(--color-blue);
     text-decoration: none;
-    transition: background-color 0.12s;
+    transition: background-color 0.2s var(--ease-out);
   }
   .nav-dropdown-hub:hover {
     background-color: var(--color-blue-soft);
@@ -254,12 +256,13 @@ const icons = {
   }
   .nav-dropdown-group-label {
     display: block;
-    padding: 0.3rem 0.5rem;
+    padding: 0.4rem 0.5rem 0.25rem;
+    font-family: var(--font-mono);
     font-weight: 500;
-    font-size: 12px;
+    font-size: 10px;
     color: var(--color-ink-faint);
     text-transform: uppercase;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.12em;
   }
   .nav-dropdown-group ul {
     list-style: none;
@@ -280,14 +283,11 @@ const icons = {
     line-height: 1.4;
     color: var(--color-ink-soft);
     text-decoration: none;
-    transition: color 0.12s, background-color 0.12s, border-color 0.12s;
+    transition: color 0.2s var(--ease-out), background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
   }
   .nav-dropdown-link:hover {
     color: var(--color-blue);
-    background-color: rgba(234, 240, 253, 0.6);
-  }
-  :global(.dark) .nav-dropdown-link:hover {
-    background-color: rgba(23, 36, 60, 0.6);
+    background-color: color-mix(in srgb, var(--color-blue-soft) 60%, transparent);
   }
   .nav-dropdown-link.active {
     background-color: var(--color-blue-soft);

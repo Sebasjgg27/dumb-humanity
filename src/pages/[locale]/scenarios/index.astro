@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import ScenarioCard from '../../../components/ScenarioCard.astro';
+import PlateArt from '../../../components/PlateArt.astro';
 import { LOCALES, type Locale } from '../../../i18n/locales';
 import { getDictionary, href as i18nHref } from '../../../i18n/index';
-import { SCENARIOS } from '../../../data/scenarios';
+import { getScenarios } from '../../../i18n/data';
 
 export async function getStaticPaths() {
   return LOCALES.map((l) => ({ params: { locale: l.code } }));
@@ -11,17 +12,23 @@ export async function getStaticPaths() {
 
 const { locale } = Astro.params;
 const dict = getDictionary(locale);
+const scenarios = getScenarios(locale);
 ---
 
 <BaseLayout title={dict.scenarios.title} description={dict.scenarios.description} locale={locale}>
   <header class="mb-10">
-    <p class="tech-label text-danger mb-2">{dict.scenarios.tagline}</p>
-    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{dict.scenarios.title}</h1>
-    <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.scenarios.description}</p>
+    <div class="flex items-start justify-between gap-8">
+      <div class="min-w-0">
+        <p class="tech-label text-danger mb-2">{dict.scenarios.tagline}</p>
+        <h1 class="font-serif text-3xl md:text-4xl font-semibold tracking-tight">{dict.scenarios.title}</h1>
+        <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.scenarios.description}</p>
+      </div>
+      <PlateArt name="compass" class="hidden md:block w-[260px] lg:w-[320px] shrink-0 -mt-1 no-print" />
+    </div>
   </header>
 
-  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-    {SCENARIOS.map((s) => (
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+    {scenarios.map((s) => (
       <ScenarioCard
         id={s.id}
         title={s.title}

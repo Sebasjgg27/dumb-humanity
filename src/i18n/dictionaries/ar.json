@@ -222,6 +222,7 @@
     "legendExtreme": "بالغ"
   },
   "techArticle": {
+    "notTranslated": "لم يُترجَم هذا الدليل إلى {locale} بعد — تُعرض النسخة الإنجليزية.",
     "home": "الرئيسية",
     "library": "المكتبة",
     "level": "المستوى",

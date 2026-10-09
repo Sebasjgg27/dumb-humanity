@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import DisasterCard from '../../../components/DisasterCard.astro';
+import PlateArt from '../../../components/PlateArt.astro';
 import { LOCALES, type Locale } from '../../../i18n/locales';
 import { getDictionary, href as i18nHref } from '../../../i18n/index';
-import { DISASTERS } from '../../../data/disasters';
+import { getDisasters } from '../../../i18n/data';
 
 export async function getStaticPaths() {
   return LOCALES.map((l) => ({ params: { locale: l.code } }));
@@ -11,25 +12,31 @@ export async function getStaticPaths() {
 
 const { locale } = Astro.params;
 const dict = getDictionary(locale);
+const disasters = getDisasters(locale);
 
-const natural = DISASTERS.filter((d) => d.type === 'natural');
-const manMade = DISASTERS.filter((d) => d.type === 'man-made');
+const natural = disasters.filter((d) => d.type === 'natural');
+const manMade = disasters.filter((d) => d.type === 'man-made');
 ---
 
 <BaseLayout title={dict.disasters.title} description={dict.disasters.description} locale={locale}>
   <header class="mb-10">
-    <p class="tech-label text-warn mb-2">{dict.disasters.tagline}</p>
-    <h1 class="font-serif text-3xl md:text-4xl font-bold tracking-tight">{dict.disasters.title}</h1>
-    <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.disasters.description}</p>
+    <div class="flex items-start justify-between gap-8">
+      <div class="min-w-0">
+        <p class="tech-label text-warn mb-2">{dict.disasters.tagline}</p>
+        <h1 class="font-serif text-3xl md:text-4xl font-semibold tracking-tight">{dict.disasters.title}</h1>
+        <p class="text-ink-soft mt-3 max-w-2xl leading-relaxed">{dict.disasters.description}</p>
+      </div>
+      <PlateArt name="alert" class="hidden md:block w-[260px] lg:w-[320px] shrink-0 -mt-1 no-print" />
+    </div>
   </header>
 
   <div class="mb-8">
     <div class="flex items-center gap-2 mb-4">
       <span class="w-2 h-2 rounded-full bg-ok"></span>
-      <h2 class="font-serif text-lg font-bold">{dict.disasters.naturalDisasters}</h2>
+      <h2 class="font-serif text-lg font-semibold">{dict.disasters.naturalDisasters}</h2>
       <span class="text-xs text-ink-faint font-mono">({natural.length})</span>
     </div>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
       {natural.map((d) => (
         <DisasterCard
           id={d.id}
@@ -46,10 +53,10 @@ const manMade = DISASTERS.filter((d) => d.type === 'man-made');
   <div class="mb-8">
     <div class="flex items-center gap-2 mb-4">
       <span class="w-2 h-2 rounded-full bg-danger"></span>
-      <h2 class="font-serif text-lg font-bold">{dict.disasters.manMadeDisasters}</h2>
+      <h2 class="font-serif text-lg font-semibold">{dict.disasters.manMadeDisasters}</h2>
       <span class="text-xs text-ink-faint font-mono">({manMade.length})</span>
     </div>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
       {manMade.map((d) => (
         <DisasterCard
           id={d.id}
