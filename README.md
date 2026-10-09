@@ -2,7 +2,7 @@
 
 > Because apparently we need a manual for not dying and restore between us for our own mistakes.
 
-An offline-first, print-ready survival knowledge base for rebuilding civilization from scratch or just do a survivable weekend n the most remote part of your country . From making fire to building engines — the whole ladder.
+An offline, print-ready survival knowledge base for rebuilding civilization from scratch or just do a survivable weekend n the most remote part of your country . From making fire to building engines — the whole ladder.
 
 Inspired by Riichiro Inagaki and Boichi, authors of manga and anime *Dr. Stone*, grounded in real knowledge-recovery science.
 
@@ -13,7 +13,7 @@ Inspired by Riichiro Inagaki and Boichi, authors of manga and anime *Dr. Stone*,
 ## What's Inside
 
 | Section | What It Covers |
-|---|---|
+| --- | --- |
 | **Survival** | Water, fire, shelter, food, medicine, tools |
 | **Settlement** | how to do a shelter, health, community living |
 | **Agriculture** | Farming, seed saving, food preservation, animals |
@@ -25,7 +25,7 @@ Inspired by Riichiro Inagaki and Boichi, authors of manga and anime *Dr. Stone*,
 Plus the hubs:
 
 | Hub | What It Covers |
-|---|---|
+| --- | --- |
 | **[Library](https://sebasjgg27.github.io/dumb-humanity/en/library/)** | All 70 guides, filterable by stage and level |
 | **[Tech Tree](https://sebasjgg27.github.io/dumb-humanity/en/tech/tree/)** | Visual dependency graph of every technology |
 | **[Emergency](https://sebasjgg27.github.io/dumb-humanity/en/emergency/)** | Survival kits, first aid, rescue signals, evacuation |
@@ -39,7 +39,7 @@ Plus the hubs:
 Every technology depends on the ones before it. You can't skip rungs.
 
 | Level | Name | The Big Question |
-|---|---|---|
+| --- | --- | --- |
 | A0 | Survival Baseline | Can humans stay alive? |
 | A1 | Stabilized Community | Can people live here sustainably? |
 | A2 | Industrial Seed | Can we bootstrap industry? |

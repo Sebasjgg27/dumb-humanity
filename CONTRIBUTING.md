@@ -1,6 +1,6 @@
 # Contributing to Dumb Humanity
 
-Thanks for wanting to help rebuild civilization. Here's how.
+Thanks for wanting to help rebuild civilization, i apreciatte that you are interested in how this works and want to conribute, if humanity want to destroy the world and the building again he is how you can start. here are the step to start.
 
 ## Quick Start
 
@@ -14,7 +14,7 @@ npm run check:links # verify every internal link resolves
 
 ## Project Structure
 
-```
+```text
 src/
 ├── content/tech/          # MDX articles (the knowledge base)
 ├── data/
@@ -60,13 +60,53 @@ time_estimate: "2 hours"
 people: 2 or more (More persons thinks better than one)
 safety: LOW                  # LOW, MODERATE, HIGH, EXTREME
 salvage: ['bricks from ruins']
-dr_stone_ref: "Episode 12" #just as reference :)
+dr_stone_ref: "Episode 12" #just as reference :), is not mandatory.
 critical: false
 order: 1
+status: documented           # optional: established | documented | estimate | experimental
+references:                  # optional: sources for factual/technical claims
+  - "Book, paper, or standard (year)"
 ---
-```
 
-3. Add the tech slug to the appropriate subsection in `src/data/sidebar.ts`
+1. Add the tech slug to the appropriate subsection in `src/data/sidebar.ts`
+
+## Guide Structure
+
+A guide should be as long as its subject needs, but cover the useful parts. Not
+every guide needs every section — adapt to the topic:
+
+1. **Purpose** — what it is for and when to use it.
+2. **Background** — how it works, for the curious and for troubleshooting.
+3. **Materials & tools** — what you need, including what can be scavenged.
+4. **Prerequisites** — what to know or build first.
+5. **Steps** — ordered, concrete instructions.
+6. **Diagrams / tables** — where they help more than prose.
+7. **Safety & limits** — known risks, uncertainty, and when to get professional help.
+8. **Common mistakes / troubleshooting** — what usually goes wrong.
+9. **Testing** — how to verify the result worked.
+10. **References** — sources for factual or technical claims.
+11. **Revision** — what changed and when, when known.
+
+## Honesty Rules
+
+This archive is only useful if it can be trusted. Please keep it honest:
+
+- Do **not** mark content as validated, tested, reproducible, or verified unless
+  it actually was through a real review or test. `status` describes the kind of
+  knowledge, not a quality badge.
+- Use `status` to distinguish levels of confidence:
+  - `established` — well-established science.
+  - `documented` — a well-documented procedure.
+  - `estimate` — a reasonable engineering estimate.
+  - `experimental` — experimental or uncertain; say so in the body.
+- Cite sources in `references` for factual claims, technical procedures, and
+  scientific recommendations.
+- For safety-critical topics, state the limits and uncertainty explicitly and
+  point readers to qualified professional guidance.
+- Never invent statistics, guide counts, or testing claims in the UI.
+
+
+1. Add the tech slug to the appropriate subsection in `src/data/sidebar.ts`
 
 ## Adding a Scenario or Disaster
 
@@ -78,7 +118,7 @@ order: 1
 
 All user-facing strings live in `src/i18n/dictionaries/`. When adding keys:
 
-1. Add the key to **all 6 files** (en, es, fr, zh, ar, pt)
+1. Add the key to **all 6 files** (en, es, fr, zh, ar, pt) (**Note:** this languages are the principal one, if you want to add one make a suggestion)
 2. Section titles and UI strings are translated (`sections.*`, `nav.*`, ...)
 3. The `en.json` file is the source of truth
 4. `t()` falls back to English, then to the raw key — a missing key never renders
@@ -89,7 +129,7 @@ All user-facing strings live in `src/i18n/dictionaries/`. When adding keys:
 UI chrome is only half the story — the knowledge itself is translated separately:
 
 | Content | Where it lives | Fallback |
-|---|---|---|
+| --- | --- | --- |
 | 70 tech articles | `src/content/tech_i18n/<locale>/<slug>.mdx` | English body + "not translated" notice |
 | Scenario guides | `src/data/i18n/scenarios.<locale>.ts` (default export = full array, same ids) | English array |
 | Disaster guides | `src/data/i18n/disasters.<locale>.ts` (default export = full array, same ids) | English array |
@@ -117,7 +157,7 @@ Rules:
 - **Offline-first** — everything is static HTML, no JS required for content
 - **Print-ready** — every page should look good on paper
 - **6 languages** — all content is adn must be translatable
-- **No external dependencies** — no CDN, no analytics, no tracking
+- **No external dependencies** — please dont add CDN, no analytics, no tracking. This is because the difficult of other external depency can affect the website, prints or something else.
 
 ## Deploy
 
@@ -141,4 +181,5 @@ git worktree remove /tmp/ghpages --force
 ## Questions?
 
 Open an issue. We don't bite. (We're too busy rebuilding civilization or searching more knowledge to dont let the humanity down, every corner could start or be a disaster.)
-before opening an issue check if your problem was resolved before, so everyone dont make turns around the same question bud.
+
+Before opening an issue check if your problem was resolved, so everyone dont make turns around the same question bud.
